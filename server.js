@@ -22,6 +22,9 @@ const expressValidator = require('express-validator');
 //middleware for putting something when you post it
 const methodOverride = require('method-override');
 
+// const passport = require('passport-pinterest')
+const passport = require('passport')
+
 // Use Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -46,12 +49,40 @@ const auth = require('./controllers/auth.js')(app);
 
 const port = process.env.PORT || 13000;
 
+const PinterestStrategy = require('./models/pintereststrategy.js');
+
+passport.use(new PinterestStrategy({
+        clientID: process.env.PINTEREST_APP_ID,
+        clientSecret: process.env.PINTEREST_APP_SECRET,
+        scope: ['read_public', 'read_relationships'],
+        callbackURL: "https://localhost:13000/auth/pinterest/callback",
+        state: true
+    },
+    function(process.env.A_TOKEN, refreshToken, process.env.PINTEREST_USERNAME, done) {
+        User.findOrCreate({ pinterestId: profile.id }, function (err, user) {
+            return done(err, user);
+        });
+    }
+));
+
+app.get('/auth/pinterest',
+    passport.authenticate('pinterest')
+);
+
+app.get('/auth/pinterest/callback',
+    passport.authenticate('pinterest', { failureRedirect: '/login' }),
+    function(req, res) {
+        // Successful authentication, redirect home.
+        res.redirect('main', {currentUser,});
+    }
+);
 
 // INDEX
-    app.get('/', (req, res) => {
-        var currentUser = req.user;
-        res.render('main', {currentUser});
-        })
+    // app.get('/', (req, res) => {
+    //     var currentUser = req.user;
+    //     process.env.A_TOKEN
+    //     res.render('main', {currentUser});
+    //     })
 
 
 // Add after body parser initialization!
