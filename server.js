@@ -51,19 +51,24 @@ const port = process.env.PORT || 13000;
 
 const PinterestStrategy = require('./models/pintereststrategy.js');
 
-passport.use(new PinterestStrategy({
-        clientID: process.env.PINTEREST_APP_ID,
-        clientSecret: process.env.PINTEREST_APP_SECRET,
-        scope: ['read_public', 'read_relationships'],
-        callbackURL: "https://localhost:13000/auth/pinterest/callback",
-        state: true
-    },
-    function(process.env.A_TOKEN, refreshToken, process.env.PINTEREST_USERNAME, done) {
-        User.findOrCreate({ pinterestId: profile.id }, function (err, user) {
-            return done(err, user);
-        });
-    }
-));
+// passport.use(new PinterestStrategy({
+//         clientID: process.env.PINTEREST_APP_ID,
+//         clientSecret: process.env.PINTEREST_APP_SECRET,
+//         scope: ['read_public', 'read_relationships'],
+//         callbackURL: "https://localhost:13000/auth/pinterest/callback",
+//         state: true
+//     },
+//     function(process.env.A_TOKEN, refreshToken, process.env.PINTEREST_USERNAME, done) {
+//         User.findOrCreate({ pinterestId: profile.id }, function (err, user) {
+//             return done(err, user);
+//         });
+//     }
+// ));
+
+const PDK = require('node-pinterest');
+
+const pinterest = PDK.init(process.env.A_TOKEN);
+pinterest.api('me').then(console.log);
 
 app.get('/auth/pinterest',
     passport.authenticate('pinterest')
@@ -78,11 +83,16 @@ app.get('/auth/pinterest/callback',
 );
 
 // INDEX
-    // app.get('/', (req, res) => {
-    //     var currentUser = req.user;
-    //     process.env.A_TOKEN
-    //     res.render('main', {currentUser});
-    //     })
+    app.get('/', (req, res) => {
+        PDK.init({
+            appId: process.env.PINTEREST_APP_ID, // Change this
+            cookie: true
+        });
+        console.log(PDK)
+        var currentUser = req.user;
+        process.env.A_TOKEN
+        res.render('main', {currentUser});
+        })
 
 
 // Add after body parser initialization!
