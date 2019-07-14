@@ -5,8 +5,6 @@ const User = require("../models/user");
 
 module.exports = app => {
 
-//Jasmine Humbert's code:
-// *******
     app.get('/sign-up', (req, res) => {
         var currentUser = req.user;
         if (currentUser) {
@@ -86,10 +84,3 @@ app.get('/logout', (req, res) => {
  });
 
 };
-
-// STRECTH CHALLENGE!!!
-// There is a lot more to make a full fledged authentication system. See which ones you want to try:
-//
-// Add a Remember Me checkbox. What is the difference from when it is checked or not?
-// Require a password confirmation field.
-// Plan out how you would do a "forget password" process.

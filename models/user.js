@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   updatedAt: { type: Date },
   password: { type: String, select: false },
   username: { type: String, required: true },
+  hexcode: { type: String }, // users assign labels to pins, and those labels are given a color associated with the user that assigned them
 });
 
 // Must use function here! ES6 => functions do not bind this!

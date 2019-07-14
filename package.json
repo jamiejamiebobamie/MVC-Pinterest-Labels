@@ -1,11 +1,12 @@
 {
   "name": "pinterest",
   "version": "1.0.0",
-  "description": "Not quite sure what the point of this repo is. Ideally I am able to use the pins I've collected to train a neural network in some manner, but right now I'm just focused on syncing my account with this RESTful API.",
+  "description": "Labeling pinterest pins with labels that have graph associations",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "node ./node_modules/bower/bin/bower install"
   },
   "repository": {
     "type": "git",
@@ -20,18 +21,26 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "bower": "^1.8.8",
     "cookie-parser": "^1.4.4",
     "dotenv": "^7.0.0",
     "express": "^4.16.4",
     "express-handlebars": "^3.0.2",
     "express-validator": "^5.3.1",
+    "extend": "^3.0.2",
+    "http": "0.0.0",
+    "jquery": "^3.4.1",
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mongoose": "^5.5.2",
     "node-pinterest": "0.0.4",
     "nodemon": "^1.18.11",
     "passport": "^0.4.0",
-    "passport-pinterest": "^1.0.0"
+    "passport-pinterest": "^1.0.0",
+    "socket.io": "^2.2.0",
+    "socket.io-client": "^2.2.0"
   },
-  "devDependencies": {}
+  "engines": {
+    "node": ">=0.10.25"
+  }
 }
