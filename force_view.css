@@ -24,7 +24,8 @@ img{
     height: 50%;
     width: 50%;
       position: absolute;
-      z-index: 0
+      z-index: 0;
+      padding: 75px;
 }
 
 .node {
