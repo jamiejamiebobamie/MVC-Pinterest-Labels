@@ -23,7 +23,7 @@ const expressValidator = require('express-validator');
 const methodOverride = require('method-override');
 
 // const passport = require('passport-pinterest')
-const passport = require('passport')
+// const passport = require('passport')
 
 // Use Body Parser
 app.use(bodyParser.json());
@@ -86,20 +86,7 @@ const port = process.env.PORT || 13000;
 //     }
 // );
 
-// INDEX
-    app.get('/', (req, res) => {
-    //     request = require('request');
-    //     console.log("heyheye")
-    //     request('http://demo.traccar.org/api/devices/uniqueId=333331', function(error, response, body) {
-    //     current_info = JSON.parse(body);
-    //     console.log(current_info)
-    // })
 
-        var currentUser = req.user;
-        process.env.A_TOKEN
-        console.log("good")
-        res.render('main', {currentUser});
-        })
 
 
 // Add after body parser initialization!
@@ -281,6 +268,21 @@ io.on('connection', function(socket) {
   });
 
 });
+
+// INDEX
+    app.get('/', (req, res) => {
+    //     request = require('request');
+    //     console.log("heyheye")
+    //     request('http://demo.traccar.org/api/devices/uniqueId=333331', function(error, response, body) {
+    //     current_info = JSON.parse(body);
+    //     console.log(current_info)
+    // })
+
+        var currentUser = req.user;
+        process.env.A_TOKEN
+        console.log("good")
+        res.render('main', {currentUser});
+    });
 
 
 module.exports = app;
