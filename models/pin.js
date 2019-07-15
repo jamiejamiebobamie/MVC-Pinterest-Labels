@@ -7,6 +7,32 @@ const PinSchema = new Schema({
 
 // all of the associated pin data from the pinterest API goes here...
 
+// "al:ios:url": “pinterest://pin/765119424176215441",
+//
+// "locale": “en-US",
+//
+// "og:description": "Leonardo Albiero”,
+//
+// "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
+//
+// "og:image:height": "829", "og:image:width": "564",
+//
+// "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
+//
+// "og:type": “pinterestapp:pin"
+//
+// "og:updated_time": "2019-07-14 09:07:57”
+//
+// "og:url": "https://www.pinterest.com/pin/765119424176215441/"
+//
+// "theme-color": “#e60023”,
+//
+// "twitter:app:id:ipad": "429047995", "twitter:app:id:iphone": "429047995", "twitter:app:url:googleplay": "pinterest://pin/765119424176215441", "twitter:app:url:ipad": "pinterest://pin/765119424176215441", "twitter:app:url:iphone": "pinterest://pin/765119424176215441", "twitter:card": “summary_large_image"
+//
+// "twitter:description": "Leonardo Albiero",
+//
+// "twitter:image:src": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg"
+
 // Attribute	Type	Description
 // id	string	The unique string of numbers and letters that identifies the Pin on Pinterest.
 // link	string	The URL of the webpage where the Pin was created.

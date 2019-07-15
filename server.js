@@ -25,6 +25,14 @@ const methodOverride = require('method-override');
 // const passport = require('passport-pinterest')
 // const passport = require('passport')
 
+const fss = require('fast-string-search');
+const cheerio = require('cheerio')
+
+// $('h2.title').text('Hello there!')
+// $('h2').addClass('welcome')
+//
+// $.html()
+
 // Use Body Parser
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -271,17 +279,70 @@ io.on('connection', function(socket) {
 
 // INDEX
     app.get('/', (req, res) => {
-    //     request = require('request');
-    //     console.log("heyheye")
-    //     request('http://demo.traccar.org/api/devices/uniqueId=333331', function(error, response, body) {
-    //     current_info = JSON.parse(body);
-    //     console.log(current_info)
-    // })
+        let pictureURL;
+        let imgWidth;
+        let imgHeight;
+
+        request = require('request');
+        // <username>/<board_name>
+        // "https://api.pinterest.com/v1/boards/" + process.env.PINTEREST_USERNAME+"/"+process.env.CURRENT_BOARDNAME+ "/pins/"
+//
+// "https://api.pinterest.com/v1/boards/" + process.env.PINTEREST_USERNAME+"/"+process.env.CURRENT_BOARDNAME+ "/pins/"
+
+// <div class="XiG zI7 iyn Hsu" style="background-color:transparent;padding-bottom:137.58865248226954%"><img alt="Old One by Kisufisu on deviantART" class="hCL kVc L4E MIw" src="https://i.pinimg.com/564x/8a/12/e9/8a12e9a0e554be70f657a7a7a5eda733.jpg"></div>
+// <div class="XiG zI7 iyn Hsu" style="background-color:transparent;padding-bottom:131.4%"><img alt=" " class="hCL kVc L4E MIw" src="https://i.pinimg.com/564x/81/82/73/8182730d4227ac27c0f175beaf740e75.jpg"></div>
+// <div class="XiG zI7 iyn Hsu" style="background-color:transparent;padding-bottom:145.2%"><img alt="John Constantine - Simon Bisley" class="hCL kVc L4E MIw" src="https://i.pinimg.com/564x/bb/71/85/bb718537833d92c480f484769fea398e.jpg"></div>
+// XiG zI7 iyn Hsu
+// XiG zI7 iyn Hsu
+
+// <img alt=" " class="hCL kVc L4E MIw" src="https://i.pinimg.com/564x/81/82/73/8182730d4227ac27c0f175beaf740e75.jpg">
+// <img alt="Leonardo Albiero" class="hCL kVc L4E MIw" src="https://i.pinimg.com/564x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg">
+
+        request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
+        // request("https://api.pinterest.com/v1/pins/765119424176229442/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
+        // const $ = cheerio.load('<h2 class="title">Hello world</h2>')
+        // const txt = $('.title').text()
+        // console.log(txt)
+        current_info = JSON.parse(body);
+        console.log(current_info.page.next)
+        // const image = current_info.data[2]
+        // console.log('hello '+image)
+        current_url = current_info.data[9].url
+        // console.log(current_url)
+        request.get(current_url, function(error,response,data) {
+            const text = data
+            const target = "og:image\" name=\"og:image\" content=\""
+            const len_target = target.length
+            // console.log(len_target)
+            var descriptionIndex = parseInt(fss.indexOf(text, target,0,1))+len_target;
+            var shift = parseInt(fss.indexOf(text, ">",descriptionIndex,1))-1;
+            // descriptionIndex+=len_target;
+            // console.log(descriptionIndex,shift)
+            pictureURL = text.slice(descriptionIndex,shift)
+            console.log(pictureURL)
+            // const $ = cheerio.load(data);
+        // const $ = cheerio.load(current_url)
+        // console.log(data)
+        // const image = $('twitter:image:src').attr('class')
+        // const image = $('https://i.pinimg.com/564x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg').text()
+        // console.log('hello '+image)
+        // console.log(current_info.data[0].url)
+// console.log(current_info.data)
+
+
+// get route queries pins in order of pin
+// users current pin count / 25 == number while (i < number) request -> ??
+        // request(current_info.page.next,function(error, response, body) {
+        //     const data = JSON.parse(body)
+        //     console.log(data)
+        // })
+
 
         var currentUser = req.user;
-        process.env.A_TOKEN
-        console.log("good")
-        res.render('main', {currentUser});
+        // process.env.A_TOKEN
+        res.render('main', {currentUser, pictureURL, imgWidth, imgHeight});
+    })
+})
     });
 
 
