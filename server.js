@@ -304,7 +304,7 @@ io.on('connection', function(socket) {
         // const txt = $('.title').text()
         // console.log(txt)
         current_info = JSON.parse(body);
-        console.log(current_info.page.next)
+        // console.log(current_info.page.next)
         // const image = current_info.data[2]
         // console.log('hello '+image)
         current_url = current_info.data[9].url
