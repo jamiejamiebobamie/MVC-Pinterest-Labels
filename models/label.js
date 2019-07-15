@@ -1,4 +1,4 @@
-
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 // each
@@ -8,7 +8,7 @@ const LabelSchema = new Schema({
   updatedAt: { type: Date },
   name: { type: String },
   associations: [{ type: Schema.Types.ObjectId, ref: "Label" }],
-  pin: [{ type: Schema.Types.ObjectId, ref: "Pin" }],
+  pins: [{ type: Schema.Types.ObjectId, ref: "Pin" }],
   author: [{ type: Schema.Types.ObjectId, ref: "User" }]
 });
 

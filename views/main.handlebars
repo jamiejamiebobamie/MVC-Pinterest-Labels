@@ -1,3 +1,5 @@
+{{#if currentUser}}
+
     <div class="row force-view">
       <div class="btn-group btn-group-justified" role="group" aria-label="...">
         <div class="btn-group" role="group">
@@ -8,9 +10,13 @@
         </div>
       </div>
 
-<!-- <div class="container"> -->
-      <img src="/images/test.png" alt="">
+<div class="container">
+      <img src="/images/mockup_pin.png" alt="">
+
+    </div>
+
       <div id="chart"></div>
+
 
       <!-- <center>
         <div class="alert alert-info" role="alert">
@@ -72,6 +78,8 @@
         </div>
       </div>
     </div>
-    <script data-main="main" src="bower_components/requirejs-bower/require.js"></script>
-  </body>
-</html>
+
+
+{{else}}
+
+{{/if}}

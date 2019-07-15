@@ -43,8 +43,12 @@ var checkAuth = (req, res, next) => {
 };
 app.use(checkAuth);
 
+const iex = require('iex-api');
+
 const User = require('./models/user.js');
 const auth = require('./controllers/auth.js')(app);
+const labels = require('./controllers/labels')(app);
+
 
 
 const port = process.env.PORT || 13000;
@@ -84,13 +88,16 @@ const port = process.env.PORT || 13000;
 
 // INDEX
     app.get('/', (req, res) => {
-        // PDK.init({
-        //     appId: process.env.PINTEREST_APP_ID, // Change this
-        //     cookie: true
-        // });
-        // console.log(PDK)
+    //     request = require('request');
+    //     console.log("heyheye")
+    //     request('http://demo.traccar.org/api/devices/uniqueId=333331', function(error, response, body) {
+    //     current_info = JSON.parse(body);
+    //     console.log(current_info)
+    // })
+
         var currentUser = req.user;
         process.env.A_TOKEN
+        console.log("good")
         res.render('main', {currentUser});
         })
 
@@ -105,12 +112,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride('_method'))
 
 app.use(express.static('public'));
+// app.use(express.static('/'));
 
 // //heroku database.
 // mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/pinterest'), { useNewUrlParser: true });
 
 // local host database
-mongoose.connect('mongodb://localhost/pinterest');
+// mongoose.connect('mongodb://localhost/pinterest');
 
 //views middleware
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -162,7 +170,7 @@ mongoose.connect(process.env.COMPOSE_URI, function (error) {
 
 
 app
-  .use(express.static(__dirname + '/'))
+  // .use(express.static(__dirname + '/'))
   // https://scotch.io/tutorials/use-expressjs-to-get-url-and-post-parameters
   .use(bodyParser.json()) // support json encoded bodies
   .use(bodyParser.urlencoded({ extended: true })) // support encoded bodies

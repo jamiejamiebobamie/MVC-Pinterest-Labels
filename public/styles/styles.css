@@ -1,0 +1,24 @@
+
+.navbar_sticky_bottom{
+    position: fixed;
+    Width: 100%;
+    bottom: 0;
+    background-color: orange;
+}
+
+img{
+    display: block;
+    margin-left: 10%;
+    margin-right:auto;
+    /* margin-top:10%; */
+    margin-bottom: auto;
+    /* height: 100%; */
+    width: 50%;
+    padding: 5%;
+}
+
+.container{
+    width: 100%;
+    background-color: red;
+    /* height: 50%; */
+}

@@ -3,8 +3,6 @@ body {
   position: relative;
   height: 100%;
 width: 100%;
-  /* width: 960px;
-  height: 500px; */
 }
 
 #chart{
@@ -15,18 +13,6 @@ width: 100%;
     background-color: transparent !important;
 }
 
-img{
-    display: block;
-    margin-left: 10%;
-    margin-right:auto;
-    margin-top:10%;
-    margin-bottom: auto;
-    height: 50%;
-    width: 50%;
-      position: absolute;
-      z-index: 0;
-      padding: 75px;
-}
 
 .node {
   fill: #000;
