@@ -102,7 +102,7 @@ app.use(express.static('public'));
 // app.use(express.static('/'));
 
 // //heroku database.
-// mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/pinterest'), { useNewUrlParser: true });
+mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/pinterest'), { useNewUrlParser: true });
 
 // local host database
 // mongoose.connect('mongodb://localhost/pinterest');
