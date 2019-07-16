@@ -277,11 +277,25 @@ io.on('connection', function(socket) {
 
 });
 
+function getData(data,target,stop){
+    const len_target = target.length
+    console.log(len_target)
+    var descriptionIndex = parseInt(fss.indexOf(data, target,0,1))+len_target;
+    var shift = parseInt(fss.indexOf(data, stop ,descriptionIndex,1))-1;
+    return data.slice(descriptionIndex,shift)
+}
+
 // INDEX
     app.get('/', (req, res) => {
+        let currentUser = req.user
+        let title;
+        let hexCode;
+        let locale;
+        let description;
         let pictureURL;
         let imgWidth;
         let imgHeight;
+        let target;
 
         request = require('request');
         // <username>/<board_name>
@@ -306,20 +320,52 @@ io.on('connection', function(socket) {
         current_info = JSON.parse(body);
         // console.log(current_info.page.next)
         // const image = current_info.data[2]
-        // console.log('hello '+image)
+        console.log(current_info)
+
+        if (!current_info.message){
         current_url = current_info.data[9].url
         // console.log(current_url)
         request.get(current_url, function(error,response,data) {
             const text = data
-            const target = "og:image\" name=\"og:image\" content=\""
-            const len_target = target.length
-            // console.log(len_target)
-            var descriptionIndex = parseInt(fss.indexOf(text, target,0,1))+len_target;
-            var shift = parseInt(fss.indexOf(text, ">",descriptionIndex,1))-1;
-            // descriptionIndex+=len_target;
-            // console.log(descriptionIndex,shift)
-            pictureURL = text.slice(descriptionIndex,shift)
+
+
+
+            // const len_target = target.length
+            // // console.log(len_target)
+            // var descriptionIndex = parseInt(fss.indexOf(text, target,0,1))+len_target;
+            // var shift = parseInt(fss.indexOf(text, ">",descriptionIndex,1))-1;
+            // // descriptionIndex+=len_target;
+            // // console.log(descriptionIndex,shift)
+            target =  "\"og:title\": \""
+            title = getData(text, target, "\"")
+            console.log(title)
+
+            target = "\"theme-color\": \""
+            hexCode = getData(text, target, ",")
+            console.log(hexCode)
+
+            target = "\"locale\": \""
+            locale = getData(text, target, ",")
+            console.log(locale)
+
+            target = "\"og:description\": \""
+            description = getData(text, target, ",")
+            console.log(description)
+
+            target = "og:image\" name=\"og:image\" content=\""
+            pictureURL = getData(text,target,">")
             console.log(pictureURL)
+
+            target = "og:image:width\": \""
+            imgWidth = getData(text,target,",")
+            console.log(imgWidth)
+
+            target = "og:image:height\": \""
+            imgHeight = getData(text,target,",")
+            console.log(imgHeight)
+
+            // pictureURL = text.slice(descriptionIndex,shift)
+
             // const $ = cheerio.load(data);
         // const $ = cheerio.load(current_url)
         // console.log(data)
@@ -340,8 +386,11 @@ io.on('connection', function(socket) {
 
         var currentUser = req.user;
         // process.env.A_TOKEN
-        res.render('main', {currentUser, pictureURL, imgWidth, imgHeight});
+        res.render('main', {currentUser, pictureURL});
     })
+    } else {
+        res.render('main', {currentUser})
+    }
 })
     });
 

@@ -15,7 +15,8 @@ const PinSchema = new Schema({
 //
 // "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
 //
-// "og:image:height": "829", "og:image:width": "564",
+// "og:image:height": "829",
+// "og:image:width": "564",
 //
 // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
 //
@@ -26,12 +27,8 @@ const PinSchema = new Schema({
 // "og:url": "https://www.pinterest.com/pin/765119424176215441/"
 //
 // "theme-color": “#e60023”,
-//
-// "twitter:app:id:ipad": "429047995", "twitter:app:id:iphone": "429047995", "twitter:app:url:googleplay": "pinterest://pin/765119424176215441", "twitter:app:url:ipad": "pinterest://pin/765119424176215441", "twitter:app:url:iphone": "pinterest://pin/765119424176215441", "twitter:card": “summary_large_image"
-//
-// "twitter:description": "Leonardo Albiero",
-//
-// "twitter:image:src": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg"
+
+
 
 // Attribute	Type	Description
 // id	string	The unique string of numbers and letters that identifies the Pin on Pinterest.
