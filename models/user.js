@@ -8,6 +8,9 @@ const UserSchema = new Schema({
   password: { type: String, select: false },
   username: { type: String, required: true },
   hexcode: { type: String }, // users assign labels to pins, and those labels are given a color associated with the user that assigned them
+  pinIndex: {type: Number}, // the current index the user is currently on (like page number:: where did the user leave off?)
+  admin: {type: Boolean}, // only admins (me) can call the get '/new' pin route . and increment the...
+  newPinIndex: {type: Number}, // global variable that keeps track of the highest pin index. (the highest "page" number)
 });
 
 // Must use function here! ES6 => functions do not bind this!

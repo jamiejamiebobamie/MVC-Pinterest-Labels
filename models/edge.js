@@ -3,6 +3,9 @@
 // Description: "ninja turtle sword attack"
 // ninja -> turtle -> sword -> attack
 
+// maybe make a local edge and a global edge.
+// local edges are just part of
+
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
