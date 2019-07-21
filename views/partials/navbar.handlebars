@@ -7,11 +7,14 @@
     </div>
     <div>
         <ul class="nav navbar-nav navbar-right">
+            {{#if admin}}
+                <li><a href="/admin">Admin</a></li>
+            {{/if}}
           {{#if currentUser}}
-            <li><a href="/logout">Logout</a></li>
-          {{else}}
-            <li><a href="/login">Login</a></li>
-            <li><a href="/sign-up">Sign Up</a></li>
+                <li><a href="/logout">Logout</a></li>
+              {{else}}
+                <li><a href="/login">Login</a></li>
+                <li><a href="/sign-up">Sign Up</a></li>
           {{/if}}
         </ul>
     </div>
