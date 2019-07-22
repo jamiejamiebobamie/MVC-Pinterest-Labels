@@ -19,11 +19,32 @@ module.exports = app => {
 // SIGN UP POST
 app.post("/sign-up", (req, res) => {
   // Create User and JWT
+  let highestPinIndex = undefined;
   const user = new User(req.body);
   console.log(req.body)
   if (req.body.adminCode == process.env.ADMIN_CODE){
+      console.log(true)
       user.admin = true;
+  } else {
+      console.log(false)
+      user.admin = false;
   }
+
+  // newPinIndex: {type: Number}, // global variable that keeps track of the highest pin index. (the highest "page" number). only admin's can edit.
+  // });
+
+  User.findOne( { admin: true } ).then( administrator => {
+      if (administrator) {
+          highestPinIndex = administrator.newPinIndex;
+      }
+
+      if (highestPinIndex) {
+          user.newPinIndex = highestPinIndex;
+      } else {
+          user.newPinIndex = 1;
+      }
+
+  user.pinIndex = 1;
   user.save().then((user) => {
       var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
       res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
@@ -33,7 +54,7 @@ app.post("/sign-up", (req, res) => {
       console.log(err.message);
       return res.status(400).send({ err: err });
     });
-
+});
 });
 
  // LOGIN

@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
+const Pin = require("../models/pin")
 
 
 
@@ -26,30 +27,116 @@ module.exports = app => {
     // primary pin-labelling functionality.
     // pins are pulled from database and referenced by index.
         app.get('/', (req, res) => {
+
             let id;
-            let pictureURL = "/images/missing_image.png";
             let admin;
+            let pinIndex;
+            const admin_page = false;
             const currentUser = req.user;
-            console.log(currentUser)
+
             if (currentUser){
                 id = currentUser._id
             }
+
             User.findOne({_id: id}).then( user => {
+
                 if (user){
                     admin = user.admin
+                    pinIndex = user.pinIndex
                 }
-                console.log(user, currentUser,admin)
-                res.render('main', {currentUser, pictureURL, admin});
-            })
+
+                Pin.findOne({pinIndex : pinIndex}).then( pin => {
+                    res.render('main', {currentUser, pin, admin, admin_page, pinIndex});
+                });
+            });
         });
 
-    // get new pin route
+        // INDEX -- See the next pin
+            app.get('/next', (req, res) => {
+                const admin_page = false;
+                let id;
+                let admin;
+                let pinIndex;
+                const currentUser = req.user;
+
+                if (currentUser){
+                    id = currentUser._id
+                }
+
+                User.findOne({_id: id}).then( user => {
+
+                    if (user){
+                        admin = user.admin
+                        pinIndex = user.pinIndex
+                        highestIndex = user.newPinIndex
+                        if (pinIndex + 1 <= highestIndex){
+                            pinIndex += 1
+                            user.pinIndex = pinIndex
+                            user.save()
+                        }
+                    }
+
+                    Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
+                        res.redirect('/');
+                    });
+                });
+            });
+
+            // INDEX -- See the previous pin
+                app.get('/previous', (req, res) => {
+                    const admin_page = false;
+                    let id;
+                    let admin;
+                    let pinIndex;
+                    const currentUser = req.user;
+
+                    if (currentUser){
+                        id = currentUser._id
+                    }
+
+                    User.findOne({_id: id}).then( user => {
+
+                        if (user){
+                            admin = user.admin
+                            pinIndex = user.pinIndex
+                            if (pinIndex > 1){
+                                pinIndex -= 1
+                                user.pinIndex = pinIndex
+                                user.save()
+                            }
+                        }
+
+                        Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
+                            res.redirect('/');
+                        });
+                    });
+                });
+
+    // get admin page
     // displays last added pin at top: enlarged and with stats
     // display pins in database
     app.get("/admin", (req,res)=> {
         let admin = true
+        let admin_page = true;
         const currentUser = req.user;
-        res.render("admin", {currentUser, admin})
+        let latestPinIndex;
+
+        if (currentUser){
+            id = currentUser._id
+        }
+
+        User.findOne({_id: id}).then( user => {
+
+            if (user){
+                latestPinIndex = user.newPinIndex
+            }
+
+            Pin.find().then( pins => {
+                Pin.findOne( { pinIndex: latestPinIndex } ).then( latestPin => {
+                    res.render("admin", {currentUser, admin, admin_page, pins, latestPin})
+                });
+            });
+        });
     });
 
     // add new pin to database
