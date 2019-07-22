@@ -1,88 +1,13 @@
 {{#if currentUser}}
-
-    <!-- <div class="row force-view">
-      <div class="btn-group btn-group-justified" role="group" aria-label="...">
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-success btn-lg add-node">Add Node</button>
+    <div class="pin_container">
+        <div class="picture_container">
+            <img src='{{pictureURL}}' alt="">
         </div>
-        <div class="btn-group" role="group">
-          <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#helpModal">Help</button>
+        <div class="stats_container">
+            <h3>stats</h3>
         </div>
-      </div> -->
-
-<div class="container">
-      <!-- <img src='https://i.pinimg.com/736x/81/82/73/8182730d4227ac27c0f175beaf740e75--amazing-art-comic-art.jpg' alt=""> -->
-      <img src='{{pictureURL}}' alt="">
-      <!-- <h1>hello{{pictureURL}}</h1> -->
-      <!-- <h1>hi{{currentUser._id}}</h1> -->
     </div>
-
-      <div id="chart"></div>
-
-
-
-      <!-- <center>
-        <div class="alert alert-info" role="alert">
-         <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-         <a href="https://github.com/igorlima/graph-data-with-mongodb">Fork me</a>
-         <span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
-        </div>
-      </center> -->
-
+    <div class="labels_container">
+        <h3>labels</h3>
     </div>
-    <!-- </div> -->
-
-    <!-- Edit Node Modal -->
-    <div class="modal fade" id="editNodeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">You're adding a node</h4>
-          </div>
-          <div class="modal-body">
-
-            <div class="form-group">
-              <label for="textNode">Text</label>
-              <input type="text" class="form-control" id="textNode" placeholder="Type a text for your node">
-            </div>
-            <div class="form-group">
-              <label for="textColorNode">Text color</label>
-              <input type="text" class="form-control" id="textColorNode" placeholder="Choose a text color">
-            </div>
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Help Modal -->
-    <div class="modal fade" id="helpModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel">Help</h4>
-          </div>
-          <div class="modal-body">
-
-            Drag from an existing node to add a new node or link. Click to select/deselect nodes/links. Hit the DELETE key to remove the selected node or link. Drag to pan. Scroll to zoom.
-            <br>
-            Double click to edit the node content.
-
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-{{else}}
-
 {{/if}}

@@ -19,7 +19,7 @@ const PinSchema = new Schema({
     pinterestLink: { type: String }, // pinterestLink	string	The URL of the webpage where the Pin was created.
 
     contributors: [{ type: Schema.Types.ObjectId, ref: "User" }], //users who have contributed labels to the pin
-    labels: [{ type: Schema.Types.ObjectId, ref: "Label" }] // associated labels
+    labels: [{ type: String }] // associated labels
 });
 
 module.exports = mongoose.model("Pin", PinSchema);

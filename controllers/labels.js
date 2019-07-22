@@ -33,22 +33,4 @@ module.exports = app => {
                 res.redirect("/")
             });
 
-
-                    //
-                    // .save()
-                    // .then(starter => {
-                    //     console.log(starter.createdAt)
-                    //     return User.findById(req.user._id);
-                    // })
-                    // .then(user => {
-                    //     user.starters.unshift(starter);
-                    //     user.save();
-                    //     console.log("FINISHED " + starter.finished)
-                    //     // REDIRECT TO THE NEW Starter
-                    //     res.redirect(`${starter.url}`);
-                    // })
-                    // .catch(err => {
-                    //     console.log(err.message);
-                    // });
-            // });
 };

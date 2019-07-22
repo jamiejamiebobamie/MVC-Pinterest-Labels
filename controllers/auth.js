@@ -15,13 +15,6 @@ module.exports = app => {
             res.render('sign-up', currentUser);
         }
     });
-// *******
-
-//my code____
-//     // SIGN UP FORM
-// app.get("/sign-up", (req, res) => {
-//   res.render("sign-up");
-// });
 
 // SIGN UP POST
 app.post("/sign-up", (req, res) => {
@@ -42,8 +35,6 @@ app.post("/sign-up", (req, res) => {
     });
 
 });
-
-
 
  // LOGIN
 app.post("/login", (req, res) => {
