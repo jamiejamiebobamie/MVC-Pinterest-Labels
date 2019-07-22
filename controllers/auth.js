@@ -28,7 +28,9 @@ app.post("/sign-up", (req, res) => {
   // Create User and JWT
   const user = new User(req.body);
   console.log(req.body)
-
+  if (req.body.adminCode == process.env.ADMIN_CODE){
+      user.admin = true;
+  }
   user.save().then((user) => {
       var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
       res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
