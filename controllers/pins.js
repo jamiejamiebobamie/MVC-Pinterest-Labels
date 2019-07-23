@@ -70,8 +70,11 @@ module.exports = app => {
                     if (pinIndex + 1 <= highestIndex){
                         pinIndex += 1
                         user.pinIndex = pinIndex
-                        user.save()
-                        }
+                    } else {
+                        pinIndex = 1
+                        user.pinIndex = pinIndex
+                    }
+                    user.save()
                     });
                 }
 
@@ -96,12 +99,17 @@ module.exports = app => {
             User.findOne({_id: id}).then( user => {
 
                 if (user){
+                    User.findOne( { admin : true } ).then( administrator => {
                     pinIndex = user.pinIndex
+                    highestIndex = administrator.newPinIndex
                     if (pinIndex > 1){
                         pinIndex -= 1
                         user.pinIndex = pinIndex
-                        user.save()
+                    } else {
+                        user.pinIndex = highestIndex
                     }
+                    user.save()
+                    });
                 }
 
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
@@ -128,6 +136,7 @@ module.exports = app => {
 
             if (user){
                 latestPinIndex = user.newPinIndex
+                console.log(latestPinIndex)
             }
 
             Pin.find().then( pins => {
@@ -161,6 +170,14 @@ module.exports = app => {
 
         request = require('request');
 
+        if (currentUser){
+
+            User.find({ admin: true }).then ( users => {
+                if (users){
+                    pinIndex = users[0].newPinIndex
+                }
+
+
         request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
 
                 let current_info = JSON.parse(body);
@@ -169,7 +186,8 @@ module.exports = app => {
                 // if the current_info has a message then the app has exceeded
                 // its rate limit on calls to Pinterest.
                 if (!current_info.message) {
-                    pinterestUrl = current_info.data[5].url // need to increment this index and keep track of it with the highestPinIndex variable.
+                    console.log("pinIndex"+pinIndex)
+                    pinterestUrl = current_info.data[pinIndex].url // need to increment this index and keep track of it with the highestPinIndex variable.
                                                             // pages return pins in increments of 25 (though this can be changed to 100).
                                                             // need to figure out a way of using current_info.cursor or current_info.next(?)
                                                             // to skip ahead to the correct pin once 25/100 pins are in the database.
@@ -190,7 +208,7 @@ module.exports = app => {
                         console.log(locale)
 
                         target = "\"og:description\": \""
-                        description = getData(true,text, target, ",")
+                        description = getData(false,text, target, ",")
                         console.log(description)
 
                         target = "og:image\" name=\"og:image\" content=\""
@@ -205,18 +223,6 @@ module.exports = app => {
                         imgHeight = getData(false,text,target,",")
                         console.log(imgHeight)
 
-                    if (currentUser){
-
-                        User.find({ admin: true }).then ( users => {
-                            if (users){
-                                console.log(users)
-                                for(let i = 0; i < users.length; i++){
-                                    pinIndex = users[i].newPinIndex
-                                    pinIndex += 1 // need to move this up so that I can use this incremented value to lookup the correct pin on pinterest.
-                                    users[i].newPinIndex = pinIndex
-                                    users[i].save()
-                                }
-                                console.log(users.length, users[0].newPinIndex)
                                 pinIndex = users[0].newPinIndex;
                                 console.log(pinIndex)
                                 console.log(users.length, pinIndex)
@@ -231,16 +237,20 @@ module.exports = app => {
                                 new_pin.pinIndex     = pinIndex
                                 new_pin.pinterestUrl = pinterestUrl
 
+                                for(let i = 0; i < users.length; i++){
+                                    pinIndex = users[i].newPinIndex
+                                    pinIndex += 1 // need to move this up so that I can use this incremented value to lookup the correct pin on pinterest.
+                                    users[i].newPinIndex = pinIndex
+                                    users[i].save()
+                                }
+
                                 new_pin.save().then( (new_pin) => {
                                         res.redirect("/admin")
                                 })
-                            };
-                        });
-                    }});
-                } else {
-                    res.redirect("/admin")
-                }
-         });
+                            });
+                        } else { res.redirect("/admin") };
+                    });
+            });
+            } else { res.redirect("/admin") }
      });
-
 };
