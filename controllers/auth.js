@@ -1,10 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 
-
-
-
-
 module.exports = app => {
 
     app.get('/sign-up', (req, res) => {
@@ -41,7 +37,7 @@ app.post("/sign-up", (req, res) => {
       if (highestPinIndex) {
           user.newPinIndex = highestPinIndex;
       } else {
-          user.newPinIndex = 1;
+          user.newPinIndex = 0;
       }
 
   user.pinIndex = 1;

@@ -22,8 +22,7 @@ const expressValidator = require('express-validator');
 //middleware for putting something when you post it
 const methodOverride = require('method-override');
 
-const fss = require('fast-string-search');
-const cheerio = require('cheerio')
+
 
 // Use Body Parser
 app.use(bodyParser.json());

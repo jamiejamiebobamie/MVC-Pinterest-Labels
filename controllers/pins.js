@@ -1,13 +1,13 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 const Pin = require("../models/pin")
-
-
-
-
+const fss = require('fast-string-search');
+const cheerio = require('cheerio')
 
 module.exports = app => {
 
+    // used to search the url html when adding a new pin
+    // app.get('/add-pins')
     function getData(title,data,target,stop){
         let shiftEnd
         if (title){
@@ -21,7 +21,6 @@ module.exports = app => {
         var shift = parseInt(fss.indexOf(data, stop ,descriptionIndex,1))-shiftEnd;
         return data.slice(descriptionIndex,shift)
     }
-
 
     // INDEX // display current pin the user left-off on...
     // primary pin-labelling functionality.
@@ -52,65 +51,65 @@ module.exports = app => {
         });
 
         // INDEX -- See the next pin
-            app.get('/next', (req, res) => {
-                const admin_page = false;
-                let id;
-                let admin;
-                let pinIndex;
-                const currentUser = req.user;
+        app.get('/next', (req, res) => {
+            const admin_page = false;
+            let id;
+            let admin;
+            let pinIndex;
+            const currentUser = req.user;
 
-                if (currentUser){
-                    id = currentUser._id
+            if (currentUser){
+                id = currentUser._id
+            }
+
+            User.findOne({_id: id}).then( user => {
+
+                if (user){
+                    admin = user.admin
+                    pinIndex = user.pinIndex
+                    highestIndex = user.newPinIndex
+                    if (pinIndex + 1 <= highestIndex){
+                        pinIndex += 1
+                        user.pinIndex = pinIndex
+                        user.save()
+                    }
                 }
 
-                User.findOne({_id: id}).then( user => {
-
-                    if (user){
-                        admin = user.admin
-                        pinIndex = user.pinIndex
-                        highestIndex = user.newPinIndex
-                        if (pinIndex + 1 <= highestIndex){
-                            pinIndex += 1
-                            user.pinIndex = pinIndex
-                            user.save()
-                        }
-                    }
-
-                    Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
-                        res.redirect('/');
-                    });
+                Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
+                    res.redirect('/');
                 });
             });
+        });
 
-            // INDEX -- See the previous pin
-                app.get('/previous', (req, res) => {
-                    const admin_page = false;
-                    let id;
-                    let admin;
-                    let pinIndex;
-                    const currentUser = req.user;
+        // INDEX -- See the previous pin
+        app.get('/previous', (req, res) => {
+            const admin_page = false;
+            let id;
+            let admin;
+            let pinIndex;
+            const currentUser = req.user;
 
-                    if (currentUser){
-                        id = currentUser._id
+            if (currentUser){
+                id = currentUser._id
+            }
+
+            User.findOne({_id: id}).then( user => {
+
+                if (user){
+                    admin = user.admin
+                    pinIndex = user.pinIndex
+                    if (pinIndex > 1){
+                        pinIndex -= 1
+                        user.pinIndex = pinIndex
+                        user.save()
                     }
+                }
 
-                    User.findOne({_id: id}).then( user => {
-
-                        if (user){
-                            admin = user.admin
-                            pinIndex = user.pinIndex
-                            if (pinIndex > 1){
-                                pinIndex -= 1
-                                user.pinIndex = pinIndex
-                                user.save()
-                            }
-                        }
-
-                        Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
-                            res.redirect('/');
-                        });
-                    });
+                Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
+                    res.redirect('/');
                 });
+            });
+        });
 
     // get admin page
     // displays last added pin at top: enlarged and with stats
@@ -142,102 +141,98 @@ module.exports = app => {
     // add new pin to database
     // redirects to /admin page
     app.get("/add-pins", (req,res)=> {
-        // NOTE: Change this route to get '/new' to add pins to the database
-        // before calling the api check to see if the user is authorized: admin == true
-        // if authorized, get the pin data:
 
-    //     locale: { type: String }, // "locale": “en-US",
-    //     description: { type: String }, // "og:description": "Leonardo Albiero”,
-    //     imageURL: { type: String, unique: true }, // "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
-    //     imageHeight: { type: Number }, // "og:image:height": "829",
-    //     imageWidth: { type: Number }, // "og:image:width": "564",
-    //     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
-    //     color: { type: String }, // "theme-color": “#e60023”,
-    //
-    // // Some of these fields are returned as empty strings when the API is called.
-    // // Empty strings are not stored.
-    //     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
-    //     pinterestNote: { type: String }, // pinterestNote	string	The user-entered description of the Pin.
-    //     pinterestId: { type: String }, // pinterestId	string	The unique string of numbers and letters that identifies the Pin on Pinterest.
-    //     pinterestLink: { type: String }, // pinterestLink	string	The URL of the webpage where the Pin was created.
-    //
-    //     contributors: [{ type: Schema.Types.ObjectId, ref: "User" }], //users who have contributed labels to the pin
-    //     labels: [{ type: Schema.Types.ObjectId, ref: "Label" }] // associated labels
+        const currentUser = req.user;
+        const admin = true;
 
-        // add get the newPinIndex, and increment it by one
-        // (as only admisn have this and at most that'll probably just be me)
+        let title;          //     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
+        let hexCode;        //     color: { type: String }, // "theme-color": “#e60023”,
+        let locale;         //     locale: { type: String }, // "locale": “en-US",
+        let description;    //     description: { type: String }, // "og:description": "Leonardo Albiero”,
+        let imgUrl;         //     imgURL: { type: String, unique: true }, // "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
+        let imgWidth;       //     imgWidth: { type: Number }, // "og:image:width": "564",
+        let imgHeight;      //     imgHeight: { type: Number }, // "og:image:height": "829",
+        let pinIndex;       //     pinIndex: { type: Number, unique: true }, // the index of the pin. starts at 0. used when accessing the pin in the app.
+        let pinterestUrl;   //     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
 
-    // newPinIndex: {type: Number}, // global variable that keeps track of the highest pin index. (the highest "page" number)
-
-        let title;
-        let hexCode;
-        let locale;
-        let description;
-        let pictureURL;
-        let imgWidth;
-        let imgHeight;
-        let target;
-        let admin;
+        let target; // the target string to look for when searching current_info
 
         request = require('request');
 
         request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
 
-            current_info = JSON.parse(body);
-            console.log(current_info)
+                let current_info = JSON.parse(body);
+                console.log(current_info)
 
-            if (!current_info.message) {
-                current_url = current_info.data[2].url
-                request.get(current_url, function(error,response,data) {
-                    const text = data
+                // if the current_info has a message then the app has exceeded
+                // its rate limit on calls to Pinterest.
+                if (!current_info.message) {
+                    pinterestUrl = current_info.data[0].url // need to increment this index and keep track of it with the highestPinIndex variable.
+                                                            // pages return pins in increments of 25 (though this can be changed to 100).
+                                                            // need to figure out a way of using current_info.cursor or current_info.next(?)
+                                                            // to skip ahead to the correct pin once 25/100 pins are in the database.
 
-                    target =  "\"og:title\": \""
-                    title = getData(true, text, target, "\",") // Edited this to attempt to get the last character in the string
-                    console.log(title)
+                    request.get(pinterestUrl, function(error,response,data) {
+                        const text = data
 
-                    target = "\"dominant_color\": \""
-                    hexCode = getData(false,text, target, ",")
-                    console.log(hexCode)
+                        target =  "\"og:title\": \""
+                        title = getData(true, text, target, "\",")
+                        console.log(title)
 
-                    target = "\"locale\": \""
-                    locale = getData(text, target, ",")
-                    console.log(locale)
+                        target = "\"dominant_color\": \""
+                        hexCode = getData(false,text, target, ",")
+                        console.log(hexCode)
 
-                    target = "\"og:description\": \""
-                    description = getData(false,text, target, ",") // the stop character is incorrect here.
-                    console.log(description)
+                        target = "\"locale\": \""
+                        locale = getData(false, text, target, ",") // changed this to false
+                        console.log(locale)
 
-                    target = "og:image\" name=\"og:image\" content=\""
-                    pictureURL = getData(false,text,target,">")
-                    console.log(pictureURL)
+                        target = "\"og:description\": \""
+                        description = getData(true,text, target, ",")
+                        console.log(description)
 
-                    target = "og:image:width\": \""
-                    imgWidth = getData(false,text,target,",")
-                    console.log(imgWidth)
+                        target = "og:image\" name=\"og:image\" content=\""
+                        imgUrl = getData(false,text,target,">")
+                        console.log(imgUrl)
 
-                    target = "og:image:height\": \""
-                    imgHeight = getData(false,text,target,",")
-                    console.log(imgHeight)
-                });
-            } else {
-                pictureURL = "/images/missing_image.png"
-            }
-                const currentUser = req.user;
-                if (currentUser){
-                console.log(currentUser)
-                User.findOne({ _id: currentUser._id }).then ( user => {
-                    console.log(user, user.username, user.password, user.admin)
-                    if (user.admin == true) {
-                        admin = true;
-                    } else {
-                        admin = false;
-                    }
-                res.redirect("/add-pins")
-                });
-            } else {
-                res.render('main', {currentUser, pictureURL, admin});
-            }
-        });
-    });
+                        target = "og:image:width\": \""
+                        imgWidth = getData(false,text,target,",")
+                        console.log(imgWidth)
+
+                        target = "og:image:height\": \""
+                        imgHeight = getData(false,text,target,",")
+                        console.log(imgHeight)
+
+                    if (currentUser){
+
+                        User.find({ admin: true }).then ( users => {
+                            if (users){
+                                pinIndex = users.newPinIndex;
+                                pinIndex += 1; // need to move this up so that I can use this incremented value to lookup the correct pin on pinterest.
+                                users.newPinIndex = pinIndex
+                                users.save()
+
+                                const new_pin = new Pin()
+                                new_pin.title        = title
+                                new_pin.hexCode      = hexCode
+                                new_pin.locale       = locale
+                                new_pin.description  = description
+                                new_pin.imgUrl       = imgUrl
+                                new_pin.imgWidth     = imgWidth
+                                new_pin.imgHeight    = imgHeight
+                                new_pin.pinIndex     = pinIndex
+                                new_pin.pinterestUrl = pinterestUrl
+
+                                new_pin.save().then( (new_pin) => {
+                                        res.redirect("/admin")
+                                })
+                            };
+                        });
+                    }});
+                } else {
+                    res.redirect("/admin")
+                }
+         });
+     });
 
 };

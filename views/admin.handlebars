@@ -1,1 +1,13 @@
-<h1>admin page</h1>
+{{#if currentUser}}
+    <div class="pin_container">
+        <div class="picture_container">
+            <img src='{{pictureURL}}' alt="latest pin added">
+        </div>
+        <div class="stats_container">
+            <h3>stats</h3>
+        </div>
+    </div>
+    <div class="pins_container">
+        <h3>pins</h3>
+    </div>
+{{/if}}

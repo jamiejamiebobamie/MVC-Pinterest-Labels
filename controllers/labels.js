@@ -14,7 +14,6 @@ module.exports = app => {
                         new_label.author.push(currentUser);
                         new_label.name = labels[i];
                         new_label.save()
-                        // new_label.pins.push(currentUser)
                     } else {
                         checkIfNewAuthor = true
                         for (let i = 0; i < label.author.length; i++){
