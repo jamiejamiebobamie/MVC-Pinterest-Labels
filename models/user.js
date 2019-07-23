@@ -6,7 +6,7 @@ const UserSchema = new Schema({
   createdAt: { type: Date },
   updatedAt: { type: Date },
   password: { type: String, select: false },
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   pinIndex: {type: Number}, // the current index the user is currently on (like page number:: where did the user leave off?)
   admin: {type: Boolean}, // only admins (me) can call the get '/new' pin route . and increment the...
   newPinIndex: {type: Number}, // global variable that keeps track of the highest pin index. (the highest "page" number). only admin's can edit.
