@@ -12,7 +12,9 @@
                 <h3>{{pin.pinterestUrl}}</h3>
             </div>
             <div class="labels_container">
-                <h3>{{pin.labels}}</h3>
+                {{#each pin.labels}}
+                <h3 class="pin_labels">{{this}}</h3>
+                {{/each}}
             </div>
         </div>
 

@@ -2,7 +2,7 @@
   <!-- <div class="container-fluid"> -->
     <div class="navbar-header">
       <a class="navbar-brand" href="/">
-        Pinterest Image Labeling
+        <h2>Pinterest Image Labeling</h2>
       </a>
     </div>
 
@@ -10,13 +10,13 @@
         {{#if currentUser}}
         <ul class="nav navbar-nav navbar-center">
             {{#if admin_page}}
-            <a href="/add-pins"> <button type="button" name="add-pin">Add New Pin!</button> </a>
+            <a href="/add-pins"> <button type="button" class="add_pin_button" name="add-pin"><h1>Add New Pin!</h1></button> </a>
             {{else}}
 
                 <nav aria-label="Page navigation example">
                       <ul class="pagination">
                         <li class="page-item"><a class="page-link" href="/previous">Previous</a></li>
-                        <li class="page-item"><a class="page-link">{{pinIndex}}</a></li>
+                        <li class="page-item"><a class="page-index"><h2>{{pinIndex}}</h2></a></li>
                         <li class="page-item"><a class="page-link" href="/next">Next</a></li>
                       </ul>
                     </nav>
