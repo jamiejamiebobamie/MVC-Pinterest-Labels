@@ -1,13 +1,15 @@
 {{#if currentUser}}
     <div class="pin_container">
         <div class="picture_container">
-            <img src='{{pictureURL}}' alt="picture">
+            <img src='{{pin.imgUrl}}' alt="picture">
         </div>
         <div class="stats_container">
-            <h3>stats</h3>
+            <h3>'{{pin.title}}'</h3>
+            <h3>'{{pin.description}}'</h3>
+            <h3>'{{pin.pinterestUrl}}'</h3>
         </div>
     </div>
     <div class="labels_container">
-        <h3>labels</h3>
+        <h3>'{{pin.labels}}'</h3>
     </div>
 {{/if}}

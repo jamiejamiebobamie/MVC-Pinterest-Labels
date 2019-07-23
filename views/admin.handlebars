@@ -1,13 +1,18 @@
 {{#if currentUser}}
     <div class="pin_container">
         <div class="picture_container">
-            <img src='{{pictureURL}}' alt="latest pin added">
+            <img src='{{latestPin.imgUrl}}' alt="latest pin added">
         </div>
         <div class="stats_container">
-            <h3>stats</h3>
+            <h3>'{{latestPin.title}}'</h3>
+            <h3>'{{latestPin.description}}'</h3>
+            <h3>'{{latestPin.pinterestUrl}}'</h3>
+            <h3>'{{latestPin.labels}}'</h3>
         </div>
     </div>
     <div class="pins_container">
-        <h3>pins</h3>
+        {{#each pins}}
+            <img src='{{this.imgUrl}}' alt="latest pin added">
+        {{/each}}
     </div>
 {{/if}}

@@ -54,7 +54,6 @@ module.exports = app => {
         app.get('/next', (req, res) => {
             const admin_page = false;
             let id;
-            let admin;
             let pinIndex;
             const currentUser = req.user;
 
@@ -65,19 +64,21 @@ module.exports = app => {
             User.findOne({_id: id}).then( user => {
 
                 if (user){
-                    admin = user.admin
+                    User.findOne( { admin : true } ).then( administrator => {
                     pinIndex = user.pinIndex
-                    highestIndex = user.newPinIndex
+                    highestIndex = administrator.newPinIndex
                     if (pinIndex + 1 <= highestIndex){
                         pinIndex += 1
                         user.pinIndex = pinIndex
                         user.save()
-                    }
+                        }
+                    });
                 }
 
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
                     res.redirect('/');
                 });
+
             });
         });
 
@@ -85,7 +86,6 @@ module.exports = app => {
         app.get('/previous', (req, res) => {
             const admin_page = false;
             let id;
-            let admin;
             let pinIndex;
             const currentUser = req.user;
 
@@ -96,7 +96,6 @@ module.exports = app => {
             User.findOne({_id: id}).then( user => {
 
                 if (user){
-                    admin = user.admin
                     pinIndex = user.pinIndex
                     if (pinIndex > 1){
                         pinIndex -= 1
@@ -119,6 +118,7 @@ module.exports = app => {
         let admin_page = true;
         const currentUser = req.user;
         let latestPinIndex;
+        let id;
 
         if (currentUser){
             id = currentUser._id
@@ -132,6 +132,8 @@ module.exports = app => {
 
             Pin.find().then( pins => {
                 Pin.findOne( { pinIndex: latestPinIndex } ).then( latestPin => {
+                    slicedPins = pins.slice(0,pins.length-1);
+                    pins = slicedPins.reverse();
                     res.render("admin", {currentUser, admin, admin_page, pins, latestPin})
                 });
             });
@@ -167,7 +169,7 @@ module.exports = app => {
                 // if the current_info has a message then the app has exceeded
                 // its rate limit on calls to Pinterest.
                 if (!current_info.message) {
-                    pinterestUrl = current_info.data[0].url // need to increment this index and keep track of it with the highestPinIndex variable.
+                    pinterestUrl = current_info.data[5].url // need to increment this index and keep track of it with the highestPinIndex variable.
                                                             // pages return pins in increments of 25 (though this can be changed to 100).
                                                             // need to figure out a way of using current_info.cursor or current_info.next(?)
                                                             // to skip ahead to the correct pin once 25/100 pins are in the database.
@@ -207,11 +209,17 @@ module.exports = app => {
 
                         User.find({ admin: true }).then ( users => {
                             if (users){
-                                pinIndex = users.newPinIndex;
-                                pinIndex += 1; // need to move this up so that I can use this incremented value to lookup the correct pin on pinterest.
-                                users.newPinIndex = pinIndex
-                                users.save()
-
+                                console.log(users)
+                                for(let i = 0; i < users.length; i++){
+                                    pinIndex = users[i].newPinIndex
+                                    pinIndex += 1 // need to move this up so that I can use this incremented value to lookup the correct pin on pinterest.
+                                    users[i].newPinIndex = pinIndex
+                                    users[i].save()
+                                }
+                                console.log(users.length, users[0].newPinIndex)
+                                pinIndex = users[0].newPinIndex;
+                                console.log(pinIndex)
+                                console.log(users.length, pinIndex)
                                 const new_pin = new Pin()
                                 new_pin.title        = title
                                 new_pin.hexCode      = hexCode
