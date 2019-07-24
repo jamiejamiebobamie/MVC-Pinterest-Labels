@@ -15,9 +15,10 @@ module.exports = app => {
 // SIGN UP POST
 app.post("/sign-up", (req, res) => {
   // Create User and JWT
-  let highestPinIndex = undefined;
+  let highestPinIndex;
+  let pullPinIndex;
   const user = new User(req.body);
-  console.log(req.body)
+
   if (req.body.adminCode == process.env.ADMIN_CODE){
       console.log(true)
       user.admin = true;
@@ -26,18 +27,18 @@ app.post("/sign-up", (req, res) => {
       user.admin = false;
   }
 
-  // newPinIndex: {type: Number}, // global variable that keeps track of the highest pin index. (the highest "page" number). only admin's can edit.
-  // });
-
   User.findOne( { admin: true } ).then( administrator => {
       if (administrator) {
           highestPinIndex = administrator.newPinIndex;
+          pullPinIndex = administrator.pullPinIndex;
       }
 
       if (highestPinIndex) {
           user.newPinIndex = highestPinIndex;
+          user.pullPinIndex = pullPinIndex;
       } else {
           user.newPinIndex = 0;
+          user.pullPinIndex = 0;
       }
 
   user.pinIndex = 1;

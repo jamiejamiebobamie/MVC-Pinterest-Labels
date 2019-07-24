@@ -127,6 +127,7 @@ module.exports = app => {
         let latestPinIndex;
         let id;
 
+
         if (currentUser){
             id = currentUser._id
         }
@@ -150,7 +151,7 @@ module.exports = app => {
     // add new pin to database
     // redirects to /admin page
     app.get("/add-pins", (req,res)=> {
-
+        let pullPinIndex; // the index to pull from on pinterest.
         const currentUser = req.user;
         const admin = true;
 
@@ -172,18 +173,18 @@ module.exports = app => {
 
             User.find({ admin: true }).then ( users => {
                 if (users){
-                    pinIndex = users[0].newPinIndex
+                    pullPinIndex = users[0].pullPinIndex
                 }
 
 
         request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
 
                 let current_info = JSON.parse(body);
-
+                console.log(current_info)
                 // if the current_info has a message then the app has exceeded
                 // its rate limit on calls to Pinterest.
                 if (!current_info.message) {
-                    pinterestUrl = current_info.data[pinIndex].url // need to increment this index and keep track of it with the highestPinIndex variable.
+                    pinterestUrl = current_info.data[pullPinIndex].url // need to increment this index and keep track of it with the highestPinIndex variable.
                                                             // pages return pins in increments of 25 (though this can be changed to 100).
                                                             // need to figure out a way of using current_info.cursor or current_info.next(?)
                                                             // to skip ahead to the correct pin once 25/100 pins are in the database.
@@ -232,22 +233,29 @@ module.exports = app => {
                                 // new_pin.pinIndex     = pinIndex // setting this below
                                 new_pin.pinterestUrl = pinterestUrl
 
+                                console.log(users[0].freeIndices,"amount of freeIndices",users[0].freeIndices.length > 0)
                                 // if users[i].freeIndices.length > 0
                                 // pop the last item in the array and use that as the pinIndex
                                     // else increment the newPinIndex by one and use that as the pinIndex
-                                if (users[0].freeIndices > 0){
+                                if (users[0].freeIndices.length > 0){
+
                                     for (let i = 0; i < users.length; i++){
                                         pinIndex = users[i].freeIndices.pop() // what if this is for whatever reason different among admins?
+                                        users[i].pullPinIndex += 1
                                         users[i].save()
                                         new_pin.pinIndex = pinIndex
+                                        console.log("popped" + pinIndex)
                                     }
                                 } else {
                                     for (let i = 0; i < users.length; i++){
                                         pinIndex = users[i].newPinIndex
                                         pinIndex += 1
                                         users[i].newPinIndex = pinIndex
+                                        users[i].pullPinIndex += 1
                                         users[i].save()
+                                        console.log("didn't pop" + pinIndex)
                                     }
+                                    console.log("outside if/else statement" + pinIndex)
                                     new_pin.pinIndex = pinIndex
                                 }
                                 new_pin.save().then( (new_pin) => {
@@ -267,6 +275,10 @@ module.exports = app => {
      // need to look up and see if there is a pin in the db with that index
         // if there is remove it.
      // need to to push that page index to the 'freeIndices' variable
+
+
+
+     // !!!! DELETE ROUTE NEEDS TO DELETE ALL REFERENCES TO THE DELETED PIN IN THE ASSOCIATED LABELS !!!!
      app.get('/delete/:index', (req, res) => {
 
          const admin_page = false;
@@ -311,5 +323,30 @@ module.exports = app => {
                 }
             });
         });
+
+        app.get('/edit/:id', (req, res) => {
+
+            let id;
+            let admin;
+            let pinIndex;
+            const admin_page = false;
+            const currentUser = req.user;
+
+            if (currentUser){
+                id = currentUser._id
+            }
+
+            User.findOne({_id: id}).then( user => {
+
+                if (user){
+                    admin = user.admin
+                    pinIndex = user.pinIndex
+                }
+
+                Pin.findOne({pinIndex : pinIndex}).then( pin => {
+                    res.render('edit_info', {currentUser, pin, admin, admin_page, pinIndex});
+                });
+            });
+            });
 
 };
