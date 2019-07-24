@@ -234,16 +234,27 @@ module.exports = app => {
                                 new_pin.imgUrl       = imgUrl
                                 new_pin.imgWidth     = imgWidth
                                 new_pin.imgHeight    = imgHeight
-                                new_pin.pinIndex     = pinIndex
+                                // new_pin.pinIndex     = pinIndex // setting this below
                                 new_pin.pinterestUrl = pinterestUrl
 
-                                for(let i = 0; i < users.length; i++){
-                                    pinIndex = users[i].newPinIndex
-                                    pinIndex += 1 // need to move this up so that I can use this incremented value to lookup the correct pin on pinterest.
-                                    users[i].newPinIndex = pinIndex
-                                    users[i].save()
+                                // if users[i].freeIndices.length > 0
+                                // pop the last item in the array and use that as the pinIndex
+                                    // else increment the newPinIndex by one and use that as the pinIndex
+                                if (users[0].freeIndices > 0){
+                                    for (let i = 0; i < users.length; i++){
+                                        pinIndex = users[i].freeIndices.pop() // what if this is for whatever reason different among admins?
+                                        users[i].save()
+                                        new_pin.pinIndex = pinIndex
+                                    }
+                                } else {
+                                    for (let i = 0; i < users.length; i++){
+                                        pinIndex = users[i].newPinIndex
+                                        pinIndex += 1
+                                        users[i].newPinIndex = pinIndex
+                                        users[i].save()
+                                    }
+                                    new_pin.pinIndex = pinIndex
                                 }
-
                                 new_pin.save().then( (new_pin) => {
                                         res.redirect("/admin")
                                 })
@@ -271,31 +282,39 @@ module.exports = app => {
          if (currentUser){
              id = currentUser._id
          }
-         console.log(id)
+         console.log("id "+id)
 
          User.findOne({_id: id}).then( user => {
-
              if (user){
                  User.find( { admin : true } ).then( administrators => {
                  index = user.pinIndex
-                 if (pinIndex){
+                 if (index){
                      for (let i = 0; i < administrators.length; i++) {
-                        administrators[i].freeIndices.push(index)
-                        administrators[i].save()
+                        notPresent = true;
+                        for (let j = 0; j < administrators[i].freeIndices.length; j++){
+                            if (index == administrators[i].freeIndices[j]){
+                                notPresent = false
+                                console.log("Already Present")
+                                break
+                            }
+                        }
+                        if (notPresent){
+                            administrators[i].freeIndices.push(index)
+                            administrators[i].save()
+                        }
                      }
                  }
-
-                 });
-             }
-
              Pin.findOne( { pinIndex : index } ).then( pin => {
-                console.log(pin)
-                 // Pin.remove(pin).then((pin) => {
-                        res.redirect('/');
-                 // })
-
+                 if (pin){
+                     Pin.remove(pin).then((pin) => {
+                            res.redirect('/');
+                     })
+                 } else {
+                     res.redirect('/');
+                 }
              });
-
+        });
+     }
          });
      });
 
