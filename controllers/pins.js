@@ -253,4 +253,50 @@ module.exports = app => {
             });
             } else { res.redirect("/admin") }
      });
+
+
+     // DELETE THE PIN AND INDEX FROM DATABASE
+
+     // need to get the page indexNumber
+     // need to look up and see if there is a pin in the db with that index
+        // if there is remove it.
+     // need to to push that page index to the 'freeIndices' variable
+     app.get('/delete/:index', (req, res) => {
+
+         const admin_page = false;
+         let id;
+         let index;
+         const currentUser = req.user;
+
+         if (currentUser){
+             id = currentUser._id
+         }
+         console.log(id)
+
+         User.findOne({_id: id}).then( user => {
+
+             if (user){
+                 User.find( { admin : true } ).then( administrators => {
+                 index = user.pinIndex
+                 if (pinIndex){
+                     for (let i = 0; i < administrators.length; i++) {
+                        administrators[i].freeIndices.push(index)
+                        administrators[i].save()
+                     }
+                 }
+
+                 });
+             }
+
+             Pin.findOne( { pinIndex : index } ).then( pin => {
+                console.log(pin)
+                 // Pin.remove(pin).then((pin) => {
+                        res.redirect('/');
+                 // })
+
+             });
+
+         });
+     });
+
 };

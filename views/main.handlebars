@@ -5,7 +5,36 @@
             <img src='{{pin.imgUrl}}' width="{{pin.imgWidth}}" height="{{pin.imgHeight}}"alt="picture">
         </div>
 
+    {{#if admin}}
         <div class="info_container">
+            <div class="delete_report_button">
+                        <a class="delete_report_button" href="/delete/{{pinIndex}}">
+                            <button><h2>Delete</h2></button></a>
+                </div>
+            <a class="edit_info" href="/edit/{{pin._id}}">
+                <button>
+                    <div class="stats_container">
+                        <h3>{{pin.title}}</h3>
+                        <h3>{{pin.hexCode}}</h3>
+                        <h3>{{pin.pinterestUrl}}</h3>
+                    </div>
+                </button>
+            </a>
+            <div class="labels_container">
+                {{#each pin.labels}}
+                <a class="delete_label" href="/delete/{{this}}">
+                    <button><h3 class="pin_labels">{{this}}</h3></button>
+                </a>
+                {{/each}}
+            </div>
+        </div>
+    {{else}}
+        <div class="info_container">
+            <div aria-label="Page navigation example">
+                    <ul>
+                        <a class="delete_report_button"><button><h2>Report Pin</h2></button></a>
+                    </ul>
+                </div>
             <div class="stats_container">
                 <h3>{{pin.title}}</h3>
                 <h3>{{pin.hexCode}}</h3>
@@ -13,10 +42,11 @@
             </div>
             <div class="labels_container">
                 {{#each pin.labels}}
-                <h3 class="pin_labels">{{this}}</h3>
+            <h3 class="pin_labels">{{this}}</h3>
                 {{/each}}
             </div>
         </div>
+    {{/if}}
 
     </div>
 

@@ -10,6 +10,7 @@ const UserSchema = new Schema({
   pinIndex: {type: Number}, // the current index the user is currently on (like page number:: where did the user leave off?)
   admin: {type: Boolean}, // only admins (me) can call the get '/new' pin route . and increment the...
   newPinIndex: {type: Number}, // global variable that keeps track of the highest pin index. (the highest "page" number). only admin's can edit.
+  freeIndices: [{type: Number}] // global variable that keeps track of the indices of pins that have been deleted.
 });
 
 // Must use function here! ES6 => functions do not bind this!
