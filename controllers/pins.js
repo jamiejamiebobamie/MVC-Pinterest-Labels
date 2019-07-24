@@ -349,4 +349,43 @@ module.exports = app => {
             });
             });
 
+        app.get('/goToPin/:index', (req, res) => {
+            let index = req.url.split('/').pop()
+            console.log(index)
+
+            let id;
+            let pinIndex;
+            let admin = true;
+            const admin_page = false;
+            const currentUser = req.user;
+
+            if (currentUser){
+                id = currentUser._id
+            }
+
+            User.findOne({_id: id}).then( user => {
+
+                if (user){
+                    user.pinIndex = index
+                    user.save()
+                }
+
+                Pin.findOne({pinIndex : index}).then( pin => {
+                    res.render('edit_info', {currentUser, pin, admin, admin_page, pinIndex});
+                });
+            });
+            });
+
+        app.get('/flagPin/:index', (req, res) => {
+            let index = req.url.split('/').pop()
+
+                Pin.findOne({pinIndex : index}).then( pin => {
+                    if (pin) {
+                        pin.flagged = true;
+                        pin.save()
+                    }
+                    res.redirect('/');
+                });
+            });
+
 };

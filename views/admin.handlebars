@@ -12,7 +12,10 @@
     </div>
     <div class="pins_container">
         {{#each pins}}
-            <img class="admin_pins" width="{{this.imgWidth}}" height="{{this.imgHeight}}" src='{{this.imgUrl}}' alt="latest pin added">
+        {{#if this.flagged}}
+            <h4 color="red">flagged</h4>
+        {{/if}}
+            <a href="/goToPin/{{this.pinIndex}}"><img class="admin_pins" width="{{this.imgWidth}}" height="{{this.imgHeight}}" src='{{this.imgUrl}}' alt=""></a>
         {{/each}}
     </div>
 {{/if}}

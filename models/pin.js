@@ -13,6 +13,8 @@ const PinSchema = new Schema({
     hexCode: { type: String }, // "theme-color": “#e60023”,
     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
 
+    flagged: {type: Boolean },
+    
     // attributes assigned when labels are assigned to the pin:
     contributors: [{ type: Schema.Types.ObjectId, ref: "User" }], //users who have contributed labels to the pin
     labels: [{ type: String }] // associated labels
