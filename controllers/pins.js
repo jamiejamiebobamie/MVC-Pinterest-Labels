@@ -16,7 +16,6 @@ module.exports = app => {
             shiftEnd = 1
         }
         const len_target = target.length
-        console.log(len_target)
         var descriptionIndex = parseInt(fss.indexOf(data, target,0,1))+len_target;
         var shift = parseInt(fss.indexOf(data, stop ,descriptionIndex,1))-shiftEnd;
         return data.slice(descriptionIndex,shift)
@@ -122,8 +121,8 @@ module.exports = app => {
     // displays last added pin at top: enlarged and with stats
     // display pins in database
     app.get("/admin", (req,res)=> {
-        let admin = true
-        let admin_page = true;
+        const admin = true
+        const admin_page = true;
         const currentUser = req.user;
         let latestPinIndex;
         let id;
@@ -136,7 +135,6 @@ module.exports = app => {
 
             if (user){
                 latestPinIndex = user.newPinIndex
-                console.log(latestPinIndex)
             }
 
             Pin.find().then( pins => {
@@ -181,12 +179,10 @@ module.exports = app => {
         request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
 
                 let current_info = JSON.parse(body);
-                console.log(current_info)
 
                 // if the current_info has a message then the app has exceeded
                 // its rate limit on calls to Pinterest.
                 if (!current_info.message) {
-                    console.log("pinIndex"+pinIndex)
                     pinterestUrl = current_info.data[pinIndex].url // need to increment this index and keep track of it with the highestPinIndex variable.
                                                             // pages return pins in increments of 25 (though this can be changed to 100).
                                                             // need to figure out a way of using current_info.cursor or current_info.next(?)
@@ -224,8 +220,7 @@ module.exports = app => {
                         console.log(imgHeight)
 
                                 pinIndex = users[0].newPinIndex;
-                                console.log(pinIndex)
-                                console.log(users.length, pinIndex)
+
                                 const new_pin = new Pin()
                                 new_pin.title        = title
                                 new_pin.hexCode      = hexCode
@@ -282,7 +277,6 @@ module.exports = app => {
          if (currentUser){
              id = currentUser._id
          }
-         console.log("id "+id)
 
          User.findOne({_id: id}).then( user => {
              if (user){
@@ -294,7 +288,7 @@ module.exports = app => {
                         for (let j = 0; j < administrators[i].freeIndices.length; j++){
                             if (index == administrators[i].freeIndices[j]){
                                 notPresent = false
-                                console.log("Already Present")
+                                console.log("Already Present.")
                                 break
                             }
                         }
@@ -304,18 +298,18 @@ module.exports = app => {
                         }
                      }
                  }
-             Pin.findOne( { pinIndex : index } ).then( pin => {
-                 if (pin){
-                     Pin.remove(pin).then((pin) => {
-                            res.redirect('/');
-                     })
-                 } else {
-                     res.redirect('/');
-                 }
-             });
+                     Pin.findOne( { pinIndex : index } ).then( pin => {
+                         if (pin){
+                             Pin.remove(pin).then((pin) => {
+                                    res.redirect('/');
+                             })
+                         } else {
+                             res.redirect('/');
+                         }
+                     });
+                 });
+                }
+            });
         });
-     }
-         });
-     });
 
 };
