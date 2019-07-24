@@ -349,6 +349,54 @@ module.exports = app => {
             });
             });
 
+        app.get('/submit_edit/:pinIndex', (req, res) => {
+            let title = req.url.split("=").pop().replace(/\+/g, " ")
+            let flagged = req.body
+            console.log(title, flagged)
+
+            let id;
+            const currentUser = req.user;
+
+            if (currentUser){
+                id = currentUser._id
+            }
+
+            User.findOne({_id: id}).then( user => {
+                Pin.findOne({pinIndex : user.pinIndex}).then( pin => {
+                    pin.title = title
+                    pin.flagged = false;
+                    pin.save().then((pin) => {
+                        res.redirect('/');
+                    })
+                });
+            });
+    });
+
+            // UPDATE
+//     app.put('/starters/:slug', (req, res) => {
+//         console.log("googly "+ req.params.slug)
+//     var currentUser = req.user;
+//     if (req.body.content == ""){
+//         Starter.findById(req.params.id).then(starter => {
+//         res.render('errorEditStarter', {currentUser, starter}); //NEED TO MAKE AN ERROR PAGE FOR BOTH STARTERS AND THREADS FOR CORRECT REDIRECT
+//     });
+//     } else {
+//         Starter.findOne( {slug: req.params.slug})
+//         .then(starter => {
+//             console.log("POOOgly "+ starter.slug)
+//             starter.content = req.body.content
+//       // Starter.findByIdAndUpdate(req.params.id, req.body).then(starter => {
+//           starter.authorName = req.user.username
+//           starter.author = req.user._id;
+//           starter.save()
+//           res.redirect(`/starters/${starter.slug}`);
+//         })
+//         .catch(err => {
+//           console.log(err.message)
+//         })
+//     };
+// });
+
         app.get('/goToPin/:index', (req, res) => {
             let index = req.url.split('/').pop()
             console.log(index)
@@ -371,7 +419,7 @@ module.exports = app => {
                 }
 
                 Pin.findOne({pinIndex : index}).then( pin => {
-                    res.render('edit_info', {currentUser, pin, admin, admin_page, pinIndex});
+                    res.redirect('/');
                 });
             });
             });
