@@ -88,6 +88,7 @@ module.exports = app => {
 
         // INDEX -- See the previous pin
         app.get('/previous', (req, res) => {
+
             const admin_page = false;
             let id;
             let pinIndex;
@@ -439,91 +440,122 @@ module.exports = app => {
         // how often to call it / how many pins can i store at a time?
         // also using the next URL doesn't provide me with another next url...
 
-        let pinsArray = [];
-        let count = 5;
+        let pins = [];
         let pullPinIndex; // the index to pull from on pinterest.
         const currentUser = req.user;
         const admin = true;
+        let current_info;
         let info;
-
-        let title;          //     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
-        let hexCode;        //     color: { type: String }, // "theme-color": “#e60023”,
-        let locale;         //     locale: { type: String }, // "locale": “en-US",
-        let description;    //     description: { type: String }, // "og:description": "Leonardo Albiero”,
-        let imgUrl;         //     imgURL: { type: String, unique: true }, // "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
-        let imgWidth;       //     imgWidth: { type: Number }, // "og:image:width": "564",
-        let imgHeight;      //     imgHeight: { type: Number }, // "og:image:height": "829",
-        let pinIndex;       //     pinIndex: { type: Number, unique: true }, // the index of the pin. starts at 0. used when accessing the pin in the app.
-        let pinterestUrl;   //     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
-
-        let target; // the target string to look for when searching current_info
+        let next;
+        let index;
 
         if (currentUser){
 
             User.find({ admin: true }).then ( users => {
                 if (users){
                     next = users[0].next
+                    pullPinIndex = users[0].pullPinIndex
                 }
 
         if (next){
-            console.log(next)
-
-//             {
-//   attribution: null,
-//   color: '#3e4848',
-//   image: [Object],
-//   note: ' ',
-//   url: 'https://www.pinterest.com/pin/765119424176439930/',
-//   id: '765119424176439930'
-// }
 
             request(next+"&fields=note,color,url,image", function(error,response,body) {
                 current_info = JSON.parse(body);
+
+                console.log(current_info)
+
                 if (!current_info.message) {
-                    info = current_info.data
-                    next = current_info.page.next
-                }
-                console.log("hello3",next,info)
+
+                        info = current_info.data
+                        next = current_info.page.next
+
+                    for (let i = 0; i < info.length; i++) {
+
+                        if (users[0].freeIndices.length > 0){
+
+                            for (let j = 0; j < users.length; j++){
+                                pinIndex = users[j].freeIndices.pop() // what if this is for whatever reason different among admins?
+                                users[j].pullPinIndex += 1
+                                // users[j].save()
+                            }
+
+                        } else {
+
+                            for (let k = 0; k < users.length; k++){
+                                pinIndex = users[k].newPinIndex
+                                pinIndex += 1
+                                users[k].newPinIndex = pinIndex
+                                users[k].pullPinIndex += 1
+                                // users[k].save()
+                            }
+
+                        }
+                        console.log("outside if/else statement" + pinIndex)
+                        pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
+                        console.log(pins)
+                    }
+
+                    for (let l = 0; l < users.length; l++){
+                        users[l].next = next;
+                        users[l].save()
+                    }
+
+                    Pin.insertMany(pins, {ordered:false}).then(() => {
+                        res.redirect("/admin")
+                 });
+            }
+
             })
 
         } else {
             next = "https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN
             request(next+"&fields=note,color,url,image", function(error,response,body) {
                 current_info = JSON.parse(body);
+
                 console.log(current_info)
+
                 if (!current_info.message) {
-                    info = current_info.data
-                    next = current_info.page.next
 
-                console.log(next,info)
-                for (let i = 0; i < info.length; i++) {
-                    console.log(info[i].image)
-                }
+                        info = current_info.data
+                        next = current_info.page.next
+
+                    for (let i = 0; i < info.length; i++) {
+
+                        if (users[0].freeIndices.length > 0){
+
+                            for (let j = 0; j < users.length; j++){
+                                pinIndex = users[j].freeIndices.pop() // what if this is for whatever reason different among admins?
+                                users[j].pullPinIndex += 1
+                                // users[j].save()
+                            }
+
+                        } else {
+
+                            for (let k = 0; k < users.length; k++){
+                                pinIndex = users[k].newPinIndex
+                                pinIndex += 1
+                                users[k].newPinIndex = pinIndex
+                                users[k].pullPinIndex += 1
+                                // users[k].save()
+                            }
+
+                        }
+                        console.log("outside if/else statement" + pinIndex)
+                        pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
+                        console.log(pins)
+                    }
+
+                    for (let l = 0; l < users.length; l++){
+                        users[l].next = next;
+                        users[l].save()
+                    }
+
+                    Pin.insertMany(pins, {ordered:false}).then(() => {
+                        res.redirect("/admin")
+                 });
             }
-
-            })
-        }
-     //    request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
-     //            console.log("hello3")
-     //            let current_info = JSON.parse(body);
-     //            console.log(current_info)
-     //            // if the current_info has a message then the app has exceeded
-     //            // its rate limit on calls to Pinterest.
-     //            if (!current_info.message) {
-     //
-     //                // while(count > 0)
-     //                next = current_info.page.next // need to increment this index and keep track of it with the highestPinIndex variable.
-     //                                                        // pages return pins in increments of 25 (though this can be changed to 100).
-     //                                                        // need to figure out a way of using current_info.cursor or current_info.next(?)
-     //                                                        // to skip ahead to the correct pin once 25/100 pins are in the database.
-     //                console.log(next, current_info.page)
-     //                request(next, function(error,response,body) {
-     //                    current_info = JSON.parse(page);
-     //                    console.log(current_info)
-     //
-     //                })
-     // };
-     //      });
+        })
+    }
  });
 }
   });

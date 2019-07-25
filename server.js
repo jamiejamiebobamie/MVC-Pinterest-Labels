@@ -22,11 +22,6 @@ const expressValidator = require('express-validator');
 //middleware for putting something when you post it
 const methodOverride = require('method-override');
 
-// socket io
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
-
-
 
 // Use Body Parser
 app.use(bodyParser.json());
