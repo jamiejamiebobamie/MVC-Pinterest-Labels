@@ -13,8 +13,9 @@ const UserSchema = new Schema({
   freeIndices: [{type: Number}], // global variable that keeps track of the indices of pins that have been deleted.
 
                                 // TEMPORARY!!
-  pullPinIndex: {type: Number} // the count of the pins. used when referencing the json array of pin info.
+  pullPinIndex: {type: Number}, // the count of the pins. used when referencing the json array of pin info.
                               // need to pull 10+ pins at a time and reference pins past 25/100 in the JSON object.
+  next: {type: String}, // the url to the next page on pinterest
 });
 
 // Must use function here! ES6 => functions do not bind this!

@@ -3,7 +3,8 @@ const User = require("../models/user");
 const Pin = require("../models/pin");
 const Label = require("../models/label")
 const fss = require('fast-string-search');
-const cheerio = require('cheerio')
+const cheerio = require('cheerio');
+const request = require('request');
 
 module.exports = app => {
 
@@ -432,6 +433,7 @@ module.exports = app => {
 
 
     app.get("/add-pins", (req,res)=> {
+        console.log("hello1")
 
         // store the 'next' URL as an admin variable
         // how often to call it / how many pins can i store at a time?
@@ -442,6 +444,7 @@ module.exports = app => {
         let pullPinIndex; // the index to pull from on pinterest.
         const currentUser = req.user;
         const admin = true;
+        let info;
 
         let title;          //     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
         let hexCode;        //     color: { type: String }, // "theme-color": “#e60023”,
@@ -455,37 +458,72 @@ module.exports = app => {
 
         let target; // the target string to look for when searching current_info
 
-        request = require('request');
-
         if (currentUser){
 
             User.find({ admin: true }).then ( users => {
                 if (users){
-                    pullPinIndex = users[0].pullPinIndex
+                    next = users[0].next
                 }
 
+        if (next){
+            console.log(next)
 
-        request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
+//             {
+//   attribution: null,
+//   color: '#3e4848',
+//   image: [Object],
+//   note: ' ',
+//   url: 'https://www.pinterest.com/pin/765119424176439930/',
+//   id: '765119424176439930'
+// }
 
-                let current_info = JSON.parse(body);
-                console.log(current_info)
-                // if the current_info has a message then the app has exceeded
-                // its rate limit on calls to Pinterest.
+            request(next+"&fields=note,color,url,image", function(error,response,body) {
+                current_info = JSON.parse(body);
                 if (!current_info.message) {
+                    info = current_info.data
+                    next = current_info.page.next
+                }
+                console.log("hello3",next,info)
+            })
 
-                    // while(count > 0)
-                    next = current_info.page.next // need to increment this index and keep track of it with the highestPinIndex variable.
-                                                            // pages return pins in increments of 25 (though this can be changed to 100).
-                                                            // need to figure out a way of using current_info.cursor or current_info.next(?)
-                                                            // to skip ahead to the correct pin once 25/100 pins are in the database.
-                    console.log(next, current_info.page)
-                    request(next, function(error,response,body) {
-                        current_info = JSON.parse(body);
-                        console.log(current_info)
+        } else {
+            next = "https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN
+            request(next+"&fields=note,color,url,image", function(error,response,body) {
+                current_info = JSON.parse(body);
+                console.log(current_info)
+                if (!current_info.message) {
+                    info = current_info.data
+                    next = current_info.page.next
 
-                    })
-     };
-          });
+                console.log(next,info)
+                for (let i = 0; i < info.length; i++) {
+                    console.log(info[i].image)
+                }
+            }
+
+            })
+        }
+     //    request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
+     //            console.log("hello3")
+     //            let current_info = JSON.parse(body);
+     //            console.log(current_info)
+     //            // if the current_info has a message then the app has exceeded
+     //            // its rate limit on calls to Pinterest.
+     //            if (!current_info.message) {
+     //
+     //                // while(count > 0)
+     //                next = current_info.page.next // need to increment this index and keep track of it with the highestPinIndex variable.
+     //                                                        // pages return pins in increments of 25 (though this can be changed to 100).
+     //                                                        // need to figure out a way of using current_info.cursor or current_info.next(?)
+     //                                                        // to skip ahead to the correct pin once 25/100 pins are in the database.
+     //                console.log(next, current_info.page)
+     //                request(next, function(error,response,body) {
+     //                    current_info = JSON.parse(page);
+     //                    console.log(current_info)
+     //
+     //                })
+     // };
+     //      });
  });
 }
   });
