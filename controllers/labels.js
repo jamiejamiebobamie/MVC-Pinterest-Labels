@@ -15,6 +15,7 @@ function union(setA, setB) {
     }
 
 module.exports = app => {
+
 // CREATE
 
 // get a reference to the current pin.
@@ -26,12 +27,47 @@ module.exports = app => {
 
 // don't forget to save the new_label object, the label object, and/or the pin object.
 
+
+// when someone types a label, the label could already exist in the database
+// if the label already exists in the database, the given label could already have the pin's reference
+// in its pins array
+
+// Model.insertMany()
+//
+// Parameters
+//
+// doc(s) «Array|Object|*»
+// [options] «Object» see the mongodb driver options
+// [options.ordered «Boolean» = true] if true, will fail fast on the first error encountered. If false, will insert all the documents it can and report errors later. An insertMany() with ordered = false is called an "unordered" insertMany().
+// [options.rawResult «Boolean» = false] if false, the returned promise resolves to the documents that passed mongoose document validation. If true, will return the raw result from the MongoDB driver with a mongoose property that contains validationErrors if this is an unordered insertMany.
+// [callback] «Function» callback
+// Returns:
+//
+// «Promise»
+// Shortcut for validating an array of documents and inserting them into MongoDB if they're all valid. This function is faster than .create() because it only sends one operation to the server, rather than one for each document.
+//
+// Mongoose always validates each document before sending insertMany to MongoDB. So if one document has a validation error, no documents will be saved, unless you set the ordered option to false.
+//
+// This function does not trigger save middleware.
+//
+// This function triggers the following middleware.
+//
+// insertMany()
+// Example:
+//
+// var arr = [{ name: 'label' pin: pin }, { name: 'label2' pin: pin }, { name: 'label3' pin: pin }];
+// Movies.insertMany(arr, function(error, docs) {});
+
 app.post("/labels", (req, res) => {
         let id;
         let currentUser = req.user;
         let index;
-        console.log("fire"+req.body.labels)
-        let labels = Array.from(new Set(req.body.labels.split(" ")))
+
+        let new_labels = {}
+
+        let inputLabels = Array.from(new Set(req.body.labels.split(" ")))
+
+        let current_label;
 
         if (currentUser){
             id = currentUser._id
@@ -45,45 +81,46 @@ app.post("/labels", (req, res) => {
 
             Pin.findOne( { pinIndex: index } ).then( pin => {
 
-                    for (let i = 0; i < labels.length; i++){
-                        console.log(i,labels.length, labels, labels[i])
+                let arr = [];
+                for (let i = 0; i < inputLabels.length; i++){
+                    arr.push({name: inputLabels[i], pin: pin})
+                }
 
-                            Label.findOne( { name: labels[i] } ).then( label => {
-                                console.log("returned label " + label)
-                                if (label) {
-                                    console.log(label)
-                                    pinPresentInArray = false
-                                    for (let j = 0; j < label.pins.length; j++){
-                                        console.log(typeof pin, typeof label.pins[j], (label.pins[j] == pin))
-                                        if (label.pins[j] === pin){
-                                            console.log("ice crystal")
-                                            pinPresentInArray = true
-                                        }
-                                    }
-                                    if (!pinPresentInArray) {
-                                        label.pins.push(pin)
-                                        label.save()
-                                    }
-                                } else {
-                                    new_label = new Label()
-                                    new_label.name = labels[i];
-                                    new_label.pins.push(pin)
-                                    new_label.save()
-                                }
-                            });
-                        }
+                Label.insertMany(arr, {ordered:false}).then(() => {
                     pinLabels = new Set(pin.labels)
-                    labels = new Set(labels)
-                    unionOfLabels = union(pinLabels, labels)
-                    console.log(pinLabels, labels)
-                    console.log(unionOfLabels)
+                    inputLabels = new Set(inputLabels)
+                    unionOfLabels = union(pinLabels, inputLabels)
                     newArrayFromUnion = Array.from(unionOfLabels)
                     pin.labels = newArrayFromUnion
-                    console.log(unionOfLabels, newArrayFromUnion)
                     pin.save().then((pin) => {
                             res.redirect("/")
                         })
                     });
                 });
         });
+    });
 };
+
+
+
+// io.on('connection', function(socket){
+//   socket.on('add label', function(label){
+//       if (label != "" && label != ""){
+//           console.log(label)
+//           // User.find() (pass in the currentUser)
+//           // get the user's current picture index
+//           // Picture.find() (pass in the picture index)
+//           // check the current picture's labels and ensure the label is unique to the picture and not an empty string
+//                       Picture.findOne().then(
+//                       picture => {
+//                         console.log(picture.name)
+//                           picture.labels.push(label)
+//                           picture.save()
+//                       })
+//                   }
+//
+//     console.log(socket.id +' message: ' + label);
+//     io.emit('add label', label);
+//   });
+// });
+// }

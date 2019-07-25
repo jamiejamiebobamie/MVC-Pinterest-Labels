@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
-const Pin = require("../models/pin")
+const Pin = require("../models/pin");
+const Label = require("../models/label")
 const fss = require('fast-string-search');
 const cheerio = require('cheerio')
 
@@ -148,125 +149,286 @@ module.exports = app => {
         });
     });
 
-    // add new pin to database
-    // redirects to /admin page
-    app.get("/add-pins", (req,res)=> {
-        let pullPinIndex; // the index to pull from on pinterest.
-        const currentUser = req.user;
-        const admin = true;
+// add new pin to database
+// redirects to /admin page
 
-        let title;          //     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
-        let hexCode;        //     color: { type: String }, // "theme-color": “#e60023”,
-        let locale;         //     locale: { type: String }, // "locale": “en-US",
-        let description;    //     description: { type: String }, // "og:description": "Leonardo Albiero”,
-        let imgUrl;         //     imgURL: { type: String, unique: true }, // "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
-        let imgWidth;       //     imgWidth: { type: Number }, // "og:image:width": "564",
-        let imgHeight;      //     imgHeight: { type: Number }, // "og:image:height": "829",
-        let pinIndex;       //     pinIndex: { type: Number, unique: true }, // the index of the pin. starts at 0. used when accessing the pin in the app.
-        let pinterestUrl;   //     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
+// experiment with iterating through the pages with while loop / calling the "next" page in the pinterest api successively. 
 
-        let target; // the target string to look for when searching current_info
+app.get("/add-pins", (req,res)=> {
+    let pinsArray = [];
+    let count = 5;
+    let pullPinIndex; // the index to pull from on pinterest.
+    const currentUser = req.user;
+    const admin = true;
 
-        request = require('request');
+    let title;          //     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
+    let hexCode;        //     color: { type: String }, // "theme-color": “#e60023”,
+    let locale;         //     locale: { type: String }, // "locale": “en-US",
+    let description;    //     description: { type: String }, // "og:description": "Leonardo Albiero”,
+    let imgUrl;         //     imgURL: { type: String, unique: true }, // "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
+    let imgWidth;       //     imgWidth: { type: Number }, // "og:image:width": "564",
+    let imgHeight;      //     imgHeight: { type: Number }, // "og:image:height": "829",
+    let pinIndex;       //     pinIndex: { type: Number, unique: true }, // the index of the pin. starts at 0. used when accessing the pin in the app.
+    let pinterestUrl;   //     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
 
-        if (currentUser){
+    let target; // the target string to look for when searching current_info
 
-            User.find({ admin: true }).then ( users => {
-                if (users){
-                    pullPinIndex = users[0].pullPinIndex
-                }
+    request = require('request');
+
+    if (currentUser){
+
+        User.find({ admin: true }).then ( users => {
+            if (users){
+                pullPinIndex = users[0].pullPinIndex
+            }
 
 
-        request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
+    request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
 
-                let current_info = JSON.parse(body);
-                console.log(current_info)
-                // if the current_info has a message then the app has exceeded
-                // its rate limit on calls to Pinterest.
-                if (!current_info.message) {
-                    pinterestUrl = current_info.data[pullPinIndex].url // need to increment this index and keep track of it with the highestPinIndex variable.
-                                                            // pages return pins in increments of 25 (though this can be changed to 100).
-                                                            // need to figure out a way of using current_info.cursor or current_info.next(?)
-                                                            // to skip ahead to the correct pin once 25/100 pins are in the database.
+            let current_info = JSON.parse(body);
+            console.log(current_info)
+            // if the current_info has a message then the app has exceeded
+            // its rate limit on calls to Pinterest.
+            if (!current_info.message) {
 
-                    request.get(pinterestUrl, function(error,response,data) {
-                        const text = data
+                // while(count > 0)
+                pinterestUrl = current_info.data[pullPinIndex].url // need to increment this index and keep track of it with the highestPinIndex variable.
+                                                        // pages return pins in increments of 25 (though this can be changed to 100).
+                                                        // need to figure out a way of using current_info.cursor or current_info.next(?)
+                                                        // to skip ahead to the correct pin once 25/100 pins are in the database.
 
-                        target =  "\"og:title\": \""
-                        title = getData(true, text, target, "\",")
-                        console.log(title)
+                request.get(pinterestUrl, function(error,response,data) {
+                    const text = data
 
-                        target = "\"dominant_color\": \""
-                        hexCode = getData(false,text, target, ",")
-                        console.log(hexCode)
+                    target =  "\"og:title\": \""
+                    title = getData(true, text, target, "\",")
+                    console.log(title)
 
-                        target = "\"locale\": \""
-                        locale = getData(false, text, target, ",") // changed this to false
-                        console.log(locale)
+                    target = "\"dominant_color\": \""
+                    hexCode = getData(false,text, target, ",")
+                    console.log(hexCode)
 
-                        target = "\"og:description\": \""
-                        description = getData(false,text, target, ",")
-                        console.log(description)
+                    target = "\"locale\": \""
+                    locale = getData(false, text, target, ",") // changed this to false
+                    console.log(locale)
 
-                        target = "og:image\" name=\"og:image\" content=\""
-                        imgUrl = getData(false,text,target,">")
-                        console.log(imgUrl)
+                    target = "\"og:description\": \""
+                    description = getData(false,text, target, ",")
+                    console.log(description)
 
-                        target = "og:image:width\": \""
-                        imgWidth = getData(false,text,target,",")
-                        console.log(imgWidth)
+                    target = "og:image\" name=\"og:image\" content=\""
+                    imgUrl = getData(false,text,target,">")
+                    console.log(imgUrl)
 
-                        target = "og:image:height\": \""
-                        imgHeight = getData(false,text,target,",")
-                        console.log(imgHeight)
+                    target = "og:image:width\": \""
+                    imgWidth = getData(false,text,target,",")
+                    console.log(imgWidth)
 
-                                pinIndex = users[0].newPinIndex;
+                    target = "og:image:height\": \""
+                    imgHeight = getData(false,text,target,",")
+                    console.log(imgHeight)
 
-                                const new_pin = new Pin()
-                                new_pin.title        = title
-                                new_pin.hexCode      = hexCode
-                                new_pin.locale       = locale
-                                new_pin.description  = description
-                                new_pin.imgUrl       = imgUrl
-                                new_pin.imgWidth     = imgWidth
-                                new_pin.imgHeight    = imgHeight
-                                // new_pin.pinIndex     = pinIndex // setting this below
-                                new_pin.pinterestUrl = pinterestUrl
+                            pinIndex = users[0].newPinIndex;
 
-                                console.log(users[0].freeIndices,"amount of freeIndices",users[0].freeIndices.length > 0)
-                                // if users[i].freeIndices.length > 0
-                                // pop the last item in the array and use that as the pinIndex
-                                    // else increment the newPinIndex by one and use that as the pinIndex
-                                if (users[0].freeIndices.length > 0){
+                            const new_pin = new Pin()
+                            new_pin.title        = title
+                            new_pin.hexCode      = hexCode
+                            new_pin.locale       = locale
+                            new_pin.description  = description
+                            new_pin.imgUrl       = imgUrl
+                            new_pin.imgWidth     = imgWidth
+                            new_pin.imgHeight    = imgHeight
+                            new_pin.pinIndex     = pinIndex // setting this below
+                            new_pin.pinterestUrl = pinterestUrl
+                            new_pin.labels.push(hexCode)
 
-                                    for (let i = 0; i < users.length; i++){
-                                        pinIndex = users[i].freeIndices.pop() // what if this is for whatever reason different among admins?
-                                        users[i].pullPinIndex += 1
-                                        users[i].save()
-                                        new_pin.pinIndex = pinIndex
-                                        console.log("popped" + pinIndex)
-                                    }
-                                } else {
-                                    for (let i = 0; i < users.length; i++){
-                                        pinIndex = users[i].newPinIndex
-                                        pinIndex += 1
-                                        users[i].newPinIndex = pinIndex
-                                        users[i].pullPinIndex += 1
-                                        users[i].save()
-                                        console.log("didn't pop" + pinIndex)
-                                    }
-                                    console.log("outside if/else statement" + pinIndex)
+                            console.log(users[0].freeIndices,"amount of freeIndices",users[0].freeIndices.length > 0)
+                            // if users[i].freeIndices.length > 0
+                            // pop the last item in the array and use that as the pinIndex
+                                // else increment the newPinIndex by one and use that as the pinIndex
+                            if (users[0].freeIndices.length > 0){
+
+                                for (let i = 0; i < users.length; i++){
+                                    pinIndex = users[i].freeIndices.pop() // what if this is for whatever reason different among admins?
+                                    users[i].pullPinIndex += 1
+                                    users[i].save()
                                     new_pin.pinIndex = pinIndex
+                                    console.log("popped" + pinIndex)
                                 }
-                                new_pin.save().then( (new_pin) => {
+                            } else {
+                                for (let i = 0; i < users.length; i++){
+                                    pinIndex = users[i].newPinIndex
+                                    pinIndex += 1
+                                    users[i].newPinIndex = pinIndex
+                                    users[i].pullPinIndex += 1
+                                    users[i].save()
+                                    console.log("didn't pop" + pinIndex)
+                                }
+                                console.log("outside if/else statement" + pinIndex)
+                                new_pin.pinIndex = pinIndex
+                            }
+                            new_pin.save().then( (new_pin) => {
+                                console.log(new_pin)
+                                const new_label      = Label()
+                                new_label.name       = hexCode
+                                new_label.pin        = new_pin
+                                new_label.save().then(() => {
                                         res.redirect("/admin")
                                 })
-                            });
-                        } else { res.redirect("/admin") };
-                    });
-            });
-            } else { res.redirect("/admin") }
-     });
+
+                            })
+                        });
+                    } else { res.redirect("/admin") };
+                });
+        });
+        } else { res.redirect("/admin") }
+ });
+
+    // add new pin to database
+    // redirects to /admin page
+    // app.get("/add-pins", (req,res)=> {
+    //     let pullPinIndex; // the index to pull from on pinterest.
+    //     const currentUser = req.user;
+    //     const admin = true;
+    //     let iterateThroughPagesNumber;
+    //     let pageResults;
+    //
+    //     let title;          //     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
+    //     let hexCode;        //     color: { type: String }, // "theme-color": “#e60023”,
+    //     let locale;         //     locale: { type: String }, // "locale": “en-US",
+    //     let description;    //     description: { type: String }, // "og:description": "Leonardo Albiero”,
+    //     let imgUrl;         //     imgURL: { type: String, unique: true }, // "og:image": "https://i.pinimg.com/736x/6f/3b/fe/6f3bfe2b9f35b109b561596f45ca88cc.jpg",
+    //     let imgWidth;       //     imgWidth: { type: Number }, // "og:image:width": "564",
+    //     let imgHeight;      //     imgHeight: { type: Number }, // "og:image:height": "829",
+    //     let pinIndex;       //     pinIndex: { type: Number, unique: true }, // the index of the pin. starts at 0. used when accessing the pin in the app.
+    //     let pinterestUrl;   //     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
+    //
+    //     let target; // the target string to look for when searching current_info
+    //
+    //     request = require('request');
+    //
+    //     if (currentUser){
+    //
+    //         User.find({ admin: true }).then ( users => {
+    //             if (users){
+    //                 pullPinIndex = users[0].pullPinIndex
+    //                 iteratorCount = pullPinIndex
+    //             }
+    //
+    //
+    //     request("https://api.pinterest.com/v1/me/pins/?access_token=" + process.env.A_TOKEN, function(error, response, body) {
+    //
+    //             let current_info = JSON.parse(body);
+    //             console.log(current_info)
+    //
+    //             // if the current_info has a message then the app has exceeded
+    //             // its rate limit on calls to Pinterest.
+    //             if (!current_info.message) {
+    //
+    //                 // if the current pullPinIndex is greater than 25...
+    //                 // move to the correct page of results
+    //                 iterateThroughPagesNumber = Math.floor(pullPinIndex/25)
+    //
+    //                 console.log(iterateThroughPagesNumber, iterateThroughPagesNumber > 0)
+    //
+    //                 while (iterateThroughPagesNumber > 0) {
+    //                     request(current_info.page.next, function(error,response,data) {
+    //                         current_info = JSON.parse(data);
+    //                         console.log(iterateThroughPagesNumber,current_info)
+    //                      })
+    //                      iterateThroughPagesNumber -=1
+    //                 }
+    //                 while (iteratorCount < iteratorCount+25){
+    //
+    //                 console.log(iterateThroughPagesNumber,current_info);
+    //
+    //                 pinterestUrl = current_info.data[pullPinIndex].url // need to increment this index and keep track of it with the highestPinIndex variable.
+    //                                                         // pages return pins in increments of 25 (though this can be changed to 100).
+    //                                                         // need to figure out a way of using current_info.cursor or current_info.next(?)
+    //                                                         // to skip ahead to the correct pin once 25/100 pins are in the database.
+    //
+    //                 request.get(pinterestUrl, function(error,response,data) {
+    //                     const text = data
+    //
+    //                     target =  "\"og:title\": \""
+    //                     title = getData(true, text, target, "\",")
+    //                     console.log(title)
+    //
+    //                     target = "\"dominant_color\": \""
+    //                     hexCode = getData(false,text, target, ",")
+    //                     console.log(hexCode)
+    //
+    //                     target = "\"locale\": \""
+    //                     locale = getData(false, text, target, ",") // changed this to false
+    //                     console.log(locale)
+    //
+    //                     target = "\"og:description\": \""
+    //                     description = getData(false,text, target, ",")
+    //                     console.log(description)
+    //
+    //                     target = "og:image\" name=\"og:image\" content=\""
+    //                     imgUrl = getData(false,text,target,">")
+    //                     console.log(imgUrl)
+    //
+    //                     target = "og:image:width\": \""
+    //                     imgWidth = getData(false,text,target,",")
+    //                     console.log(imgWidth)
+    //
+    //                     target = "og:image:height\": \""
+    //                     imgHeight = getData(false,text,target,",")
+    //                     console.log(imgHeight)
+    //
+    //                             pinIndex = users[0].newPinIndex;
+    //
+    //                             const new_pin = new Pin()
+    //                             new_pin.title        = title
+    //                             new_pin.hexCode      = hexCode
+    //                             const new_label      = Label()
+    //                             new_label.name       = hexCode
+    //                             new_label.pin        = new_pin
+    //                             new_label.save()
+    //                             new_pin.locale       = locale
+    //                             new_pin.description  = description
+    //                             new_pin.imgUrl       = imgUrl
+    //                             new_pin.imgWidth     = imgWidth
+    //                             new_pin.imgHeight    = imgHeight
+    //                             // new_pin.pinIndex     = pinIndex // setting this below
+    //                             new_pin.pinterestUrl = pinterestUrl
+    //
+    //                             console.log(users[0].freeIndices,"amount of freeIndices",users[0].freeIndices.length > 0)
+    //                             // if users[i].freeIndices.length > 0
+    //                             // pop the last item in the array and use that as the pinIndex
+    //                                 // else increment the newPinIndex by one and use that as the pinIndex
+    //                             if (users[0].freeIndices.length > 0){
+    //
+    //                                 for (let i = 0; i < users.length; i++){
+    //                                     pinIndex = users[i].freeIndices.pop() // what if this is for whatever reason different among admins?
+    //                                     users[i].pullPinIndex += 1
+    //                                     users[i].save()
+    //                                     new_pin.pinIndex = pinIndex
+    //                                     console.log("popped" + pinIndex)
+    //                                 }
+    //                             } else {
+    //                                 for (let i = 0; i < users.length; i++){
+    //                                     pinIndex = users[i].newPinIndex
+    //                                     pinIndex += 1
+    //                                     users[i].newPinIndex = pinIndex
+    //                                     users[i].pullPinIndex += 1
+    //                                     users[i].save()
+    //                                     console.log("didn't pop" + pinIndex)
+    //                                 }
+    //                                 console.log("outside if/else statement" + pinIndex)
+    //                                 new_pin.pinIndex = pinIndex
+    //                             }
+    //                             new_pin.save()
+    //                             })
+    //                             iteratorCount += 1;
+    //                         }
+    //                         res.redirect("/admin")
+    //                     } else { res.redirect("/admin") } });
+    //                 });
+    //         } else { res.redirect("/admin") }
+    //  });
 
 
      // DELETE THE PIN AND INDEX FROM DATABASE
@@ -275,10 +437,6 @@ module.exports = app => {
      // need to look up and see if there is a pin in the db with that index
         // if there is remove it.
      // need to to push that page index to the 'freeIndices' variable
-
-
-
-     // !!!! DELETE ROUTE NEEDS TO DELETE ALL REFERENCES TO THE DELETED PIN IN THE ASSOCIATED LABELS !!!!
      app.get('/delete/:index', (req, res) => {
 
          const admin_page = false;
@@ -300,7 +458,7 @@ module.exports = app => {
                         for (let j = 0; j < administrators[i].freeIndices.length; j++){
                             if (index == administrators[i].freeIndices[j]){
                                 notPresent = false
-                                console.log("Already Present.")
+                                // console.log("Already Present.")
                                 break
                             }
                         }
@@ -312,8 +470,11 @@ module.exports = app => {
                  }
                      Pin.findOne( { pinIndex : index } ).then( pin => {
                          if (pin){
-                             Pin.remove(pin).then((pin) => {
-                                    res.redirect('/');
+                             console.log(typeof pin._id, pin._id)
+                                 Label.remove( {pin: pin._id} ).then(() => {
+                                     Pin.remove({ pinIndex : index }).then(() => {
+                                         res.redirect('/');
+                                     })
                              })
                          } else {
                              res.redirect('/');
