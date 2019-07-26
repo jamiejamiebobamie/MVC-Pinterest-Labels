@@ -100,6 +100,9 @@ app.post("/labels", (req, res) => {
         });
     });
 
+// as a string is passed in through the url and then used to look up the respective pin,
+// labels with foriegn characters cannot be deleted from the database...
+
     app.get("/remove/:label", (req, res) => {
             let id;
             let currentUser = req.user;
