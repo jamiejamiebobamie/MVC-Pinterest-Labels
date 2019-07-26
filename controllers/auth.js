@@ -44,7 +44,7 @@ app.post("/sign-up", (req, res) => {
   user.pinIndex = 1;
   user.save().then((user) => {
       var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
-      res.cookie('nToken', token, { maxAge: 900000, httpOnly: true });
+      res.cookie('nToken', token, { maxAge: 3600000, httpOnly: true }); // 3 600 000 == 60 minutes, originally 900 000 == 15 minutes
       res.redirect('/');
       })
     .catch(err => {

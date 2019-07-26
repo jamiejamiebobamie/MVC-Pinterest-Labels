@@ -61,7 +61,7 @@ app.use(express.static('public'));
 // app.use(express.static('/'));
 
 // //heroku database.
-// mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/pinterest'), { useNewUrlParser: true });
+mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/pinterest'), { useNewUrlParser: true });
 
 // local host database
 // mongoose.connect('mongodb://localhost/pinterest');
@@ -72,10 +72,10 @@ app.set('view engine', 'handlebars');
 
 app.listen(port);
 
-mongoose.connect(process.env.COMPOSE_URI, function (error) {
-    if (error) console.error(error);
-    else console.log('mongo connected');
-});
+// mongoose.connect(process.env.COMPOSE_URI, function (error) {
+//     if (error) console.error(error);
+//     else console.log('mongo connected');
+// });
 
 app
   .use(bodyParser.json()) // support json encoded bodies
