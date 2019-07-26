@@ -91,8 +91,10 @@ module.exports = app => {
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
                     if (pin){
                     if (pin.labels.length == 0) {
-                        array = Array.from(new Set(pin.title.split(" ")));
-                        console.log(array.length >= 1 && array[0].length >= 1)
+                        array = Array.from(new Set(pin.title.toLowerCase().replace("/[^A-Za-z0-9 ]/", '').split(" ")));
+
+                        // checks for an array of a single empty string
+                        // console.log(array, array.length >= 1 && array[0].length >= 1)
                         if (array.length >= 1 && array[0].length >= 1){
 
                         pin.labels = array;
@@ -152,11 +154,12 @@ module.exports = app => {
                     if (pin){
 
                     if (pin.labels.length == 0) {
-                        array = Array.from(new Set(pin.title.split(" ")));
+                        array = Array.from(new Set(pin.title.toLowerCase().replace("/[^A-Za-z0-9 ]/", '').split(" ")));
 
-                        console.log(array.length >= 1 && array[0].length >= 1)
+                        // checks for an array of a single empty string
+                        // console.log(array, array.length >= 1 && array[0].length >= 1)
                         if (array.length >= 1 && array[0].length >= 1){
-                            
+
                         pin.labels = array;
                         let labels = []
                         for (let i = 0; i < array.length; i++){
