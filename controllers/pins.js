@@ -90,23 +90,27 @@ module.exports = app => {
 
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
                     if (pin){
-
-
                     if (pin.labels.length == 0) {
                         array = Array.from(new Set(pin.title.split(" ")));
+                        console.log(array.length >= 1 && array[0].length >= 1)
+                        if (array.length >= 1 && array[0].length >= 1){
+
                         pin.labels = array;
                         let labels = []
                         for (let i = 0; i < array.length; i++){
                             labels.push({name:array[i], pin: pin})
                         }
                         labels.push({name: pin.hexCode, pin: pin})
-                        console.log(labels)
+                        // console.log(labels)
                         pin.save().then( () => {
                             Label.insertMany(labels, {ordered:false}).then(() => {
                                         res.redirect("/")
                                     })
                                 });
                         } else {
+                            res.redirect('/');
+                        }
+                            } else {
                             res.redirect('/');
                         }
                     } else {
@@ -147,22 +151,27 @@ module.exports = app => {
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
                     if (pin){
 
-
                     if (pin.labels.length == 0) {
                         array = Array.from(new Set(pin.title.split(" ")));
+
+                        console.log(array.length >= 1 && array[0].length >= 1)
+                        if (array.length >= 1 && array[0].length >= 1){
+                            
                         pin.labels = array;
                         let labels = []
                         for (let i = 0; i < array.length; i++){
                             labels.push({name:array[i], pin: pin})
                         }
                         labels.push({name: pin.hexCode, pin: pin})
-                        console.log(labels)
+                        // console.log(labels)
                         pin.save().then( () => {
                             Label.insertMany(labels, {ordered:false}).then(() => {
                                         res.redirect("/")
                                     })
                                 });
                         } else {
+                            res.redirect('/');
+                        }} else {
                             res.redirect('/');
                         }
                     } else {
