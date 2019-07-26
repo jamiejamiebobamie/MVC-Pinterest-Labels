@@ -78,6 +78,7 @@ module.exports = app => {
 
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
                     if (pin){
+
                     if (pin.labels.length == 0) {
                         array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
                         for(let i = 0; i < array.length; i++){
@@ -93,7 +94,6 @@ module.exports = app => {
                             } else {
                                 array[i] = new_string;
                             }
-
                         }
                     }
                         // checks for an array of a single empty string
@@ -123,83 +123,84 @@ module.exports = app => {
                 });
             });
 
-        // INDEX -- See the previous pin
-        app.get('/previous', (req, res) => {
+            // INDEX -- See the previous pin
+           app.get('/previous', (req, res) => {
 
-            const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
+               const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
 
-            const admin_page = false;
-            let id;
-            let pinIndex;
-            const currentUser = req.user;
-            let new_string
+               const admin_page = false;
+               let id;
+               let pinIndex;
+               const currentUser = req.user;
 
-            if (currentUser){
-                id = currentUser._id
-            }
+               let new_string
 
-            User.findOne({_id: id}).then( user => {
+               if (currentUser){
+                   id = currentUser._id
+               }
 
-                if (user){
-                    User.findOne( { admin : true } ).then( administrator => {
-                    pinIndex = user.pinIndex
-                    highestIndex = administrator.newPinIndex
-                    if (pinIndex > 1){
-                        pinIndex -= 1
-                        user.pinIndex = pinIndex
-                    } else {
-                        user.pinIndex = highestIndex
-                    }
-                    user.save()
-                    });
-                }
+               User.findOne({_id: id}).then( user => {
 
-                Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
-                    if (pin){
+                   if (user){
+                       User.findOne( { admin : true } ).then( administrator => {
+                       pinIndex = user.pinIndex
+                       highestIndex = administrator.newPinIndex
+                       if (pinIndex > 1){
+                           pinIndex -= 1
+                           user.pinIndex = pinIndex
+                       } else {
+                           user.pinIndex = highestIndex
+                       }
+                       user.save()
+                       });
+                   }
 
-                    if (pin.labels.length == 0) {
-                        array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
-                        for(let i = 0; i < array.length; i++){
-                            new_string = ""
-                            if (array[i].length > 0){
-                            for (let j = 0; j < array[i].length; j++){
-                                if (ALPHA_NUMERIC_LOOKUP.has(array[i][j])){
-                                    new_string+=array[i][j]
-                                }
-                            }
-                             if (new_string == ""){
-                                array.splice(i,1)
-                            } else {
-                                array[i] = new_string;
-                            }            // otherwise remove element from array or (better) don't add element to new array
-                        }
-                    }
+                   Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
+                       if (pin){
 
-                        // checks for an array of a single empty string
-                        if (array.length >= 1 && array[0].length >= 1){
+                       if (pin.labels.length == 0) {
+                           array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
+                           for(let i = 0; i < array.length; i++){
+                               new_string = ""
+                               if (array[i].length > 0){
+                               for (let j = 0; j < array[i].length; j++){
+                                   if (ALPHA_NUMERIC_LOOKUP.has(array[i][j])){
+                                       new_string+=array[i][j]
+                                   }
+                               }
+                                if (new_string == ""){
+                                   array.splice(i,1)
+                               } else {
+                                   array[i] = new_string;
+                               }            // otherwise remove element from array or (better) don't add element to new array
+                           }
+                       }
 
-                        pin.labels = array;
-                        let labels = []
-                        for (let i = 0; i < array.length; i++){
-                            labels.push({name:array[i], pin: pin})
-                        }
-                        labels.push({name: pin.hexCode, pin: pin})
-                        pin.save().then( () => {
-                            Label.insertMany(labels, {ordered:false}).then(() => {
-                                        res.redirect("/")
-                                    })
-                                });
-                        } else {
-                            res.redirect('/');
-                        }} else {
-                            res.redirect('/');
-                        }
-                    } else {
-                        res.redirect('/');
-                    }
-                })
-                });
-            });
+                           // checks for an array of a single empty string
+                           if (array.length >= 1 && array[0].length >= 1){
+
+                           pin.labels = array;
+                           let labels = []
+                           for (let i = 0; i < array.length; i++){
+                               labels.push({name:array[i], pin: pin})
+                           }
+                           labels.push({name: pin.hexCode, pin: pin})
+                           pin.save().then( () => {
+                               Label.insertMany(labels, {ordered:false}).then(() => {
+                                           res.redirect("/")
+                                       })
+                                   });
+                           } else {
+                               res.redirect('/');
+                           }} else {
+                               res.redirect('/');
+                           }
+                       } else {
+                           res.redirect('/');
+                       }
+                   })
+                   });
+               });
 
     // get admin page
     // displays last added pin at top: enlarged and with stats
