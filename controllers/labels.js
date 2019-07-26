@@ -99,6 +99,48 @@ app.post("/labels", (req, res) => {
                 });
         });
     });
+
+    app.get("/remove/:label", (req, res) => {
+            let id;
+            let currentUser = req.user;
+            let index;
+
+            if (currentUser){
+                id = currentUser._id
+            }
+            console.log(id)
+
+            User.findOne( { _id : id } ).then( user => {
+
+                if (user){
+                    index = user.pinIndex
+                    label_name = req.url.split("/").pop()
+                }
+
+                console.log(index, label_name)
+                Pin.findOne( { pinIndex : index } ).then( pin => {
+                    console.log(pin)
+                    if(pin){
+
+                    for (let i = 0; i < pin.labels.length; i++) {
+                        if (pin.labels[i] == label_name){
+                        let popped_label = pin.labels.splice(i, 1)
+                            console.log("popped " + popped_label)
+                        }
+                    }
+                    pin.save().then( pin => {
+                    Label.findOne({name: label_name, pin: pin} ).then( label => {
+                        console.log(label)
+                         Label.remove( label ).then(() => {
+                             res.redirect("/")
+                            })
+                    })
+                })
+            }
+                })
+            });
+        });
+
 };
 
 
