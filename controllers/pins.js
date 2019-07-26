@@ -62,10 +62,14 @@ module.exports = app => {
 
         // INDEX -- See the next pin
         app.get('/next', (req, res) => {
+            const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
+            // console.log(ALPHA_NUMERIC_LOOKUP)
             const admin_page = false;
             let id;
             let pinIndex;
             const currentUser = req.user;
+
+            let new_string;
 
             if (currentUser){
                 id = currentUser._id
@@ -91,8 +95,22 @@ module.exports = app => {
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
                     if (pin){
                     if (pin.labels.length == 0) {
-                        array = Array.from(new Set(pin.title.toLowerCase().replace("/[^A-Za-z0-9 ]/", '').split(" ")));
-
+                        // array = Array.from(new Set(pin.title.toLowerCase().replace("/[^A-Za-z0-9 ]/", '').split(" ")));
+                        array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
+                        console.log(array)
+                        for(let i = 0; i < array.length; i++){
+                            new_string = ""
+                            if (array[i].length > 0){
+                            for (let j = 0; j < array[i].length; j++){
+                                console.log(array[i], array[i][j].length,ALPHA_NUMERIC_LOOKUP.has(array[i][j]))
+                                if (ALPHA_NUMERIC_LOOKUP.has(array[i][j]) && array[i][j].length > 0){
+                                    new_string+=array[i][j]
+                                }
+                            }
+                            array[i] = new_string;
+                        }
+                    }
+                        console.log(array)
                         // checks for an array of a single empty string
                         // console.log(array, array.length >= 1 && array[0].length >= 1)
                         if (array.length >= 1 && array[0].length >= 1){
@@ -125,10 +143,14 @@ module.exports = app => {
         // INDEX -- See the previous pin
         app.get('/previous', (req, res) => {
 
+            const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
+            // console.log(ALPHA_NUMERIC_LOOKUP)
+
             const admin_page = false;
             let id;
             let pinIndex;
             const currentUser = req.user;
+            let new_string
 
             if (currentUser){
                 id = currentUser._id
@@ -154,7 +176,22 @@ module.exports = app => {
                     if (pin){
 
                     if (pin.labels.length == 0) {
-                        array = Array.from(new Set(pin.title.toLowerCase().replace("/[^A-Za-z0-9 ]/", '').split(" ")));
+                        array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
+                        console.log(array)
+                        for(let i = 0; i < array.length; i++){
+                            new_string = ""
+                            if (array[i].length > 0){
+                            for (let j = 0; j < array[i].length; j++){
+                                console.log(array[i], array[i][j].length,ALPHA_NUMERIC_LOOKUP.has(array[i][j]))
+                                if (ALPHA_NUMERIC_LOOKUP.has(array[i][j]) && array[i][j].length > 0){
+                                    new_string+=array[i][j]
+                                }
+                            }
+                            array[i] = new_string; // if new_string != "" then do this
+                                                    // otherwise remove element from array or (better) don't add element to new array
+                        }
+                    }
+                        console.log(array)
 
                         // checks for an array of a single empty string
                         // console.log(array, array.length >= 1 && array[0].length >= 1)
