@@ -23,6 +23,15 @@ module.exports = app => {
         return data.slice(descriptionIndex,shift)
     }
 
+    // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+    function union(setA, setB) {
+        var _union = new Set(setA);
+        for (var elem of setB) {
+            _union.add(elem);
+        }
+            return _union;
+        }
+
     // INDEX // display current pin the user left-off on...
     // primary pin-labelling functionality.
     // pins are pulled from database and referenced by index.
@@ -80,11 +89,32 @@ module.exports = app => {
                 }
 
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
-                    res.redirect('/');
-                });
+                    if (pin){
 
+
+                    if (pin.labels.length == 0) {
+                        array = Array.from(new Set(pin.title.split(" ")));
+                        pin.labels = array;
+                        let labels = []
+                        for (let i = 0; i < array.length; i++){
+                            labels.push({name:array[i], pin: pin})
+                        }
+                        labels.push({name: pin.hexCode, pin: pin})
+                        console.log(labels)
+                        pin.save().then( () => {
+                            Label.insertMany(labels, {ordered:false}).then(() => {
+                                        res.redirect("/")
+                                    })
+                                });
+                        } else {
+                            res.redirect('/');
+                        }
+                    } else {
+                        res.redirect('/');
+                    }
+                })
+                });
             });
-        });
 
         // INDEX -- See the previous pin
         app.get('/previous', (req, res) => {
@@ -115,10 +145,32 @@ module.exports = app => {
                 }
 
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
-                    res.redirect('/');
+                    if (pin){
+
+
+                    if (pin.labels.length == 0) {
+                        array = Array.from(new Set(pin.title.split(" ")));
+                        pin.labels = array;
+                        let labels = []
+                        for (let i = 0; i < array.length; i++){
+                            labels.push({name:array[i], pin: pin})
+                        }
+                        labels.push({name: pin.hexCode, pin: pin})
+                        console.log(labels)
+                        pin.save().then( () => {
+                            Label.insertMany(labels, {ordered:false}).then(() => {
+                                        res.redirect("/")
+                                    })
+                                });
+                        } else {
+                            res.redirect('/');
+                        }
+                    } else {
+                        res.redirect('/');
+                    }
+                })
                 });
             });
-        });
 
     // get admin page
     // displays last added pin at top: enlarged and with stats
@@ -434,7 +486,6 @@ module.exports = app => {
 
 
     app.get("/add-pins", (req,res)=> {
-        console.log("hello1")
 
         // store the 'next' URL as an admin variable
         // how often to call it / how many pins can i store at a time?
@@ -462,8 +513,6 @@ module.exports = app => {
             request(next+"&fields=note,color,url,image", function(error,response,body) {
                 current_info = JSON.parse(body);
 
-                console.log(current_info)
-
                 if (!current_info.message) {
 
                         info = current_info.data
@@ -490,9 +539,7 @@ module.exports = app => {
                             }
 
                         }
-                        console.log("outside if/else statement" + pinIndex)
                         pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
-                        console.log(pins)
                     }
 
                     for (let l = 0; l < users.length; l++){
@@ -503,6 +550,13 @@ module.exports = app => {
                     Pin.insertMany(pins, {ordered:false}).then(() => {
                         res.redirect("/admin")
                  });
+            } else {
+
+                if (current_info.message){
+                    console.log(current_info.message)
+                }
+
+                res.redirect("/admin")
             }
 
             })
@@ -512,8 +566,6 @@ module.exports = app => {
             request(next+"&fields=note,color,url,image", function(error,response,body) {
                 current_info = JSON.parse(body);
 
-                console.log(current_info)
-
                 if (!current_info.message) {
 
                         info = current_info.data
@@ -540,9 +592,7 @@ module.exports = app => {
                             }
 
                         }
-                        console.log("outside if/else statement" + pinIndex)
                         pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
-                        console.log(pins)
                     }
 
                     for (let l = 0; l < users.length; l++){
@@ -553,6 +603,13 @@ module.exports = app => {
                     Pin.insertMany(pins, {ordered:false}).then(() => {
                         res.redirect("/admin")
                  });
+            } else {
+
+                if (current_info.message){
+                    console.log(current_info.message)
+                }
+
+                res.redirect("/admin")
             }
         })
     }
