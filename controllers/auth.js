@@ -20,10 +20,8 @@ app.post("/sign-up", (req, res) => {
   const user = new User(req.body);
 
   if (req.body.adminCode == process.env.ADMIN_CODE){
-      console.log(true)
       user.admin = true;
   } else {
-      console.log(false)
       user.admin = false;
   }
 
