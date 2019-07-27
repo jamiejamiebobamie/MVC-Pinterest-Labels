@@ -12,6 +12,8 @@ const PinSchema = new Schema({
     title: { type: String }, // "og:title": "Leonardo Albiero | Greek statue in 2019 | Vampire the masquerade bloodlines, Vampire art, Gothic vampire”,
     hexCode: { type: String }, // "theme-color": “#e60023”,
     pinterestUrl: { type: String }, // pinterestUrl	string	The URL of the Pin on Pinterest.
+    adminImgSizeWidth: {type: Number},
+    adminImgSizeHeight: {type: Number},
 
     flagged: {type: Boolean },
 

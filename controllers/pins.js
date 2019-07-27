@@ -27,6 +27,9 @@ module.exports = app => {
             let pinIndex;
             const admin_page = false;
             const currentUser = req.user;
+            let width = 550;
+            let height;
+            let scalePercentage
 
             if (currentUser){
                 id = currentUser._id
@@ -40,7 +43,12 @@ module.exports = app => {
                 }
 
                 Pin.findOne({pinIndex : pinIndex}).then( pin => {
-                    res.render('main', {currentUser, pin, admin, admin_page, pinIndex});
+                    if (pin) {
+                        scalePercentage = pin.width / width
+                        height = scalePercentage * pin.height
+                    }
+
+                    res.render('main', {currentUser, pin, admin, admin_page, pinIndex, width, height});
                 });
             });
         });
@@ -210,7 +218,11 @@ module.exports = app => {
         const admin_page = true;
         const currentUser = req.user;
         let latestPinIndex;
+        let latestPinHeight;
+        let latestPinLabels;
         let id;
+
+        let lastOneHundred = 1;
 
 
         if (currentUser){
@@ -221,13 +233,20 @@ module.exports = app => {
 
             if (user){
                 latestPinIndex = user.newPinIndex
+                if (user.newPinIndex > 100){
+                    lastOneHundred = user.newPinIndex - 100
+                }
             }
 
-            Pin.find().then( pins => {
+            Pin.find({pinIndex: { $gt: lastOneHundred }}).limit(100).then( pins => {
                 Pin.findOne( { pinIndex: latestPinIndex } ).then( latestPin => {
+                    if (latestPin){
+                        latestPinHeight = 550 / latestPin.imgWidth * latestPin.imgHeight
+                        latestPinLabels = latestPin.labels
+                    }
                     slicedPins = pins.slice(0,pins.length-1);
                     pins = slicedPins.reverse();
-                    res.render("admin", {currentUser, admin, admin_page, pins, latestPin})
+                    res.render("admin", {currentUser, admin, admin_page, pins, latestPin, latestPinHeight, latestPinLabels})
                 });
             });
         });
@@ -249,6 +268,8 @@ module.exports = app => {
         let info;
         let next;
         let index;
+
+        let adminHeight
 
         if (currentUser){
 
@@ -289,7 +310,8 @@ module.exports = app => {
                             }
 
                         }
-                        pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
+                        adminHeight = 250/info[i].image.original.width * info[i].image.original.height
+                        pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, adminImgSizeWidth: 250, adminImgSizeHeight: adminHeight, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
                     }
 
                     for (let l = 0; l < users.length; l++){
@@ -342,7 +364,8 @@ module.exports = app => {
                             }
 
                         }
-                        pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
+                        adminHeight = (250/info[i].image.original.width) * info[i].image.original.height
+                        pins.push( { pinIndex: pinIndex, title: info[i].note, hexCode: info[i].color, imgWidth: info[i].image.original.width, imgHeight: info[i].image.original.height, adminImgSizeWidth: 250, adminImgSizeHeight: adminHeight, imgUrl: info[i].image.original.url, pinterestUrl: info[i].url } )
                     }
 
                     for (let l = 0; l < users.length; l++){

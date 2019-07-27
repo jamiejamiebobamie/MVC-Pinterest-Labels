@@ -52,7 +52,7 @@ app.post("/labels", (req, res) => {
                     newArrayFromUnion = Array.from(unionOfLabels)
                     pin.labels = newArrayFromUnion
                     pin.save().then((pin) => {
-                            res.redirect("/")
+                            res.redirect("/next")
                         })
                     });
                 });

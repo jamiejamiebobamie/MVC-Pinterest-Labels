@@ -1,14 +1,19 @@
 {{#if currentUser}}
     <div class="pin_container">
         <div class="picture_container">
-            <img src='{{latestPin.imgUrl}}' alt="latest pin added">
+            <img src='{{latestPin.imgUrl}}' width="550" height="{{latestPinHeight}}"alt="latest pin added">
         </div>
         <div class="stats_container">
             <h3>{{latestPin.title}}</h3>
             <h3>{{latestPin.hexCode}}</h3>
             <h3>{{latestPin.pinterestUrl}}</h3>
-            <h3>Labels: {{latestPin.labels}}</h3>
-            <!-- <h3>{{latestPin.labels}}</h3> -->
+            <!-- <h3>Labels:</h3> -->
+        <div class="labels_container">
+
+            {{#each latestPinLabels}}
+        <h3 class="pin_labels">{{this}}</h3>
+            {{/each}}
+        </div>
         </div>
     </div>
     <div class="pins_container">
@@ -16,7 +21,7 @@
         {{#if this.flagged}}
             <h4 color="red">flagged</h4>
         {{/if}}
-            <a href="/goToPin/{{this.pinIndex}}"><img class="admin_pins" width="{{this.imgWidth}}" height="{{this.imgHeight}}" src='{{this.imgUrl}}' alt=""></a>
+            <a href="/goToPin/{{this.pinIndex}}"><img class="admin_pins" width="{{this.adminImgSizeWidth}}" height="{{this.adminImgSizeHeight}}" src='{{this.imgUrl}}' alt=""></a>
         {{/each}}
     </div>
 {{/if}}
