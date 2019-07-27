@@ -43,7 +43,7 @@
     flex-direction: column;
     margin-left: 70px;
     width: 600px;
-    background-color: red;
+    /* background-color: red; */
 }
 
 .labels_container, .stats_container{
