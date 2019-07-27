@@ -3,18 +3,22 @@
         <div class="picture_container">
             <img src='{{latestPin.imgUrl}}' width="550" height="{{latestPinHeight}}"alt="latest pin added">
         </div>
+        <div class="not_picture_container">
+
+
         <div class="stats_container">
             <h3>{{latestPin.title}}</h3>
             <h3>{{latestPin.hexCode}}</h3>
             <h3>{{latestPin.pinterestUrl}}</h3>
             <!-- <h3>Labels:</h3> -->
+        </div>
         <div class="labels_container">
 
             {{#each latestPinLabels}}
         <h3 class="pin_labels">{{this}}</h3>
             {{/each}}
         </div>
-        </div>
+</div>
     </div>
     <div class="pins_container">
         {{#each pins}}

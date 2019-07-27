@@ -8,13 +8,10 @@
     {{#if admin}}
         <div class="info_container">
 
-            <div id="delete_button">
                 <a class="delete_button" href="/delete/{{pinIndex}}">
-                    <button class="delete"><h3>Delete Pin</h3></button>
-                </a>
-            </div>
 
-            <div>
+                    <button class="delete"><h3 class="report">Delete Pin</h3></button></a>
+
                 <a class="edit_info" href="/edit/{{pin._id}}">
                     <button class="stats_button">
                         <div class="stats_container">
@@ -31,15 +28,18 @@
                         </div>
                     </button>
                 </a>
+
+                <div class="labels_container">
+                    {{#each pin.labels}}
+                    <a class="delete_label" href="/remove/{{this}}">
+                        <button class="label_button"><h3 class="pin_labels">{{this}}</h3></button>
+                    </a>
+                    {{/each}}
+                </div>
+
             </div>
 
-            <div class="labels_container">
-                {{#each pin.labels}}
-                <a class="delete_label" href="/remove/{{this}}">
-                    <button class="label_button"><h3 class="pin_labels">{{this}}</h3></button>
-                </a>
-                {{/each}}
-            </div>
+
 
         </div>
     {{else}}

@@ -39,12 +39,52 @@
 }
 
 .info_container{
-    width: 40%;
-    /* padding: 4vw; */
-    /* margin-right: 70px;
-    padding-right: 30px; */
+    display: flex;
+    flex-direction: column;
     margin-left: 70px;
-    /* margin-top: 10px; */
+    width: 600px;
+    background-color: red;
+}
+
+.labels_container, .stats_container{
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+    padding: 30px;
+}
+
+.stats_container{
+    background-color: #313131;
+    width: 600px;
+    height: 550px;
+}
+
+.stats_button{
+    text-align: left;
+    background-color: #313131;
+    border-color: #313131;
+    border-style: solid;
+
+}
+
+.input_instructions{
+    float: left;
+}
+
+.delete{
+    margin-bottom: 20px;
+    background-color: #313131;
+    border-color: #313131;
+    border-style: solid;
+    width: 150px;
+}
+
+.delete_button, .report_button{
+    float: right;
+}
+
+.report{
+    color: #fd7014;
 }
 
 
@@ -93,32 +133,7 @@
     border-radius: 50px;
 } */
 
-.labels_container, .stats_container{
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    hyphens: auto;
-    padding: 30px;
-}
 
-.stats_container{
-    /* margin-left: 50px; */
-    background-color: #313131;
-    /* border-radius: 5px; */
-    width: 600px;
-    height: 550px;
-}
-
-.stats_button{
-    text-align: left;
-    background-color: #313131;
-    border-color: #313131;
-    border-style: solid;
-
-}
-
-.input_instructions{
-    float: right;
-}
 
 #labels{
     width: 100%;
@@ -142,7 +157,6 @@ h4{
 
 
 .edit_info{
-    margin-left: -50px;
     background-color: #313131;
 }
 
@@ -150,58 +164,32 @@ h4{
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
-    margin-left: -70px;
-    width: 700px;
+    /* margin-left: -70px; */
+    width: auto;
 }
 
 .pin_labels{
     background-color: #313131;
     border-radius: 5px;
-    margin: 2px;
-    /* padding: 5px; */
+    margin: 10px;
+    /* it was 2px ^^ */
+    padding: 5px;
 }
 
 .label_button{
     border-style: solid;
     background-color: #313131;
     border-radius: 5px;
-    margin: 5px;
-    padding: 5px;
+    /* margin: 5px; */
+    /* padding: 5px; */
 
-    margin: 20px;
+    margin: 10px;
     background-color: #313131;
     border-color: #313131;
     /* border-radius: 10px; */
 }
 
-.delete{
-    margin: 20px;
-    background-color: #313131;
-    border-color: #313131;
-    /* border-radius: 10px; */
-    border-style: solid;
-    width: 150px;
-    /* height: 100px; */
-    /* text-align: justify; */
 
-
-}
-
-.report_button{
-    float: right;
-    /* margin: 10px; */
-
-}
-
-.report{
-    color: #fd7014;
-}
-
-.delete_button{
-    float: right;
-    /* margin: 10px; */
-
-}
 
 /* .pleaseWork{
     margin: 20px;
@@ -321,6 +309,9 @@ h1{
 
     .pin_container{
         transform: scale(.75);
+        /* margin-right: -100px; */
+        margin-left: 1vw;
+        margin-right: 1vw;
     }
 
     .pins_container {
@@ -330,8 +321,8 @@ h1{
     }
 
     .info_container{
-        width: 100%;
-        margin-left: -250px;
+        /* width: 100%; */
+        /* margin-left: -50px; */
     }
 
     .input_instructions{
@@ -343,11 +334,16 @@ h1{
     }
 
 /* Trying to switch places of elements on mobile */
-    .info_container:.labels_container{
+    .labels_container{
         order: 1;
     }
 
-    .info_container:#delete_button{
+    .edit_info{
+        order: 2;
+    }
+
+    .delete_button{
+        margin-top: 10px;
         order: 3;
     }
     /*  */
