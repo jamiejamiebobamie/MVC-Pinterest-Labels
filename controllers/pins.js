@@ -29,7 +29,7 @@ module.exports = app => {
             const currentUser = req.user;
             let width = 550;
             let height;
-            let scalePercentage
+            let scalePercentage;
 
             if (currentUser){
                 id = currentUser._id
