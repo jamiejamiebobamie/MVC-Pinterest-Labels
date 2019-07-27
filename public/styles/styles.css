@@ -41,9 +41,57 @@
 .info_container{
     width: 40%;
     /* padding: 4vw; */
-    margin-right: 50px;
+    /* margin-right: 70px;
+    padding-right: 30px; */
+    margin-left: 70px;
     /* margin-top: 10px; */
 }
+
+
+.page-index{
+    background-color: #313131;
+    border-color: #313131;
+        border-radius: 50px;
+}
+
+.add_pin_button{
+    background-color: #313131;
+    border-color: #313131;
+        border-radius: 10px;
+        border-style: solid;
+        border-color: #313131;
+        background-color:#313131;
+        width: 300px;
+}
+
+.pagination{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: -10px;
+    background-color: #313131;
+    border-color: #313131;
+}
+
+.Page_navigation_example{
+    background-color: #313131;
+    border-color: #313131;
+        border-radius: 10px;
+        background-color:#313131;
+
+}
+
+/* .page-item{
+    background-color: #313131;
+    border-color: #313131;
+    border-radius: 50px;
+} */
+
+/* .page-link{
+    background-color: #313131;
+    border-color: #313131;
+    border-radius: 50px;
+} */
 
 .labels_container, .stats_container{
     overflow-wrap: break-word;
@@ -68,9 +116,15 @@
 
 }
 
-.delete_report_button{
+.input_instructions{
     float: right;
 }
+
+#labels{
+    width: 100%;
+    height: 50px;
+}
+
 
 .instructions{
     display: flex;
@@ -83,17 +137,9 @@ h4{
     word-wrap: break-word;
     hyphens: auto;
     font-size: 12px;
-    /* color: #414141; */
 }
 
-.delete{
-    margin: 20px;
-    background-color: #313131;
-    border-color: #313131;
-    /* border-radius: 10px; */
-    border-style: solid;
 
-}
 
 .edit_info{
     margin-left: -50px;
@@ -111,8 +157,8 @@ h4{
 .pin_labels{
     background-color: #313131;
     border-radius: 5px;
-    margin: 5px;
-    padding: 5px;
+    margin: 2px;
+    /* padding: 5px; */
 }
 
 .label_button{
@@ -127,6 +173,39 @@ h4{
     border-color: #313131;
     /* border-radius: 10px; */
 }
+
+.delete{
+    margin: 20px;
+    background-color: #313131;
+    border-color: #313131;
+    /* border-radius: 10px; */
+    border-style: solid;
+    width: 150px;
+    /* height: 100px; */
+    /* text-align: justify; */
+
+
+}
+
+.report_button{
+    float: right;
+    /* margin: 10px; */
+
+}
+
+.report{
+    color: #fd7014;
+}
+
+.delete_button{
+    float: right;
+    /* margin: 10px; */
+
+}
+
+/* .pleaseWork{
+    margin: 20px;
+} */
 
 h3{
     overflow-wrap: break-word;
@@ -148,7 +227,11 @@ h3{
     display: flex;
     justify-content: space-between;
     align-items: baseline;
-    margin: 10px;
+    /* margin: 10px; */
+    width: 100%;
+    height: auto;
+    background-color: #313131;
+    border-color: #313131;
 }
 
 body{
@@ -159,26 +242,20 @@ h3, a, h4{
     color:#f0ece2;
 }
 
+h5{
+    color: #fd7014;
+}
+
+h5:hover, h1:hover{
+    color: #ffdd67;
+}
+
 h2{
     color:#414141;
     font-size: 40px;
 }
 
 
-.pagination{    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: -10px;
-}
-
-.page-index{
-        border-radius: 50px;
-}
-
-.add_pin_button{
-        border-radius: 10px;
-        background-color:#313131;
-}
 
 h1{
     color: #f0ece2;
@@ -213,7 +290,8 @@ h1{
 
 .navbar-brand{
     margin-bottom: 30px;
-    /* margin-left: -50px; */
+    position: absolute;
+    left: auto;
 }
 
 
@@ -226,15 +304,47 @@ h1{
     }
 
     .navbar-center{
-
         padding-top: 5px;
-        margin-left: -50vw;
+        margin-left: -150px;
+        transform: scale(1.4)
+        /* margin-right: 100px; */
+    }
 
+    .navbar{
+        /* width: 130%; */
+        height: 0;
+    }
+
+    .picture_container{
+        margin-top: -200px;
+    }
+
+    .pin_container{
+        transform: scale(.75);
+    }
+
+    .info_container{
+        width: 100%;
+        margin-left: -200px;
+    }
+
+    .input_instructions{
+        font-size: 25px;
     }
 
     .pagination{
         margin-bottom: -50px;
     }
+
+/* Trying to switch places of elements on mobile */
+    .info_container:.labels_container{
+        order: 1;
+    }
+
+    .info_container:#delete_button{
+        order: 3;
+    }
+    /*  */
 
     .add_pin_button{
         /* padding-top: 20px; */

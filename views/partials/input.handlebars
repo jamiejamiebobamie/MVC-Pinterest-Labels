@@ -2,41 +2,15 @@
 {{#if admin_page}}
     {{else}}
     {{#if currentUser}}
-        <!-- <div class="navbar_sticky_bottom navbar-light bg-light">
-          <div class="container-fluid">
-            <div>
-            <form action="/labels" method="post">
-            <div class="form-group">
-          <label for="user-username">Type labels here separated by spaces</label>
-            <textarea placeholder="Example: warrior mage sword vampire outside night" type="text" class="form-control" name="labels" id="labels" rows="3"></textarea>
-          </div>
-          <div class='text-right'>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-          </form>
-            </div>
-          </div>
-        </div> -->
 
         <div class="navbar_sticky_bottom navbar-light bg-light">
           <div class="container-fluid">
             <div>
-                <h2>Type labels here separated by spaces</h2>
+                <h2 class="input_instructions">Type labels here separated by spaces</h2>
 
-            <!-- <form action="/labels" method="post"> -->
             <form action="/labels" method="post">
-                <!-- <textarea placeholder="Example: warrior mage sword vampire outside night" type="text" class="form-control" name="labels" id="labels" rows="3"></textarea> -->
                 <input name="labels" id="labels" rows="3" placeholder="Example: warrior mage sword vampire outside night"  autocomplete="off" />
               </form>
-
-            <!-- <div class="form-group">
-          <label for="user-username">Type labels here separated by spaces</label>
-            <textarea placeholder="Example: warrior mage sword vampire outside night" type="text" class="form-control" name="labels" id="labels" rows="3"></textarea>
-          </div>
-          <div class='text-right'>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div> -->
-          <!-- </form> -->
             </div>
           </div>
         </div>

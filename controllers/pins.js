@@ -446,6 +446,10 @@ module.exports = app => {
             const admin_page = false;
             const currentUser = req.user;
 
+            let width = 550;
+            let height;
+            let scalePercentage;
+
             if (currentUser){
                 id = currentUser._id
             }
@@ -458,7 +462,12 @@ module.exports = app => {
                 }
 
                 Pin.findOne({pinIndex : pinIndex}).then( pin => {
-                    res.render('edit_info', {currentUser, pin, admin, admin_page, pinIndex});
+
+                    if (pin) {
+                        scalePercentage = pin.width / width
+                        height = scalePercentage * pin.height
+                    }
+                    res.render('edit_info', {currentUser, pin, admin, admin_page, pinIndex, width, height});
                 });
             });
             });

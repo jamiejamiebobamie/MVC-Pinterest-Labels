@@ -7,24 +7,32 @@
 
     {{#if admin}}
         <div class="info_container">
-                <a class="delete_report_button" href="/delete/{{pinIndex}}">
-                    <button class="delete"><h3>Delete Pin</h3></button></a>
-            <a class="edit_info" href="/edit/{{pin._id}}">
-                <button class="stats_button">
-                    <div class="stats_container">
-                        <h3>{{pin.title}}</h3>
-                        <h3>{{pin.hexCode}}</h3>
-                        <h3>{{pin.pinterestUrl}}</h3>
-                    </div>
-                    <div class="instructions">
-                        <div><h4>click me to edit pin stats</h4></div>
-                        <div><h4>|</h4></div>
-                        <div><h4>click labels to delete them</h4></div>
-                        <div><h4>|</h4></div>
-                        <div><h4>click 'delete pin' to delete the pin</h4></div>
-                    </div>
-                </button>
-            </a>
+
+            <div id="delete_button">
+                <a class="delete_button" href="/delete/{{pinIndex}}">
+                    <button class="delete"><h3>Delete Pin</h3></button>
+                </a>
+            </div>
+
+            <div>
+                <a class="edit_info" href="/edit/{{pin._id}}">
+                    <button class="stats_button">
+                        <div class="stats_container">
+                            <h3>{{pin.title}}</h3>
+                            <h3>{{pin.hexCode}}</h3>
+                            <h3>{{pin.pinterestUrl}}</h3>
+                        </div>
+                        <div class="instructions">
+                            <div><h4>click me to edit pin stats</h4></div>
+                            <div><h4>|</h4></div>
+                            <div><h4>click labels to delete them</h4></div>
+                            <div><h4>|</h4></div>
+                            <div><h4>click 'delete pin' to delete the pin</h4></div>
+                        </div>
+                    </button>
+                </a>
+            </div>
+
             <div class="labels_container">
                 {{#each pin.labels}}
                 <a class="delete_label" href="/remove/{{this}}">
@@ -32,14 +40,12 @@
                 </a>
                 {{/each}}
             </div>
+
         </div>
     {{else}}
         <div class="info_container">
-            <div aria-label="Page navigation example">
-                    <ul>
-                        <a class="delete_report_button" href="/flagPin/{{pinIndex}}"><button><h2>Report Pin</h2></button></a>
-                    </ul>
-                </div>
+            <a class="report_button" href="/flagPin/{{pinIndex}}">
+                <button class="delete"><h3 class="report">Report Pin</h3></button></a>
             <div class="stats_container">
                 <h3>{{pin.title}}</h3>
                 <h3>{{pin.hexCode}}</h3>
