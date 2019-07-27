@@ -242,7 +242,7 @@ h3, a, h4{
     color:#f0ece2;
 }
 
-h5{
+h5, .input_instructions{
     color: #fd7014;
 }
 
@@ -323,9 +323,15 @@ h1{
         transform: scale(.75);
     }
 
+    .pins_container {
+        margin-top: -2300px;
+        margin-bottom: -2300px;
+        transform: scale(.4);
+    }
+
     .info_container{
         width: 100%;
-        margin-left: -200px;
+        margin-left: -250px;
     }
 
     .input_instructions{
@@ -349,7 +355,7 @@ h1{
     .add_pin_button{
         /* padding-top: 20px; */
         transform: scale(.8);
-        margin-left: -150px;
+        /* margin-left: -150px; */
         width: 400px;
 
     }
