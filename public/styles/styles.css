@@ -72,6 +72,15 @@
     height: 550px;
 }
 
+.login_signup_container{
+    padding: 30px;
+    background-color: #313131;
+    width: 600px;
+    height: 550px;
+    margin-left: 34%;
+    margin-right: 30%;
+}
+
 .stats_button{
     text-align: left;
     background-color: #313131;
@@ -106,6 +115,10 @@
     color: #fd7014;
 }
 
+.text-right{
+    margin-top: -70px;
+}
+
 
 .page-index{
     background-color: #313131;
@@ -130,21 +143,32 @@
     margin-bottom: -10px;
     background-color: #313131;
     border-color: #313131;
+    width: 300px;
+    border-radius: 30px;
+
 }
 
 .Page_navigation_example{
     background-color: #313131;
     border-color: #313131;
-        border-radius: 10px;
-        background-color:#313131;
+    /* border-radius: 10px; */
+    background-color:#313131;
+    border-radius: 0px;
 
 }
 
-/* .page-item{
+.navigate{
     background-color: #313131;
+    /* background-color: #ffdd67;; */
     border-color: #313131;
-    border-radius: 50px;
-} */
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.navigate:hover{
+    background-color: #ffdd67;
+    opacity: .8;
+}
 
 /* .page-link{
     background-color: #313131;
@@ -306,6 +330,16 @@ h1{
 }
 
 
+@media only screen and (max-width: 975px) {
+
+    .login_signup_container{
+        transform: scale(.8);
+                margin-left: -70px;
+    }
+
+}
+
+
 
 
 
@@ -315,10 +349,12 @@ h1{
     }
 
     .navbar-center{
-        padding-top: 5px;
-        margin-left: -150px;
-        transform: scale(1.4)
+        margin-top: -100px;
+        /* margin-left: -150px; */
+        /* transform: scale(1.4) */
         /* margin-right: 100px; */
+        margin-left: 1%;
+        margin-right: 30%;
     }
 
     .navbar{
@@ -347,6 +383,11 @@ h1{
         /* width: 100%; */
         /* margin-left: -50px; */
     }
+
+    /* .login_signup_container{
+        transform: scale(.8);
+                margin-left: -70px;
+    } */
 
     .input_instructions{
         font-size: 25px;
