@@ -5,37 +5,38 @@
             <img src='{{pin.imgUrl}}' width="{{width}}" height="{{height}}"alt="picture">
         </div>
 
-
         <div class="info_container">
 
             <div class="stats_container">
+
                 <a class="delete_button" href="/delete/{{pinIndex}}">
-                    <button class="delete"><h3>Delete Pin</h3></button></a>
-                </div>
+                        <button class="delete"><h3 class="report">Delete Pin</h3></button></a>
 
-<div>
-    <form method="GET" action="/submit_edit/{{pinIndex}}">
 
-        <h3>{{pin.title}}</h3>
-        <div class="form-group">
-        <label for="exampleFormControlTextarea1">{{pin.title}}</label>
-        <textarea class="form-control" name="title" id="exampleFormControlTextarea1" rows="5" placeholder="{{pin.title}}"></textarea>
-        </div>
+                    <div>
+                        <form method="GET" action="/submit_edit/{{pinIndex}}">
 
-              <div class="form-group row">
-              <label for="staticEmail" class="col-sm-2 col-form-label">{{pin.hexCode}}</label>
-              <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{pin.hexCode}}">
-              </div>
-            </div>
-            <div class="form-group row">
-              <label for="staticEmail" class="col-sm-2 col-form-label">{{pin.pinterestUrl}}</label>
-              <div class="col-sm-10">
-                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{pin.pinterestUrl}}">
-              </div>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
+                            <h3>{{pin.title}}</h3>
+                            <div class="form-group">
+                            <label for="exampleFormControlTextarea1">{{pin.title}}</label>
+                            <textarea class="form-control" name="title" id="exampleFormControlTextarea1" rows="5" placeholder="{{pin.title}}"></textarea>
+                            </div>
+
+                                  <div class="form-group row">
+                                  <!-- <label for="staticEmail" class="col-sm-2 col-form-label">{{pin.hexCode}}</label> -->
+                                  <div class="col-sm-10">
+                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{pin.hexCode}}">
+                                  </div>
+                                </div>
+                                <div class="form-group row">
+                                  <!-- <label for="staticEmail" class="col-sm-2 col-form-label"></label> -->
+                                  <div class="col-sm-10">
+                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{pin.pinterestUrl}}">
+                                  </div>
+                                </div>
+                                <button class="submit" type="submit"><h3 class="report_words">Submit</h3></button>
+                            </form>
+                    </div>
 
             </div>
             <div class="labels_container">
@@ -43,8 +44,7 @@
             <h3 class="pin_labels">{{this}}</h3>
                 {{/each}}
             </div>
-        </div>
-
     </div>
+</div>
 
 {{/if}}

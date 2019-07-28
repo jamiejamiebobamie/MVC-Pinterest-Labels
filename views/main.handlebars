@@ -10,7 +10,7 @@
 
                 <a class="delete_button" href="/delete/{{pinIndex}}">
 
-                    <button class="delete"><h3 class="report">Delete Pin</h3></button></a>
+                    <button class="delete"><h3 class="report_words">Delete Pin</h3></button></a>
 
                 <a class="edit_info" href="/edit/{{pin._id}}">
                     <button class="stats_button">
@@ -45,7 +45,7 @@
     {{else}}
         <div class="info_container">
             <a class="report_button" href="/flagPin/{{pinIndex}}">
-                <button class="delete"><h3 class="report">Report Pin</h3></button></a>
+                <button class="report"><h3 class="report_words">Report Pin</h3></button></a>
             <div class="stats_container">
                 <h3>{{pin.title}}</h3>
                 <h3>{{pin.hexCode}}</h3>

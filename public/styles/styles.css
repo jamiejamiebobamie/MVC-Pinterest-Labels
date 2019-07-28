@@ -21,6 +21,19 @@
 
 }
 
+.form-control-plaintext{
+    width: 100%;
+}
+
+.submit{
+    background-color: #414141;
+    border-style: solid;
+    border-color: #fd7014;
+    width: 200px;
+    margin-left: 170px;
+    margin-top: 100px;
+}
+
 .container{
     width: 100%;
     background-color: #414141;
@@ -71,19 +84,25 @@
     float: left;
 }
 
-.delete{
+.delete, .report{
     margin-bottom: 20px;
     background-color: #313131;
     border-color: #313131;
     border-style: solid;
     width: 150px;
+    float: right;
+    margin-right: -15px;
+}
+
+.report{
+    margin-right: 0px;
 }
 
 .delete_button, .report_button{
     float: right;
 }
 
-.report{
+.report_words{
     color: #fd7014;
 }
 
@@ -174,6 +193,10 @@ h4{
     margin: 10px;
     /* it was 2px ^^ */
     padding: 5px;
+}
+
+.pin_labels:hover{
+    color: #fd7014;
 }
 
 .label_button{
