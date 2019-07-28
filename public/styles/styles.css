@@ -115,6 +115,10 @@
     color: #fd7014;
 }
 
+/* .report_words:hover{
+    color: #ffdd67;
+} */
+
 .text-right{
     margin-top: -70px;
 }
@@ -373,10 +377,15 @@ h1{
         margin-right: 1vw;
     }
 
+    .info_container{
+        transform: scale(.85);
+        margin-left: -15px;
+    }
+
     .pins_container {
-        margin-top: -2300px;
-        margin-bottom: -2300px;
-        transform: scale(.4);
+        margin-top: -2700px;
+        margin-bottom: -2700px;
+        transform: scale(.3);
     }
 
     .info_container{

@@ -26,7 +26,7 @@ app.post("/labels", (req, res) => {
 
         let new_labels = {}
 
-        let inputLabels = Array.from(new Set(req.body.labels.split(" ")))
+        let inputLabels = Array.from(new Set(req.body.labels.toLowerCase().split(" ")))
         console.log(inputLabels, inputLabels[0].length)
 
         let current_label;
