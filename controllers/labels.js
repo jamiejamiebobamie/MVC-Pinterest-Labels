@@ -18,6 +18,8 @@ module.exports = app => {
 
 
 app.post("/labels", (req, res) => {
+    const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
+
         let id;
         let currentUser = req.user;
         let index;
@@ -25,6 +27,7 @@ app.post("/labels", (req, res) => {
         let new_labels = {}
 
         let inputLabels = Array.from(new Set(req.body.labels.split(" ")))
+        console.log(inputLabels, inputLabels[0].length)
 
         let current_label;
 
@@ -40,10 +43,32 @@ app.post("/labels", (req, res) => {
 
             Pin.findOne( { pinIndex: index } ).then( pin => {
 
+                if (pin) {
+                    for(let i = 0; i < inputLabels.length; i++){
+                        new_string = ""
+                        if (inputLabels[i].length > 0){
+                        for (let j = 0; j < inputLabels[i].length; j++){
+                            if (ALPHA_NUMERIC_LOOKUP.has(inputLabels[i][j])){
+                                new_string+=inputLabels[i][j]
+                            }
+                        }
+                        if (new_string == ""){
+                            console.log('spliced')
+                            inputLabels.splice(i,1)
+                        } else {
+                            console.log(new_string)
+                            inputLabels[i] = new_string;
+                        }
+                    }
+                }
+                if (inputLabels[0].length > 0) { // this is the main thing that matters
+                                                 // refactor around this
+
+
                 let arr = [];
                 for (let i = 0; i < inputLabels.length; i++){
-                    arr.push({name: inputLabels[i], pin: pin})
-                }
+                        arr.push({name: inputLabels[i], pin: pin})
+                    }
 
                 Label.insertMany(arr, {ordered:false}).then(() => {
                     pinLabels = new Set(pin.labels)
@@ -55,6 +80,12 @@ app.post("/labels", (req, res) => {
                             res.redirect("/next")
                         })
                     });
+                } else {
+                    res.redirect("/next")
+                }
+            } else {
+                    res.redirect("/next")
+                }
                 });
         });
     });
