@@ -1,6 +1,3 @@
-
-
-
 overriding schema for labels:
 
 male / female / monster  / environment
@@ -26,7 +23,7 @@ if there are two wolves in the picture both “wolf” and “wolves” get adde
 gender descriptors are always singular (“male” and “female”) and are only added if there is a single, primary figure in the picture.
 
 something is “male" or “female" if a discernible gender can be found
-(a male face on a lion would be both “male” and “monster”.)
+(a male face on a lion would be both “male” “monster” and "lion".)
 (a mummy with breasts would be “monster” and “female”.)
 (a male centaur is “horse” “centaur” “male”.)
 
@@ -37,3 +34,9 @@ if a picture can be described with an emotion, do so.
 
 describe features of figures, but focus on the most pronounced / defining traits, and be broad, but also specific when doing so.
 “wings” “bat”, “angle” “wings” “bird” “feather”, “tail” “scorpion”
+
+action verbs should be included if there is a singular figure in the picture (even "standing")
+
+the label "full_body" is one of the only underscored: "_" labels and denotes if the entire body is in the picture and should only be used on pictures with a single or primary figure in the frame.
+
+the label "white_" is another underscored: "_" label and denotes that the figure is surrounded by a white (or solid of one color) background with the only color or B/W aspects being in the figure itself. (not really necessary as these images usually already have a #fffff hexCode label.) (does a black background get included in this category?)
