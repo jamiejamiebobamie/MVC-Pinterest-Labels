@@ -542,11 +542,11 @@ h1{
     flex-wrap: wrap;
     justify-content: space-around;
     /* margin-left: 80%; */
-    margin-top: 50px;
-    margin-bottom: -400px;
+    margin-top: 200px;
+    margin-bottom: -500px;
     /* float: right; */
     background-color: orange;
-    opacity: .5;
+    opacity: .8;
     width: 550px;
     height: 400px;
     align-self: flex-start;
