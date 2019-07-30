@@ -474,6 +474,12 @@ h1{
         transform: scale(.3);
     }
 
+    .mobile_button_overlay{
+        transform: scale(.85);
+        margin-bottom: 30px;
+        margin-left: -40px;
+    }
+
     .not_picture_container{
         margin-left: 0px;
     }
@@ -547,18 +553,18 @@ h1{
     /* float: right; */
     /* background-color: orange; */
     opacity: .8;
-    /* width: 550px; */
-    /* height: 400px; */
+    width: 550px;
+    height: 400px;
     align-self: flex-start;
     padding: 20px;
     /* margin: 10px */
 }
 
 .mobile_button_large{
-    /* width: 150px;
-    height: 150px; */
-    width: 140px;
-    height: 140px;
+    width: 150px;
+    height: 150px;
+    /* width: 90px;
+    height: 90px; */
     border-radius: 100px;
     border-style: solid;
     border-color: white;
