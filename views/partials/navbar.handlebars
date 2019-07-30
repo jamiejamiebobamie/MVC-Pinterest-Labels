@@ -1,5 +1,21 @@
 {{#if mobile}}
-
+<nav class="navbar navbar-default">
+    <ul class="nav navbar-nav navbar-right">
+        {{#if admin}}
+            {{#if admin_page}}
+                <li><a href="/"><h5>Label Pins</h5></a></li>
+            {{else}}
+                <li><a href="/admin"><h5>Admin</h5></a></li>
+            {{/if}}
+        {{/if}}
+      {{#if currentUser}}
+            <li><a href="/logout"><h5>Logout</h5></a></li>
+          {{else}}
+            <li><a href="/login"><h5>Login</h5></a></li>
+            <li><a href="/sign-up"><h5>Sign Up</h5></a></li>
+      {{/if}}
+    </ul>
+</nav>
 {{else}}
 <nav class="navbar navbar-default">
     <!-- <div class="navbar-header">
