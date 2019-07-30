@@ -542,10 +542,10 @@ h1{
     flex-wrap: wrap;
     justify-content: space-around;
     /* margin-left: 80%; */
-    margin-top: 300px;
-    margin-bottom: -600px;
+    margin-top: 290px;
+    margin-bottom: -610px;
     /* float: right; */
-    background-color: orange;
+    /* background-color: orange; */
     opacity: .8;
     width: 550px;
     height: 400px;
@@ -558,4 +558,14 @@ h1{
     width: 150px;
     height: 150px;
     border-radius: 100px;
+    border-style: solid;
+    border-color: white;
+    color: white;
+    background-color: transparent;
+}
+
+
+.mobile_button_large:hover{
+    background-color: white;
+    color: #fd7014;
 }
