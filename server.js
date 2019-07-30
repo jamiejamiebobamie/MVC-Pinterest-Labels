@@ -64,7 +64,7 @@ app.use(express.static('public'));
 mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/pinterest'), { useNewUrlParser: true });
 
 // local host database
-// mongoose.connect('mongodb://localhost/pinterest');
+mongoose.connect('mongodb://localhost/pinterest');
 
 //views middleware
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));

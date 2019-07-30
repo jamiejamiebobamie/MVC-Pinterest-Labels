@@ -555,8 +555,10 @@ h1{
 }
 
 .mobile_button_large{
-    width: 150px;
-    height: 150px;
+    /* width: 150px;
+    height: 150px; */
+    width: 140px;
+    height: 140px;
     border-radius: 100px;
     border-style: solid;
     border-color: white;
@@ -628,3 +630,12 @@ h1{
     background-color: #fd7014;
     color: white;
     }
+
+.navbar_sticky_bottom_transparent{
+    position: fixed;
+    Width: 100%;
+    bottom: 0;
+    opacity: .8;
+    /* background-color: #313131; */
+
+}
