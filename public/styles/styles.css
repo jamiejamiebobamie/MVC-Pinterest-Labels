@@ -348,6 +348,113 @@ h1{
 
 }
 
+.mobile_button_overlay{
+    z-index: 1;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* margin-left: 80%; */
+    /* margin-top: 290px; */
+    /* margin-bottom: -610px; */
+    /* float: right; */
+    /* background-color: orange; */
+    opacity: .8;
+    width: 550px;
+    height: 400px;
+    align-self: flex-start;
+    padding: 20px;
+    /* margin: 10px */
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 90px;
+}
+
+.mobile_button_large{
+    width: 150px;
+    height: 150px;
+    /* width: 90px;
+    height: 90px; */
+    border-radius: 100px;
+    border-style: solid;
+    border-color: white;
+    /* color: white; */
+    color: black;
+    background-color: transparent;
+}
+
+
+.mobile_button_large:hover{
+    background-color: white;
+    /* color: #fd7014; */
+    /* color: black; */
+    color: white;
+}
+
+
+#male_monster{
+    background-color: #9e94b7;
+    }
+
+#monster{
+    background-color: #f47c7c;
+    }
+
+/* #monster:hover{
+        color: black;
+    } */
+
+#female_monster{
+    background-color: #f6c485;
+
+    }
+
+#male{
+    background-color: #70a1d7;
+    }
+
+#next_mobile{
+    background-color: transparent;
+    color: white;
+    }
+
+#female{
+    background-color: #f7f48b;
+    color: black;
+    }
+
+#female:hover{
+    background-color: #f7f48b;
+    /* color: #fd7014; */
+    color: white;
+    }
+
+#male_environment{
+    background-color: #88c0b5;
+    }
+
+#environment{
+    background-color: #a1de93;
+    }
+
+#female_environment{
+    background-color: #c8e88f;
+    }
+
+
+#next_mobile:hover{
+    background-color: #fd7014;
+    color: white;
+    }
+
+.navbar_sticky_bottom_transparent{
+    position: fixed;
+    Width: 100%;
+    bottom: 0;
+    opacity: .8;
+    /* background-color: #313131; */
+
+}
+
 
 @media only screen and (max-width: 975px) {
 
@@ -358,13 +465,6 @@ h1{
     }
 
 }
-
-
-
-
-
-
-
 
 @media only screen and (max-width: 1450px) {
     .navbar-brand{
@@ -541,109 +641,5 @@ h1{
         transform: scale(.85);
         margin-left: -5px;
     }
-
-}
-
-.mobile_button_overlay{
-    z-index: 1;
-    display:flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    /* margin-left: 80%; */
-    /* margin-top: 290px; */
-    /* margin-bottom: -610px; */
-    /* float: right; */
-    /* background-color: orange; */
-    opacity: .8;
-    width: 550px;
-    height: 400px;
-    align-self: flex-start;
-    padding: 20px;
-    /* margin: 10px */
-}
-
-.mobile_button_large{
-    width: 150px;
-    height: 150px;
-    /* width: 90px;
-    height: 90px; */
-    border-radius: 100px;
-    border-style: solid;
-    border-color: white;
-    /* color: white; */
-    color: black;
-    background-color: transparent;
-}
-
-
-.mobile_button_large:hover{
-    background-color: white;
-    /* color: #fd7014; */
-    /* color: black; */
-    color: white;
-}
-
-
-#male_monster{
-    background-color: #9e94b7;
-    }
-
-#monster{
-    background-color: #f47c7c;
-    }
-
-/* #monster:hover{
-        color: black;
-    } */
-
-#female_monster{
-    background-color: #f6c485;
-
-    }
-
-#male{
-    background-color: #70a1d7;
-    }
-
-#next_mobile{
-    background-color: transparent;
-    color: white;
-    }
-
-#female{
-    background-color: #f7f48b;
-    color: black;
-    }
-
-#female:hover{
-    background-color: #f7f48b;
-    /* color: #fd7014; */
-    color: white;
-    }
-
-#male_environment{
-    background-color: #88c0b5;
-    }
-
-#environment{
-    background-color: #a1de93;
-    }
-
-#female_environment{
-    background-color: #c8e88f;
-    }
-
-
-#next_mobile:hover{
-    background-color: #fd7014;
-    color: white;
-    }
-
-.navbar_sticky_bottom_transparent{
-    position: fixed;
-    Width: 100%;
-    bottom: 0;
-    opacity: .8;
-    /* background-color: #313131; */
 
 }
