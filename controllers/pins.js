@@ -532,4 +532,38 @@ module.exports = app => {
                 });
             });
 
+
+            // INDEX -- See the next pin
+            app.get('/mobile', (req, res) => {
+
+                    let id;
+                    let admin;
+                    let pinIndex;
+                    const admin_page = true;
+                    const currentUser = req.user;
+                    let width = 550;
+                    let height;
+                    let scalePercentage;
+
+                    if (currentUser){
+                        id = currentUser._id
+                    }
+
+                    User.findOne({_id: id}).then( user => {
+
+                        if (user){
+                            admin = user.admin
+                            pinIndex = user.pinIndex
+                        }
+
+                        Pin.findOne({pinIndex : pinIndex}).then( pin => {
+                            if (pin) {
+                                scalePercentage = pin.width / width
+                                height = scalePercentage * pin.height
+                            }
+
+                            res.render('mobile', {currentUser, pin, admin, admin_page, pinIndex, width, height});
+                        });
+                    });
+                });
 };

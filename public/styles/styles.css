@@ -31,7 +31,7 @@
     border-color: #fd7014;
     width: 200px;
     margin-left: 170px;
-    margin-top: 100px;
+    margin-top: 30px;
 }
 
 .container{
@@ -70,6 +70,8 @@
     background-color: #313131;
     width: 600px;
     height: 550px;
+        margin-right: auto;
+        margin-left: auto;
 }
 
 .login_signup_container{
@@ -120,8 +122,11 @@
 } */
 
 .text-right{
-    margin-top: -70px;
+    height: 100px;
+    /* margin-top: -70px; */
+    /* background-color: orange; */
 }
+
 
 
 .page-index{
@@ -254,24 +259,7 @@ h3{
 }
 
 
-.navbar-center{
-    display: flex;
-    padding-top: 20px;
-    margin-left: -250px;
-    margin-bottom: -40px;
-    align-items: baseline;
-}
 
-.navbar{
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    /* margin: 10px; */
-    width: 100%;
-    height: auto;
-    background-color: #313131;
-    border-color: #313131;
-}
 
 body{
     background-color: #414141;
@@ -333,6 +321,33 @@ h1{
     left: auto;
 }
 
+.navbar-right{
+    margin-left: 900px;
+    float: right;
+
+}
+
+.navbar-center{
+    display: flex;
+    padding-top: 20px;
+    /* margin-left: -150px; */
+    margin-bottom: -40px;
+    align-items: baseline;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    /* margin: 10px; */
+    width: 100%;
+    height: auto;
+    background-color: #313131;
+    border-color: #313131;
+    /* background-color: blue; */
+
+}
+
 
 @media only screen and (max-width: 975px) {
 
@@ -347,51 +362,34 @@ h1{
 
 
 
+
+
+
 @media only screen and (max-width: 1450px) {
     .navbar-brand{
         visibility: hidden;
     }
 
     .navbar-center{
-        margin-top: -100px;
+        margin-top: -30px;
         /* margin-left: -150px; */
         /* transform: scale(1.4) */
         /* margin-right: 100px; */
-        margin-left: 1%;
-        margin-right: 30%;
+        margin-left: 1px;
+        /* margin-right: 100px; */
     }
 
     .navbar{
         /* width: 130%; */
         height: 0;
+        /* margin-top: 10px; */
     }
 
     .picture_container{
-        margin-top: -200px;
+        margin-top: -100px;
     }
 
-    .pin_container{
-        transform: scale(.75);
-        /* margin-right: -100px; */
-        margin-left: 1vw;
-        margin-right: 1vw;
-    }
 
-    .info_container{
-        transform: scale(.85);
-        margin-left: -15px;
-    }
-
-    .pins_container {
-        margin-top: -2700px;
-        margin-bottom: -2700px;
-        transform: scale(.3);
-    }
-
-    .info_container{
-        /* width: 100%; */
-        /* margin-left: -50px; */
-    }
 
     /* .login_signup_container{
         transform: scale(.8);
@@ -426,6 +424,104 @@ h1{
         transform: scale(.8);
         /* margin-left: -150px; */
         width: 400px;
+    }
+
+    .navbar-right{
+        margin-right: 10px;
+       margin-left: 100px;
+    }
+}
+
+/* (max-width: 1450px) */
+/* (max-width: 769px) */
+
+@media only screen and (max-width: 769px) {
+
+    .navbar{
+        height: 100px;
+        /* margin-top: -100px */
+        /* margin-bottom: -100px; */
+    }
+
+    .navbar-center{
+        /* background-color: blue; */
+        height: 50px;
+        margin-bottom: -100px;
+    }
+
+
+    .navbar-right{
+        flex-wrap: wrap;
+        align-self: center;
+        align-content: flex-end;
 
     }
+
+    .add_pin_button{
+        /* padding-top: 20px; */
+        transform: scale(.8);
+        /* margin-left: -150px; */
+        width: 400px;
+        margin-right: -100px;
+    }
+
+    .pin_container{
+        transform: scale(.75);
+        /* margin-right: -100px; */
+        margin-left: 1vw;
+        margin-right: 1vw;
+    }
+
+    .info_container{
+        transform: scale(.85);
+        margin-left: -15px;
+    }
+
+    .pins_container {
+        margin-top: -2600px;
+        margin-bottom: -2700px;
+        transform: scale(.3);
+    }
+
+    .not_picture_container{
+        margin-left: 0px;
+    }
+
+    .stats_container{
+        margin-right: auto;
+        margin-left: auto;
+
+    }
+
+
+}
+
+
+@media only screen and (min-width: 770px) and (max-width: 1450px) {
+
+
+    .navbar-center{
+        /* background-color: orange; */
+        margin-top: -80px;
+    }
+
+    .pin_container{
+        /* background-color: yellow; */
+    }
+
+    .not_picture_container{
+        /* margin-left: 0px; */
+        /* background-color: red; */
+    }
+
+    .stats_container{
+        margin-right: auto;
+        margin-left: auto;
+
+    }
+
+    .picture_container{
+        margin-top: 100px;
+    }
+
 }
