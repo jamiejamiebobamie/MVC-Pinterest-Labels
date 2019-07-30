@@ -1,4 +1,20 @@
-
+{{#if mobile}}
+<div class="navbar_sticky_bottom navbar-light bg-light">
+  <div class="container-fluid">
+      <div class="mobile_button_overlay">
+          <button class="mobile_button_large" id="male_monster">male monster</button>
+          <button class="mobile_button_large" id="monster">monster</button>
+          <button class="mobile_button_large"id="female_monster">female monster</button>
+          <button class="mobile_button_large"id="male">male</button>
+          <button class="mobile_button_large"id="next_mobile">next</button>
+          <button class="mobile_button_large"id="female">female</button>
+          <button class="mobile_button_large"id="male_environment">male environment</button>
+          <button class="mobile_button_large"id="environment">environment</button>
+          <button class="mobile_button_large"id="female_environment">female environment</button>
+      </div>
+  </div>
+</div>
+{{else}}
 {{#if admin_page}}
     {{else}}
     {{#if currentUser}}
@@ -15,4 +31,5 @@
           </div>
         </div>
     {{/if}}
+{{/if}}
 {{/if}}

@@ -551,7 +551,7 @@ module.exports = app => {
                     let id;
                     let admin;
                     let pinIndex;
-                    const admin_page = true;
+                    const admin_page = false;
                     const currentUser = req.user;
                     let width = 550;
                     let height;

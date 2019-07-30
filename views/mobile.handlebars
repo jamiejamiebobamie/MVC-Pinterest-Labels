@@ -1,20 +1,7 @@
 {{#if currentUser}}
     <div class="pin_container">
         <div class="picture_container">
-            <div class="mobile_button_overlay">
-                <button class="mobile_button_large">male monster</button>
-                <button class="mobile_button_large">monster</button>
-                <button class="mobile_button_large">female monster</button>
-                <button class="mobile_button_large">male</button>
-                <button class="mobile_button_large">next</button>
-                <button class="mobile_button_large">female</button>
-                <button class="mobile_button_large">male environment</button>
-                <button class="mobile_button_large">environment</button>
-                <button class="mobile_button_large">female environment</button>
-            </div>
             <img src='{{pin.imgUrl}}' width="{{width}}" height="{{height}}" alt='picture not found. please report.' onerror=this.src="images/missing_image.png">
-
-
         </div>
     </div>
     {{else}}
