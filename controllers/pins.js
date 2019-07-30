@@ -21,7 +21,7 @@ module.exports = app => {
     // primary pin-labelling functionality.
     // pins are pulled from database and referenced by index.
         app.get('/', (req, res) => {
-
+            let mobile = false;
             let id;
             let admin;
             let pinIndex;
@@ -48,7 +48,7 @@ module.exports = app => {
                         height = scalePercentage * pin.height
                     }
 
-                    res.render('main', {currentUser, pin, admin, admin_page, pinIndex, width, height});
+                    res.render('main', {currentUser, pin, admin, admin_page, pinIndex, width, height, mobile});
                 });
             });
         });
@@ -56,6 +56,7 @@ module.exports = app => {
         // INDEX -- See the next pin
         app.get('/next', (req, res) => {
             const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
+            let mobile = false;
             const admin_page = false;
             let id;
             let pinIndex;
@@ -135,6 +136,7 @@ module.exports = app => {
            app.get('/previous', (req, res) => {
 
                const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
+               let mobile = false;
 
                const admin_page = false;
                let id;
@@ -216,6 +218,8 @@ module.exports = app => {
     app.get("/admin", (req,res)=> {
         const admin = true
         const admin_page = true;
+        let mobile = false;
+
         const currentUser = req.user;
         let latestPinIndex;
         let latestPinHeight;
@@ -246,7 +250,7 @@ module.exports = app => {
                     }
                     slicedPins = pins.slice(0,pins.length-1);
                     pins = slicedPins.reverse();
-                    res.render("admin", {currentUser, admin, admin_page, pins, latestPin, latestPinHeight, latestPinLabels})
+                    res.render("admin", {currentUser, admin, admin_page, pins, latestPin, latestPinHeight, latestPinLabels, mobile})
                 });
             });
         });
@@ -268,6 +272,8 @@ module.exports = app => {
         let info;
         let next;
         let index;
+        let mobile = false;
+
 
         let adminHeight
 
@@ -393,6 +399,7 @@ module.exports = app => {
 
      // DELETE THE PIN AND INDEX FROM DATABASE
      app.get('/delete/:index', (req, res) => {
+         let mobile = false;
 
          const admin_page = false;
          let id;
@@ -439,6 +446,7 @@ module.exports = app => {
         });
 
         app.get('/edit/:id', (req, res) => {
+            let mobile = false;
 
             let id;
             let admin;
@@ -467,7 +475,7 @@ module.exports = app => {
                         scalePercentage = pin.width / width
                         height = scalePercentage * pin.height
                     }
-                    res.render('edit_info', {currentUser, pin, admin, admin_page, pinIndex, width, height});
+                    res.render('edit_info', {currentUser, pin, admin, admin_page, pinIndex, width, height, mobile});
                 });
             });
             });
@@ -475,6 +483,7 @@ module.exports = app => {
         app.get('/submit_edit/:pinIndex', (req, res) => {
             let title = req.url.split("=").pop().replace(/\+/g, " ")
             let flagged = req.body
+            let mobile = false;
 
             let id;
             const currentUser = req.user;
@@ -499,6 +508,8 @@ module.exports = app => {
 
             let id;
             let pinIndex;
+            let mobile = false;
+
             let admin = true;
             const admin_page = false;
             const currentUser = req.user;
@@ -535,6 +546,7 @@ module.exports = app => {
 
             // INDEX -- See the next pin
             app.get('/mobile', (req, res) => {
+                    let mobile = true;
 
                     let id;
                     let admin;
@@ -562,7 +574,7 @@ module.exports = app => {
                                 height = scalePercentage * pin.height
                             }
 
-                            res.render('mobile', {currentUser, pin, admin, admin_page, pinIndex, width, height});
+                            res.render('mobile', {currentUser, pin, admin, admin_page, pinIndex, width, height, mobile});
                         });
                     });
                 });

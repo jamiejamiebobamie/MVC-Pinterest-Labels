@@ -18,7 +18,7 @@
     align-items: flex-start;
     /* margin-top: -30px; */
     margin-bottom: 50px;
-
+    z-index: 0;
 }
 
 .form-control-plaintext{
@@ -534,4 +534,28 @@ h1{
         margin-left: -5px;
     }
 
+}
+
+.mobile_button_overlay{
+    z-index: 1;
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* margin-left: 80%; */
+    margin-top: 50px;
+    margin-bottom: -400px;
+    /* float: right; */
+    background-color: orange;
+    opacity: .5;
+    width: 550px;
+    height: 400px;
+    align-self: flex-start;
+    padding: 20px;
+    /* margin: 10px */
+}
+
+.mobile_button_large{
+    width: 150px;
+    height: 150px;
+    border-radius: 100px;
 }
