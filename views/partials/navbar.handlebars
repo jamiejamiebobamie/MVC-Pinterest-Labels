@@ -13,6 +13,8 @@
             {{else}}
 
                 <nav aria-label="Page_navigation_example">
+                    <!-- <li><a href="/mobile"><h5>Mobile</h5></a></li> -->
+
                       <ul class="pagination">
                         <div class="navigate"><a class="page-link" href="/previous"><h3 class="report_words">Previous</h3></a></div>
                         <li class="page-item"><h3 class="report_words">{{pinIndex}}</h3></li>
@@ -31,7 +33,6 @@
                     <li><a href="/"><h5>Label Pins</h5></a></li>
                 {{else}}
                     <li><a href="/admin"><h5>Admin</h5></a></li>
-                    <li><a href="/mobile"><h5>Mobile</h5></a></li>
                 {{/if}}
             {{/if}}
           {{#if currentUser}}
