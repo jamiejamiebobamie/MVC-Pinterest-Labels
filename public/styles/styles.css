@@ -603,6 +603,7 @@ h1{
         /* padding-top: 20px; */
         /* transform: scale(.8); */
         /* margin-left: -150px; */
+        margin-top: 20px;
         width: 300px;
         /* margin-right: -50px; */
     }
@@ -634,6 +635,7 @@ h1{
     }
 
     .not_picture_container{
+        margin-top: 70px;
         margin-left: 0px;
     }
 
