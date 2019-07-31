@@ -621,9 +621,9 @@ h1{
     }
 
     .pins_container {
-        margin-top: -2600px;
+        margin-top: -2800px;
         margin-bottom: -2700px;
-        transform: scale(.3);
+        transform: scale(.25);
     }
 
     .mobile_button_overlay{
