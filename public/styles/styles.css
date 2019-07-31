@@ -711,6 +711,7 @@ h1{
 
 .mobile_right{
     /* background-color: pink; */
-    width: 300px;
+    justify-content: space-around;
+    width: 200px;
     margin-top: -20px;
 }
