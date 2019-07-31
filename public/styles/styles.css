@@ -25,6 +25,12 @@
     width: 100%;
 }
 
+.right_navigation{
+    list-style: none;
+    padding: 5px;
+    /* margin: -20px; */
+}
+
 .submit{
     background-color: #414141;
     border-style: solid;
@@ -140,9 +146,13 @@
     border-color: #313131;
         border-radius: 10px;
         border-style: solid;
-        border-color: #313131;
-        background-color:#313131;
+        background-color: #414141;
+        border-color: #414141;
+        margin-top: 10px;
+        /* margin-bottom: 10px; */
+        height: 80px;
         width: 300px;
+        margin-left: -100px;
 }
 
 .pagination{
@@ -150,26 +160,32 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: -10px;
-    background-color: #313131;
-    border-color: #313131;
+    background-color: #414141;
+    border-color: #414141;
+    /* background-color: #313131;
+    border-color: #313131; */
     width: 300px;
     border-radius: 30px;
 
 }
 
 .Page_navigation_example{
-    background-color: #313131;
-    border-color: #313131;
+    background-color: #414141;
+    border-color: #414141;
+    /* background-color: #313131;
+    border-color: #313131; */
     /* border-radius: 10px; */
-    background-color:#313131;
+    /* background-color:#313131; */
     border-radius: 0px;
 
 }
 
 .navigate{
-    background-color: #313131;
+    background-color: #414141;
+    border-color: #414141;
+    /* background-color: #313131; */
     /* background-color: #ffdd67;; */
-    border-color: #313131;
+    /* border-color: #313131; */
     margin: 10px;
     border-radius: 10px;
 }
@@ -315,33 +331,55 @@ h1{
     /* margin: 10vw; */
 }
 
-.navbar-brand{
+/* .navbar-brand{
     margin-bottom: 30px;
     position: absolute;
     left: auto;
-}
+} */
 
-.navbar-right{
-    margin-left: 900px;
-    float: right;
-
-}
-
-.navbar-center{
+.navbar_right{
+    /* background-color: red; */
     display: flex;
-    padding-top: 20px;
+    width: 300px;
+    justify-content: space-between;
+    /* margin: auto; */
+    /* padding: inherit; */
+    margin-left: 50vw;
+    margin-right: 50px;
+    /* margin-top: -10px; */
+    /* background-color: #313131;
+    border-color: #313131; */
+    /* float: right; */
+
+}
+
+/* .navbar-nav{
+    margin: auto;
+    margin-top: 100px;
+} */
+
+
+
+.navbar_center{
+    display: flex;
+    /* margin-top: 300px;; */
+    /* padding-top: -20px; */
+    /* margin-left: -900px; */
     /* margin-left: -150px; */
-    margin-bottom: -40px;
+    /* margin-bottom: -40px; */
     align-items: baseline;
+    /* background-color: pink; */
+    /* height: 400px; */
 }
 
 .navbar{
     display: flex;
-    justify-content: space-between;
+    flex-flow: row;
+    justify-content: flex-end;
     align-items: baseline;
     /* margin: 10px; */
     width: 100%;
-    height: auto;
+    height: 100px;
     background-color: #313131;
     border-color: #313131;
     /* background-color: blue; */
@@ -471,8 +509,8 @@ h1{
         visibility: hidden;
     }
 
-    .navbar-center{
-        margin-top: -30px;
+    .navbar_center{
+        /* margin-top: -30px; */
         /* margin-left: -150px; */
         /* transform: scale(1.4) */
         /* margin-right: 100px; */
@@ -482,7 +520,8 @@ h1{
 
     .navbar{
         /* width: 130%; */
-        height: 0;
+        height: 100px;
+                /* height: 100px; */
         /* margin-top: 10px; */
     }
 
@@ -517,9 +556,10 @@ h1{
         width: 400px;
     }
 
-    .navbar-right{
+    .navbar_right{
         margin-right: 10px;
-       margin-left: 100px;
+        /* margin-left: 100px; */
+            margin-left: 10vw;
     }
 }
 
@@ -529,22 +569,29 @@ h1{
 @media only screen and (max-width: 769px) {
 
     .navbar{
-        height: 100px;
-        /* margin-top: -100px */
+        height: 150px;
+        /* margin-top: 100px; */
         /* margin-bottom: -100px; */
     }
 
-    .navbar-center{
+    .right_navigation{
+        margin: -7px;
+    }
+
+    .navbar_center{
         /* background-color: blue; */
         height: 50px;
+        margin-top: 50px;
         margin-bottom: -100px;
     }
 
 
-    .navbar-right{
+    .navbar_right{
         flex-wrap: wrap;
         align-self: center;
         align-content: flex-end;
+        width: 100px;
+        /* margin-right: -50px; */
 
     }
 
@@ -608,10 +655,21 @@ h1{
 
 @media only screen and (min-width: 770px) and (max-width: 1450px) {
 
+    .add_pin_button{
+        margin-top: 20px;
+        width: 300px;
+        height: 80px;
+    }
 
-    .navbar-center{
+    .navbar_center{
         /* background-color: orange; */
-        margin-top: -80px;
+        /* margin-top: -1px; */
+    }
+
+    .navbar_right{
+        margin-right: 50px;
+        /* background-color: orange; */
+        /* margin-top: -1px; */
     }
 
     .pin_container{

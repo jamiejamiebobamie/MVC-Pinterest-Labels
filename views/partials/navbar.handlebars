@@ -1,5 +1,26 @@
 {{#if mobile}}
-
+<nav class="navbar navbar-default">
+<ul class="navbar_right">
+    {{#if admin}}
+        {{#if admin_page}}
+            <li class="right_navigation"><a href="/"><h5>Label Pins</h5></a></li>
+        {{else}}
+            <li class="right_navigation"><a href="/admin"><h5>Admin</h5></a></li>
+        {{/if}}
+    {{/if}}
+  {{#if currentUser}}
+    {{#if mobile}}
+        <li class="right_navigation"><a href="/"><h5>Desktop</h5></a></li>
+    {{else}}
+        <li class="right_navigation"><a href="/mobile"><h5>Mobile</h5></a></li>
+    {{/if}}
+        <li class="right_navigation"><a href="/logout"><h5>Logout</h5></a></li>
+      {{else}}
+        <li class="right_navigation"><a href="/login"><h5>Login</h5></a></li>
+        <li class="right_navigation"><a href="/sign-up"><h5>Sign Up</h5></a></li>
+  {{/if}}
+</ul>
+</nav>
 {{else}}
 <nav class="navbar navbar-default">
     <!-- <div class="navbar-header">
@@ -8,14 +29,13 @@
       </a>
     </div> -->
 
-    <div>
         {{#if currentUser}}
-        <ul class="nav navbar-nav navbar-center">
+        <ul class="navbar_center">
             {{#if admin_page}}
             <a href="/add-pins"> <button type="button" class="add_pin_button" name="add-pin"><h1>Add Pins</h1></button> </a>
             {{else}}
 
-                <nav aria-label="Page_navigation_example">
+                <div aria-label="Page_navigation_example">
                     <!-- <li><a href="/mobile"><h5>Mobile</h5></a></li> -->
 
                       <ul class="pagination">
@@ -23,28 +43,30 @@
                         <li class="page-item"><h3 class="report_words">{{pinIndex}}</h3></li>
                         <div class="navigate"><a class="page-link" href="/next"><h3 class="report_words">Next</h3></a></div>
                       </ul>
-                    </nav>
+                  </div>
             {{/if}}
         {{/if}}
         </ul>
-    </div>
 
-    <div>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="navbar_right">
             {{#if admin}}
                 {{#if admin_page}}
-                    <li><a href="/"><h5>Label Pins</h5></a></li>
+                    <li class="right_navigation"><a href="/"><h5>Label Pins</h5></a></li>
                 {{else}}
-                    <li><a href="/admin"><h5>Admin</h5></a></li>
+                    <li class="right_navigation"><a href="/admin"><h5>Admin</h5></a></li>
                 {{/if}}
             {{/if}}
           {{#if currentUser}}
-                <li><a href="/logout"><h5>Logout</h5></a></li>
+            {{#if mobile}}
+                <li class="right_navigation"><a href="/"><h5>Desktop</h5></a></li>
+            {{else}}
+                <li class="right_navigation"><a href="/mobile"><h5>Mobile</h5></a></li>
+            {{/if}}
+                <li class="right_navigation"><a href="/logout"><h5>Logout</h5></a></li>
               {{else}}
-                <li><a href="/login"><h5>Login</h5></a></li>
-                <li><a href="/sign-up"><h5>Sign Up</h5></a></li>
+                <li class="right_navigation"><a href="/login"><h5>Login</h5></a></li>
+                <li class="right_navigation"><a href="/sign-up"><h5>Sign Up</h5></a></li>
           {{/if}}
         </ul>
-    </div>
 </nav>
     {{/if}}

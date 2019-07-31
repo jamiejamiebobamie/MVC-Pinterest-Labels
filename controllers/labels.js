@@ -90,6 +90,77 @@ app.post("/labels", (req, res) => {
         });
     });
 
+    app.get("/mobile/:label", (req, res) => {
+
+            const LABEL_LOOKUP = ["male", "female", "monster", "environment"]
+            console.log(LABEL_LOOKUP)
+
+            let id;
+            let currentUser = req.user;
+            let index;
+
+            let labels // an array of one or two items
+
+            let pinLabels
+            let inputLabels
+            let unionOfLabels
+            let newArrayFromUnion
+
+            if (currentUser){
+                id = currentUser._id
+            }
+
+            User.findOne( { _id : id } ).then( user => {
+
+                if (user){
+                    index = user.pinIndex
+                    labels = req.url.split("/").pop().split("+")
+                    console.log("labels are ", labels)
+                    console.log(labels[0], labels[0] == "next")
+                } else {
+                    res.redirect("/login")
+                }
+
+                if (labels[0] != "next") {
+
+                Pin.findOne( { pinIndex: index } ).then( pin => {
+
+                    if (pin) {
+                        pinLabels = pin.labels
+                    }
+
+                    let arr = [];
+                    for (let i = 0; i < labels.length; i++){
+                        if (LABEL_LOOKUP.includes(labels[i])) {
+                            arr.push({name: labels[i], pin: pin})
+                            console.log("inserting ", labels[i])
+                        }
+                    }
+
+                    console.log("actually insterting", arr)
+
+                    Label.insertMany(arr, {ordered:false}).then(() => {
+                        pinLabels = new Set(pinLabels)
+                        inputLabels = new Set(labels)
+                        unionOfLabels = union(pinLabels, inputLabels)
+                        newArrayFromUnion = Array.from(unionOfLabels)
+                        pin.labels = newArrayFromUnion
+                        pin.save().then((pin) => {
+                                user.pinIndex += 1 // need to increment the user's pin index
+                                user.save().then(() => {
+                                    res.redirect("/mobile")
+                                })
+                            })
+                        });
+                    });
+                } else {
+                    user.pinIndex += 1 // need to increment the user's pin index
+                    user.save().then(() => {
+                        res.redirect("/mobile")
+                    })}
+            });
+    });
+
 // as a string is passed in through the url and then used to look up the respective pin,
 // labels with foriegn characters cannot be deleted from the database...
 
