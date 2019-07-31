@@ -581,7 +581,7 @@ h1{
     }
 
     .navbar_center{
-        /* transform: scale(.9); */
+        transform: scale(.9);
         /* background-color: blue; */
         height: 50px;
         margin-top: 50px;
@@ -601,10 +601,10 @@ h1{
 
     .add_pin_button{
         /* padding-top: 20px; */
-        transform: scale(.8);
+        /* transform: scale(.8); */
         /* margin-left: -150px; */
         width: 300px;
-        margin-right: -50px;
+        /* margin-right: -50px; */
     }
 
     .pin_container{
