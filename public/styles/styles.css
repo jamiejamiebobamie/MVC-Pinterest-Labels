@@ -87,6 +87,7 @@
     background-color: #313131;
     width: 600px;
     height: 550px;
+    margin-top: 100px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -514,6 +515,7 @@ h1{
         transform: scale(.8);
         /* margin-left: auto;
         margin-right: auto; */
+        margin-top: 40px;
     }
 
 }
@@ -660,8 +662,9 @@ h1{
     }
 
     .login_signup_container{
-        /* transform: scale(.8); */
+        transform: scale(.7);
         margin-left: -63px;
+        margin-top: 0px;
         /* margin-right: 30px; */
     }
 
@@ -679,6 +682,12 @@ h1{
         margin-top: 20px;
         width: 300px;
         height: 80px;
+    }
+
+    .pins_container{
+        margin-top: -1700px;
+        margin-bottom: -2700px;
+        transform: scale(.5);
     }
 
     .navbar_center{
