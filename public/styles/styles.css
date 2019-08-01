@@ -398,7 +398,7 @@ h1{
     /* margin-bottom: -610px; */
     /* float: right; */
     /* background-color: orange; */
-    opacity: .8;
+    opacity: .6;
     width: 550px;
     height: 400px;
     align-self: flex-start;
@@ -406,7 +406,7 @@ h1{
     /* margin: 10px */
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 90px;
+    margin-bottom: 230px;
 }
 
 .mobile_button_large{
@@ -480,6 +480,18 @@ h1{
     background-color: #c8e88f;
     }
 
+#male_monster_environment{
+    background-color: #92ACB6;
+}
+
+#female_monster_environment{
+    background-color: #E1D48A;
+
+}
+
+#monster_environment{
+    background-color: #CEA986;
+}
 
 #next_mobile:hover{
     background-color: #fd7014;
@@ -628,7 +640,7 @@ h1{
 
     .mobile_button_overlay{
         transform: scale(.75);
-        margin-bottom: 5px;
+        margin-bottom: 130px;
         margin-left: -90px;
         /* margin-left: auto;
         margin-right: auto; */

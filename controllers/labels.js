@@ -116,12 +116,12 @@ app.post("/labels", (req, res) => {
                     index = user.pinIndex
                     labels = req.url.split("/").pop().split("+")
                     console.log("labels are ", labels)
-                    console.log(labels[0], labels[0] == "next")
+                    console.log(labels[0], labels[0] == "next", labels[0] == "previous", labels[0] != "next" && labels[0] != "previous")
                 } else {
                     res.redirect("/login")
                 }
 
-                if (labels[0] != "next") {
+                if (labels[0] != "next" && labels[0] != "previous") {
 
                 Pin.findOne( { pinIndex: index } ).then( pin => {
 
@@ -154,10 +154,18 @@ app.post("/labels", (req, res) => {
                         });
                     });
                 } else {
+                    if (labels[0] == "next") {
                     user.pinIndex += 1 // need to increment the user's pin index
                     user.save().then(() => {
                         res.redirect("/mobile")
-                    })}
+                    })
+                    } else if ( labels[0] == "previous") {
+                    console.log("hello previous")
+                    user.pinIndex -= 1 // need to increment the user's pin index
+                    user.save().then(() => {
+                        res.redirect("/mobile")
+                    })
+                }}
             });
     });
 
