@@ -662,9 +662,12 @@ h1{
     }
 
     .login_signup_container{
-        transform: scale(.7);
-        margin-left: -63px;
+        /* transform: scale(.7); */
+        /* margin-left: -63px; */
+        margin-left: auto;
+        margin-right: auto;
         margin-top: 0px;
+        width: 100%;
         /* margin-right: 30px; */
     }
 
