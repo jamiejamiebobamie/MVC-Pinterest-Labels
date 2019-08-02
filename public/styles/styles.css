@@ -556,11 +556,15 @@ section{
 }
 
 
-.how_why{
+.who_why{
     display: flex;
     flex-direction: column;
-    margin-left: 30px;
+
     /* margin-right: 70%; */
+}
+
+#how{
+        margin-left: 70px;
 }
 
 .info_header_section{
