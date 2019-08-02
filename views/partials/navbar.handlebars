@@ -4,14 +4,16 @@
     <li class="right_navigation"><a href="mobile/previous"><h5>Previous</h5></a></li>
 </ul>
 <ul class="navbar_right mobile_right">
-    {{#if admin}}
-        {{#if admin_page}}
-            <li class="right_navigation"><a href="/"><h5>Label Pins</h5></a></li>
-        {{else}}
-            <li class="right_navigation"><a href="/admin"><h5>Admin</h5></a></li>
-        {{/if}}
-    {{/if}}
   {{#if currentUser}}
+  {{#if admin}}
+      {{#if admin_page}}
+          <li class="right_navigation"><a href="/"><h5>Desktop</h5></a></li>
+      {{else}}
+          <li class="right_navigation"><a href="/admin"><h5>Admin</h5></a></li>
+      {{/if}}
+      {{else}}
+      <li class="right_navigation"><a href="/info"><h5>Info</h5></a></li>
+  {{/if}}
     {{#if mobile}}
         <li class="right_navigation"><a href="/"><h5>Desktop</h5></a></li>
     {{else}}
@@ -25,12 +27,18 @@
 </ul>
 </nav>
 {{else}}
+
+
 <nav class="navbar navbar-default">
-    <!-- <div class="navbar-header">
-      <a class="navbar-brand" href="/">
-        <h2>Pinterest Image Labeling</h2>
+    {{#if currentUser}}
+        {{else}}
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.pinterest.com">
+          <img src='images/pinterest_logo_orange.png' width="200" height="200" title="Go to Pinterest!">
+
       </a>
-    </div> -->
+    </div>
+    {{/if}}
 
         {{#if currentUser}}
         <ul class="navbar_center">
@@ -54,10 +62,12 @@
         <ul class="navbar_right">
             {{#if admin}}
                 {{#if admin_page}}
-                    <li class="right_navigation"><a href="/"><h5>Label Pins</h5></a></li>
+                    <li class="right_navigation"><a href="/"><h5>Desktop</h5></a></li>
                 {{else}}
                     <li class="right_navigation"><a href="/admin"><h5>Admin</h5></a></li>
                 {{/if}}
+                {{else}}
+                <li class="right_navigation"><a href="/info"><h5>Info</h5></a></li>
             {{/if}}
           {{#if currentUser}}
             {{#if mobile}}

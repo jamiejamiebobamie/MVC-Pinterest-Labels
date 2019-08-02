@@ -94,4 +94,27 @@ app.get('/logout', (req, res) => {
    res.render('login');
  });
 
+//INFO ROUTE
+app.get('/info', (req, res) => {
+ let mobile = false;
+ let id;
+ let admin;
+ let pinIndex;
+ const admin_page = false;
+ const currentUser = req.user;
+
+ if (currentUser){
+     id = currentUser._id
+ }
+
+ User.findOne({_id: id}).then( user => {
+
+     if (user){
+         admin = user.admin
+         pinIndex = user.pinIndex
+     }
+
+     res.render('info_page', {currentUser, admin_page, admin, pinIndex});
+ });
+});
 };

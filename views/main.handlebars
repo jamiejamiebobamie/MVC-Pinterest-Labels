@@ -6,7 +6,7 @@
         </div>
 
     {{#if admin}}
-        <div class="info_container">
+        <div class="pin_info_container">
 
                 <a class="delete_button" href="/delete/{{pinIndex}}">
 
@@ -43,7 +43,7 @@
 
         </div>
     {{else}}
-        <div class="info_container">
+        <div class="pin_info_container">
             <a class="report_button" href="/flagPin/{{pinIndex}}">
                 <button class="report"><h3 class="report_words">Report Pin</h3></button></a>
             <div class="stats_container">
@@ -60,5 +60,8 @@
     {{/if}}
 
     </div>
+
+    {{else}}
+    {{> info}}
 
 {{/if}}
