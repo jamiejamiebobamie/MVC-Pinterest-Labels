@@ -802,6 +802,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         transform: scale(.85);
         margin-left: -5px;
         margin-top: -350px;
+        margin-bottom: -300px;
     }
 
     .pins_container {
@@ -859,6 +860,10 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
 
     .pagination{
         margin-left: -50px;
+    }
+
+    #how{
+        margin-left: auto;
     }
 
 
