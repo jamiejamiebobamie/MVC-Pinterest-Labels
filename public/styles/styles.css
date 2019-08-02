@@ -776,7 +776,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .add_pin_button{
         /* padding-top: 20px; */
         /* transform: scale(.8); */
-        /* margin-left: -150px; */
+        margin-left: -30px;
         margin-top: 20px;
         width: 300px;
         /* margin-right: -50px; */
@@ -852,6 +852,11 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .navbar-brand{
         margin-left: -30px;
     }
+
+    .pagination{
+        margin-left: -20px;
+    }
+
 
 }
 
