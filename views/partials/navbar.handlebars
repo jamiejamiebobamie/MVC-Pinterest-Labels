@@ -60,13 +60,16 @@
         </ul>
 
         <ul class="navbar_right">
+
             {{#if admin}}
                 {{#if admin_page}}
-                    <li class="right_navigation"><a href="/"><h5>Desktop</h5></a></li>
-                {{else}}
-                    <li class="right_navigation"><a href="/admin"><h5>Admin</h5></a></li>
+                        {{#if currentUser}}
+                            <li class="right_navigation"><a href="/"><h5>Desktop</h5></a></li>
+                        {{/if}}
+                    {{else}}
+                        <li class="right_navigation"><a href="/admin"><h5>Admin</h5></a></li>
                 {{/if}}
-                {{else}}
+            {{else}}
                 <li class="right_navigation"><a href="/info"><h5>Info</h5></a></li>
             {{/if}}
           {{#if currentUser}}
