@@ -733,6 +733,11 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .info_container{
         flex-direction: column;
     }
+
+        #how{
+            margin-left: auto;
+        }
+
 }
 
 /* (max-width: 1450px) */
@@ -862,9 +867,6 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         margin-left: -50px;
     }
 
-    #how{
-        margin-left: auto;
-    }
 
 
 }
