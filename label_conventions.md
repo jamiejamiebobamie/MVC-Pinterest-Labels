@@ -53,3 +53,6 @@ EXAMPLE:
 (male, monster, environment) (female, monster) (male, female) (environment) (male)
 
 misc will be applied to images that do not have a primary subject (an image of a group or couple) or if the subject matter is abstract
+
+
+above^^ information is more my ideation process. please refer to the info page of the live website for more up-to-date information regarding labeling schema.
