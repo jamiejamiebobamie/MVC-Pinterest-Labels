@@ -424,14 +424,16 @@ h1{
     /* background-color: orange; */
     opacity: .6;
     width: 550px;
-    height: 400px;
+    height: 700px;
     align-self: flex-start;
     padding: 50px;
     /* margin: 10px */
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 200px;
+    top: 200px;
     /* transform: rotate(-2deg); */
+    background-color: red;
+    /* padding-top: 100px; */
 }
 
 .mobile_button_large{
@@ -833,7 +835,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .mobile_button_overlay{
         transform: scale(.75);
         /* margin-bottom: 130px; */
-        margin-bottom: 100px;
+        margin-bottom: -100px;
 
         margin-left: -90px;
         /* margin-left: auto; */
