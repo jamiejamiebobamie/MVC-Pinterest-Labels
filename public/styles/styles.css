@@ -426,18 +426,17 @@ h1{
     width: 550px;
     height: 400px;
     align-self: flex-start;
-    padding: 20px;
-
+    padding: 50px;
     /* margin: 10px */
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 400px;
+    margin-bottom: 200px;
     /* transform: rotate(-2deg); */
 }
 
 .mobile_button_large{
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     width: 130px;
     height: 130px;
     /* width: 90px;
@@ -834,11 +833,11 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .mobile_button_overlay{
         transform: scale(.75);
         /* margin-bottom: 130px; */
-        margin-bottom: 200px;
+        margin-bottom: 100px;
 
-        margin-left: -23px;
+        margin-left: -90px;
         /* margin-left: auto; */
-        margin-right: auto;
+        /* margin-right: auto; */
     }
 
     .not_picture_container{
@@ -872,7 +871,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     }
 
     /* color: red !important; */
-    img{
+    .current_image{
         width: 100% !important;
     }
 

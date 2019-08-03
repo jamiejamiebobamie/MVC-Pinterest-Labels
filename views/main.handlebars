@@ -2,7 +2,7 @@
     <div class="pin_container">
 
         <div class="picture_container">
-            <img src='{{pin.imgUrl}}' width="{{width}}" height="{{height}}" alt='picture not found. please report.' onerror=this.src="images/missing_image.png">
+            <img src='{{pin.imgUrl}}' width="{{width}}" height="{{height}}" class="current_image" alt='picture not found. please report.' onerror=this.src="images/missing_image.png">
         </div>
 
     {{#if admin}}
