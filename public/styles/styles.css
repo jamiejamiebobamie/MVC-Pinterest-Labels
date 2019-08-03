@@ -419,21 +419,22 @@ h1{
     justify-content: space-around;
     /* margin-left: 80%; */
     /* margin-top: 290px; */
-    margin-bottom: 30px;
+    margin-bottom: 0px;
     /* float: right; */
     /* background-color: orange; */
     opacity: .6;
     width: 400px;
     height: 500px;
     align-self: flex-start;
-    padding: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 50px;
     /* margin: 10px */
     margin-left: auto;
     margin-right: auto;
     top: 200px;
     /* transform: rotate(-2deg); */
     background-color: red;
-    /* padding-top: 100px; */
 }
 
 .mobile_button_large{
@@ -835,10 +836,10 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .mobile_button_overlay{
         transform: scale(.8);
         /* margin-bottom: 130px; */
-        margin-bottom: -20px;
+        margin-bottom:-50px;
 
         margin-left: -50px;
-        margin-left: auto;
+        /* margin-left: auto; */
         margin-right: auto;
     }
 
