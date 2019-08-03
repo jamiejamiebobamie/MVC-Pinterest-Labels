@@ -566,6 +566,8 @@ module.exports = app => {
                         if (user){
                             admin = user.admin
                             pinIndex = user.pinIndex
+                        } else {
+                            res.redirect("/login")
                         }
 
                         Pin.findOne({pinIndex : pinIndex}).then( pin => {
