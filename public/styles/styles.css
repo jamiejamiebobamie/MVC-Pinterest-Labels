@@ -423,8 +423,8 @@ h1{
     /* float: right; */
     /* background-color: orange; */
     opacity: .6;
-    width: 550px;
-    height: 700px;
+    width: 400px;
+    height: 500px;
     align-self: flex-start;
     padding: 50px;
     /* margin: 10px */
@@ -439,8 +439,8 @@ h1{
 .mobile_button_large{
     margin-top: 3px;
     margin-bottom: 3px;
-    width: 130px;
-    height: 130px;
+    width: 90px;
+    height: 90px;
     /* width: 90px;
     height: 90px; */
     /* border-radius: 100px; */
@@ -837,7 +837,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         /* margin-bottom: 130px; */
         margin-bottom: -100px;
 
-        margin-left: -90px;
+        margin-left: -50px;
         /* margin-left: auto; */
         /* margin-right: auto; */
     }
