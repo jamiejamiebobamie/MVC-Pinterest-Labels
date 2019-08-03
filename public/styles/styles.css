@@ -434,7 +434,7 @@ h1{
     margin-right: auto;
     top: 200px;
     /* transform: rotate(-2deg); */
-    background-color: red;
+    /* background-color: red; */
 }
 
 .mobile_button_large{
@@ -547,7 +547,7 @@ h1{
 
 .mobile{
     /* height: 70px; */
-    margin-bottom: 126px;
+    margin-bottom: 100px;
 }
 
 .mobile_right{
