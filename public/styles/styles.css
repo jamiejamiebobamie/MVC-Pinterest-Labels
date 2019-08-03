@@ -419,7 +419,7 @@ h1{
     justify-content: space-around;
     /* margin-left: 80%; */
     /* margin-top: 290px; */
-    /* margin-bottom: -610px; */
+    margin-bottom: 30px;
     /* float: right; */
     /* background-color: orange; */
     opacity: .6;
@@ -833,13 +833,13 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     }
 
     .mobile_button_overlay{
-        transform: scale(.75);
+        transform: scale(.8);
         /* margin-bottom: 130px; */
-        margin-bottom: -100px;
+        margin-bottom: -20px;
 
         margin-left: -50px;
-        /* margin-left: auto; */
-        /* margin-right: auto; */
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .not_picture_container{
