@@ -216,7 +216,7 @@ module.exports = app => {
     // displays last added pin at top: enlarged and with stats
     // display pins in database
     app.get("/admin", (req,res)=> {
-        const admin = true
+        let admin = false
         const admin_page = true;
         let mobile = false;
 
@@ -231,15 +231,24 @@ module.exports = app => {
 
         if (currentUser){
             id = currentUser._id
+        } else {
+            res.redirect('/login')
         }
 
         User.findOne({_id: id}).then( user => {
 
             if (user){
+                admin = user.admin
                 latestPinIndex = user.newPinIndex
                 if (user.newPinIndex > 100){
                     lastOneHundred = user.newPinIndex - 100
                 }
+            } else {
+                return res.redirect('/login')
+            }
+
+            if (!admin){
+                return res.redirect('/')
             }
 
             Pin.find({pinIndex: { $gt: lastOneHundred }}).limit(100).then( pins => {

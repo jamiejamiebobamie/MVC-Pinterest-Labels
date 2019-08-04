@@ -586,7 +586,8 @@ section{
     /* color:#313131; */
     /* color: #ffdd67; */
     /* color: #f0ece2; */
-color: #A9A9A9;
+/* color: #A9A9A9; */
+color: #eeeeee;
     /* color:#313131; */
         font-size: 40px;
         /* text-decoration: underline;
@@ -614,7 +615,8 @@ color: #A9A9A9;
 
 
 h6{
-    color: #fd7014;
+    color: #ede68a;
+    /* color: #fd7014; */
     /* color: #f0ece2; */
     font-size: 50px;
 }
@@ -825,7 +827,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         transform: scale(.85);
         margin-left: -5px;
         margin-top: -350px;
-        margin-bottom: -300px;
+        margin-bottom: -350px;
     }
 
     .pins_container {

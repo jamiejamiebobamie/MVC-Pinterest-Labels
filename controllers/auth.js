@@ -17,6 +17,7 @@ app.post("/sign-up", (req, res) => {
   // Create User and JWT
   let highestPinIndex;
   let pullPinIndex;
+  let adminPinIndex;
   const user = new User(req.body);
 
   if (req.body.adminCode == process.env.ADMIN_CODE){
@@ -29,17 +30,19 @@ app.post("/sign-up", (req, res) => {
       if (administrator) {
           highestPinIndex = administrator.newPinIndex;
           pullPinIndex = administrator.pullPinIndex;
+          adminPinIndex = administrator.pinIndex;
       }
 
       if (highestPinIndex) {
           user.newPinIndex = highestPinIndex;
           user.pullPinIndex = pullPinIndex;
+          user.pinIndex = adminPinIndex; // an attempt to start the user off where I am.
       } else {
           user.newPinIndex = 0;
           user.pullPinIndex = 0;
+          user.pinIndex = 1;
       }
 
-  user.pinIndex = 1;
   user.save().then((user) => {
       var token = jwt.sign({ _id: user._id }, process.env.SECRET, { expiresIn: "60 days" });
       res.cookie('nToken', token, { maxAge: 3600000, httpOnly: true }); // 3 600 000 == 60 minutes, originally 900 000 == 15 minutes
