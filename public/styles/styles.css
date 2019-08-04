@@ -999,6 +999,11 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         transform: scale(.5);
     }
 
+    /* .info_header{
+        margin-top: -25px;
+
+    } */
+
     .navbar_center{
         /* background-color: orange; */
         /* margin-top: -1px; */

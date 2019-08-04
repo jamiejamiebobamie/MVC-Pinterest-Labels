@@ -39,6 +39,8 @@ app.post("/labels", (req, res) => {
 
             if (user){
                 index = user.pinIndex
+            } else {
+                return res.redirect('/login')
             }
 
             Pin.findOne( { pinIndex: index } ).then( pin => {
@@ -186,6 +188,8 @@ app.post("/labels", (req, res) => {
                 if (user){
                     index = user.pinIndex
                     label_name = req.url.split("/").pop()
+                } else {
+                    return res.redirect('/login')
                 }
 
                 Pin.findOne( { pinIndex : index } ).then( pin => {

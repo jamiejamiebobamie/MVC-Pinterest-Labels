@@ -450,6 +450,8 @@ module.exports = app => {
                          }
                      });
                  });
+                } else {
+                    return res.redirect('/login')
                 }
             });
         });
@@ -476,6 +478,8 @@ module.exports = app => {
                 if (user){
                     admin = user.admin
                     pinIndex = user.pinIndex
+                } else {
+                    return res.redirect('/login')
                 }
 
                 Pin.findOne({pinIndex : pinIndex}).then( pin => {
@@ -502,6 +506,8 @@ module.exports = app => {
             }
 
             User.findOne({_id: id}).then( user => {
+                if (user){
+
                 Pin.findOne({pinIndex : user.pinIndex}).then( pin => {
                     pin.title = title
                     pin.flagged = false;
@@ -509,6 +515,9 @@ module.exports = app => {
                         res.redirect('/');
                     })
                 });
+                } else {
+                    return res.redirect('/login')
+                }
             });
     });
 
@@ -532,6 +541,8 @@ module.exports = app => {
                 if (user){
                     user.pinIndex = index
                     user.save()
+                } else {
+                    return res.redirect('/login')
                 }
 
                 Pin.findOne({pinIndex : index}).then( pin => {
