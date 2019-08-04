@@ -824,6 +824,8 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .info_header{
         background-color: #E60023;
         margin-top: 50px;
+        margin-right: auto;
+        margin-left: auto;
     }
 
     /* .container{
@@ -832,8 +834,9 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
 
     .info_header_words{
         margin-top: 0px;
-        margin-left: 10px;
+        margin-left: 0px;
         margin-right: 40px;
+        font-size: 40px;
 
     }
 
@@ -888,7 +891,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         /* transform: scale(.85); */
         margin-left: 35px;
         margin-right: 20px;
-        margin-top: -20px;
+        margin-top: 0px;
         /* margin-bottom: -350px; */
         width: 90%;
     }
