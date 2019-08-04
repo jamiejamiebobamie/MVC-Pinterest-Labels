@@ -821,6 +821,21 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         margin-right: -50px;
     }
 
+    .h3_info_words{
+        color: #f0ece2;
+        font-size: 20px;
+        /* line-height: inherit; */
+    }
+
+    .article_header{
+        color: #f0ece2;
+        /* color: #fd7014; */
+        /* color: #f0ece2; */
+        font-size: 35px;
+        margin-bottom: 30px;
+
+    }
+
     .info_header{
         background-color: #E60023;
         margin-top: 50px;
@@ -836,7 +851,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         margin-top: 0px;
         margin-left: 0px;
         margin-right: 40px;
-        font-size: 40px;
+        font-size: 35px;
 
     }
 
@@ -893,7 +908,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         margin-right: 20px;
         margin-top: 0px;
         /* margin-bottom: -350px; */
-        width: 90%;
+        width: 85%;
     }
 
     .pins_container {
