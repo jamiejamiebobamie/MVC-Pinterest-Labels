@@ -819,15 +819,21 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         margin-right: -50px;
     }
 
-    /* .info_header{
+    .info_header{
         width: 100%;
-        background-color: red;
-    }*/
-    /* .banner{
-        width:100%;
-        overflow: inherit;
-        padding-right: auto;
-    } */
+        background-color: #E60023;
+    }
+
+    .info_header_words{
+        margin-top: 0px;
+    }
+
+    .banner{
+        /* width:100%; */
+        /* overflow: inherit; */
+        /* padding-right: auto; */
+        visibility: hidden;
+    }
 
 
     .navbar_right{
@@ -870,7 +876,7 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
     .info_container{
         transform: scale(.85);
         margin-left: -5px;
-        margin-top: -200px;
+        margin-top: -300px;
         margin-bottom: -350px;
     }
 
