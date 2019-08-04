@@ -833,12 +833,15 @@ h1,h2,h3,h4,h5,h6, .h3_info_words, .info_header_words{
         /* color: #f0ece2; */
         font-size: 35px;
         margin-bottom: 30px;
-
     }
+.info_header_section{
+    font-size: 30px;
+    /* color:  #E60023; */
+}
 
     .info_header{
         background-color: #E60023;
-        margin-top: 50px;
+        margin-top: -25px;
         margin-right: auto;
         margin-left: auto;
     }
