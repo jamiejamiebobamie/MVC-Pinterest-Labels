@@ -6,7 +6,8 @@ const request = require('request');
 
 module.exports = app => {
 
-    // from: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
+    // from:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set
     function union(setA, setB) {
         var _union = new Set(setA);
         for (var elem of setB) {
@@ -15,18 +16,29 @@ module.exports = app => {
             return _union;
         }
 
-    // GET route index page
+    // GET the "main" view / index page
     // displays the current pin the user left-off on or if no user is logged in display the info partial
     // this constitutes the "desktop" version of the site
     // pins are pulled from the database and referenced by index.
         app.get('/', (req, res) => {
-            let mobile = false;
+
+            // if it's the "main" view
+            // these booleans that control the navbar will always be false
+            const mobile = false;
+            const admin_page = false;
+
+            const currentUser = req.user;
+
+            // variables that are set when looking up the current user in the database
             let id;
             let admin;
             let pinIndex;
-            const admin_page = false;
-            const currentUser = req.user;
-            let width = 550;
+
+            // the width of the picture.
+            const width = 550; // THIS COULD BE SLIGHTLY SMALLER FOR MOBILE!
+
+            // the height of the picture.
+            // determined by the actual_width divided by the width variable (ie the 'scalePercentage').
             let height;
             let scalePercentage;
 
@@ -39,6 +51,9 @@ module.exports = app => {
                 if (user){
                     admin = user.admin
                     pinIndex = user.pinIndex
+                } else {
+                    // if user's session expires:
+                    res.redirect("/login")
                 }
 
                 Pin.findOne({pinIndex : pinIndex}).then( pin => {
@@ -53,13 +68,19 @@ module.exports = app => {
         });
 
         // INDEX -- See the next pin
+        // this route also adds label documents to the database as well as labels to the pin's 'labels' array attribute
+        // but this feature should be removed in the future.
+        // (FEATURE STILL PRESENT: If pin has no labels, iterate through the pin's 'title' attribute and add the words in the title as labels.)
         app.get('/next', (req, res) => {
             const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
-            let mobile = false;
+
+            const mobile = false;
             const admin_page = false;
+
+            const currentUser = req.user;
+
             let id;
             let pinIndex;
-            const currentUser = req.user;
 
             let new_string;
 
@@ -69,80 +90,89 @@ module.exports = app => {
 
             User.findOne({_id: id}).then( user => {
 
+                // if user, increment the user's pinindex by (plus) one
                 if (user){
                     User.findOne( { admin : true } ).then( administrator => {
-                    pinIndex = user.pinIndex
-                    highestIndex = administrator.newPinIndex
-                    if (pinIndex + 1 <= highestIndex){
-                        pinIndex += 1
-                        user.pinIndex = pinIndex
-                    } else {
-                        pinIndex = 1
-                        user.pinIndex = pinIndex
-                    }
-                    user.save()
+                        pinIndex = user.pinIndex
+                        highestIndex = administrator.newPinIndex
+                        if (pinIndex + 1 <= highestIndex){
+                            pinIndex += 1
+                            user.pinIndex = pinIndex
+                        } else {
+                            pinIndex = 1
+                            user.pinIndex = pinIndex
+                        }
+                        user.save()
                     });
+                } else {
+                    res.redirect("/login")
                 }
 
                 Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
+                    // if there is a pin document at that index
                     if (pin){
-
-                    if (pin.labels.length == 0) {
-                        array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
-                        for(let i = 0; i < array.length; i++){
-                            new_string = ""
-                            if (array[i].length > 0){
-                            for (let j = 0; j < array[i].length; j++){
-                                if (ALPHA_NUMERIC_LOOKUP.has(array[i][j])){
-                                    new_string+=array[i][j]
+                        // if the Pin document has no labels
+                        if (pin.labels.length == 0) {
+                            // add the words in the pin's "title" attribute as labels
+                            array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
+                            for(let i = 0; i < array.length; i++){
+                                new_string = ""
+                                if (array[i].length > 0){
+                                    for (let j = 0; j < array[i].length; j++){
+                                        if (ALPHA_NUMERIC_LOOKUP.has(array[i][j])){
+                                            new_string+=array[i][j]
+                                        }
+                                    }
+                                 if (new_string == ""){
+                                     array.splice(i,1)
+                                 } else {
+                                     array[i] = new_string;
+                                 }
                                 }
                             }
-                            if (new_string == ""){
-                                array.splice(i,1)
-                            } else {
-                                array[i] = new_string;
-                            }
-                        }
-                    }
-                        // checks for an array of a single empty string
-                        if (array.length >= 1 && array[0].length >= 1){
-
-                        pin.labels = array;
-                        let labels = []
-                        for (let i = 0; i < array.length; i++){
-                            labels.push({name:array[i], pin: pin})
-                        }
-                        labels.push({name: pin.hexCode, pin: pin})
-                        pin.save().then( () => {
-                            Label.insertMany(labels, {ordered:false}).then(() => {
+                            // checks for an array of a single empty string
+                            if (array.length >= 1 && array[0].length >= 1){
+                                pin.labels = array;
+                                let labels = []
+                                for (let i = 0; i < array.length; i++){
+                                    labels.push({name:array[i], pin: pin})
+                                }
+                                labels.push({name: pin.hexCode, pin: pin})
+                                pin.save().then( () => {
+                                    Label.insertMany(labels, {ordered:false}).then(() => {
                                         res.redirect("/")
                                     })
                                 });
-                        } else {
-                            res.redirect('/');
-                        }
                             } else {
-                            res.redirect('/');
-                        }
+                                res.redirect('/');
+                            }
+                            } else {
+                                res.redirect('/');
+                            }
                     } else {
                         res.redirect('/');
                     }
-                })
+                    })
                 });
             });
 
+
             // INDEX -- See the previous pin
+            // this route also adds label documents to the database as well as labels to the pin's 'labels' array attribute
+            // but this feature should be removed in the future.
+            // (FEATURE STILL PRESENT: If pin has no labels, iterate through the pin's 'title' attribute and add the words in the title as labels.)
            app.get('/previous', (req, res) => {
-
                const ALPHA_NUMERIC_LOOKUP = new Set("abcdefghijklmnopqrstuvwxyz1234567890".split(""))
-               let mobile = false;
 
+               const mobile = false;
                const admin_page = false;
-               let id;
-               let pinIndex;
+
                const currentUser = req.user;
 
-               let new_string
+               let id;
+               let pinIndex;
+
+               let new_string;
 
                if (currentUser){
                    id = currentUser._id
@@ -150,76 +180,88 @@ module.exports = app => {
 
                User.findOne({_id: id}).then( user => {
 
+                   // if user, increment the user's pinindex by (plus) one
                    if (user){
-                       User.findOne( { admin : true } ).then( administrator => {
-                       pinIndex = user.pinIndex
-                       highestIndex = administrator.newPinIndex
-                       if (pinIndex > 1){
-                           pinIndex -= 1
-                           user.pinIndex = pinIndex
-                       } else {
-                           user.pinIndex = highestIndex
-                       }
-                       user.save()
-                       });
-                   }
+                       User.findOne({_id: id}).then( user => {
+                           // if user, increment the user's pinindex by (minus) one
+                           if (user){
+                               User.findOne( { admin : true } ).then( administrator => {
+                               pinIndex = user.pinIndex
+                               highestIndex = administrator.newPinIndex
+                               if (pinIndex > 1){
+                                   pinIndex -= 1
+                                   user.pinIndex = pinIndex
+                               } else {
+                                   user.pinIndex = highestIndex
+                               }
+                               user.save()
+                               });
+                           } else {
+                               res.redirect("/login")
+                           }
 
                    Pin.findOne( { pinIndex : user.pinIndex } ).then( pin => {
+                       // if there is a pin document at that index
                        if (pin){
-
-                       if (pin.labels.length == 0) {
-                           array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
-                           for(let i = 0; i < array.length; i++){
-                               new_string = ""
-                               if (array[i].length > 0){
-                               for (let j = 0; j < array[i].length; j++){
-                                   if (ALPHA_NUMERIC_LOOKUP.has(array[i][j])){
-                                       new_string+=array[i][j]
+                           // if the Pin document has no labels
+                           if (pin.labels.length == 0) {
+                               // add the words in the pin's "title" attribute as labels
+                               array = Array.from(new Set(pin.title.toLowerCase().split(" ")));
+                               for(let i = 0; i < array.length; i++){
+                                   new_string = ""
+                                   if (array[i].length > 0){
+                                       for (let j = 0; j < array[i].length; j++){
+                                           if (ALPHA_NUMERIC_LOOKUP.has(array[i][j])){
+                                               new_string+=array[i][j]
+                                           }
+                                       }
+                                    if (new_string == ""){
+                                        array.splice(i,1)
+                                    } else {
+                                        array[i] = new_string;
+                                    }
                                    }
                                }
-                                if (new_string == ""){
-                                   array.splice(i,1)
-                               } else {
-                                   array[i] = new_string;
-                               }            // otherwise remove element from array or (better) don't add element to new array
-                           }
-                       }
-
-                           // checks for an array of a single empty string
-                           if (array.length >= 1 && array[0].length >= 1){
-
-                           pin.labels = array;
-                           let labels = []
-                           for (let i = 0; i < array.length; i++){
-                               labels.push({name:array[i], pin: pin})
-                           }
-                           labels.push({name: pin.hexCode, pin: pin})
-                           pin.save().then( () => {
-                               Label.insertMany(labels, {ordered:false}).then(() => {
+                               // checks for an array of a single empty string
+                               if (array.length >= 1 && array[0].length >= 1){
+                                   pin.labels = array;
+                                   let labels = []
+                                   for (let i = 0; i < array.length; i++){
+                                       labels.push({name:array[i], pin: pin})
+                                   }
+                                   labels.push({name: pin.hexCode, pin: pin})
+                                   pin.save().then( () => {
+                                       Label.insertMany(labels, {ordered:false}).then(() => {
                                            res.redirect("/")
                                        })
                                    });
-                           } else {
-                               res.redirect('/');
-                           }} else {
-                               res.redirect('/');
-                           }
+                               } else {
+                                   res.redirect('/');
+                               }
+                               } else {
+                                   res.redirect('/');
+                               }
                        } else {
                            res.redirect('/');
                        }
-                   })
+                       })
                    });
                });
 
     // get admin page
     // displays last added pin at top: enlarged and with stats
-    // display pins in database
+    // display last 100 pins in database
+    // going to change the functioanlity of this page when all the pins on my account have been added to the database
+    // the new functioanlity will be a search / filter feature that quickly allows me to remove labels from the pin.labels attribute
+    // to train a GAN it helps if images of the same type have similar visual characteristics
     app.get("/admin", (req,res)=> {
-        let admin = false
-        const admin_page = true;
-        let mobile = false;
 
+        const admin_page = true;
+        const mobile = false;
         const currentUser = req.user;
+
+        let admin = false
+
         let latestPinIndex;
         let latestPinHeight;
         let latestPinLabels;
@@ -269,8 +311,6 @@ module.exports = app => {
     app.get("/add-pins", (req,res)=> {
 
         // store the 'next' URL as an admin variable
-        // how often to call it / how many pins can i store at a time?
-        // also using the next URL doesn't provide me with another next url...
 
         let pins = [];
         let pullPinIndex; // the index to pull from on pinterest.
