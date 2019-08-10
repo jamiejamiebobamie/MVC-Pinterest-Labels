@@ -12,9 +12,6 @@ const exphbs = require('express-handlebars');
 
 const mongoose = require('mongoose');
 
-// Set db
-// const db = require('./data/pinterest');
-
 //middleware for JSON data
 const bodyParser = require('body-parser');
 const expressValidator = require('express-validator');
@@ -63,15 +60,13 @@ app.use(express.static('public'));
 // //heroku database.
 mongoose.connect((process.env.MONGODB_URI || 'mongodb://localhost/pinterest'), { useNewUrlParser: true });
 
-// local host database
-// mongoose.connect('mongodb://localhost/pinterest');
-
 //views middleware
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 app.listen(port);
 
+// local database
 // mongoose.connect(process.env.COMPOSE_URI, function (error) {
 //     if (error) console.error(error);
 //     else console.log('mongo connected');

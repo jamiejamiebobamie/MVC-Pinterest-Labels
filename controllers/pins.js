@@ -2,8 +2,6 @@ const jwt = require('jsonwebtoken');
 const User = require("../models/user");
 const Pin = require("../models/pin");
 const Label = require("../models/label")
-const fss = require('fast-string-search');
-const cheerio = require('cheerio');
 const request = require('request');
 
 module.exports = app => {
@@ -17,9 +15,10 @@ module.exports = app => {
             return _union;
         }
 
-    // INDEX // display current pin the user left-off on...
-    // primary pin-labelling functionality.
-    // pins are pulled from database and referenced by index.
+    // GET route index page
+    // displays the current pin the user left-off on or if no user is logged in display the info partial
+    // this constitutes the "desktop" version of the site
+    // pins are pulled from the database and referenced by index.
         app.get('/', (req, res) => {
             let mobile = false;
             let id;

@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const PinSchema = new Schema({
+
     // attributes assigned on pin creation:
     pinIndex: { type: Number, unique: true }, // the index of the pin. starts at 0. used when accessing the pin in the app.
     locale: { type: String }, // "locale": “en-US",
@@ -15,6 +16,7 @@ const PinSchema = new Schema({
     adminImgSizeWidth: {type: Number},
     adminImgSizeHeight: {type: Number},
 
+    // attributes added during the user experience:
     flagged: {type: Boolean },
 
     // attributes assigned when labels are assigned to the pin:
