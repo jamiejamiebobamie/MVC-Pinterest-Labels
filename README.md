@@ -14,7 +14,7 @@ The site also has two different types of users: **admins** and **regular** users
 Please check out the live site to help me label my pins and for further information regarding the project.
 If you have any questions or comments regarding the project, please contact me at jmccrory@vt.edu.
 
-If you would like to see a pitch video I made for the site, please click on this link: [I'm an inline-style link](https://www.youtube.com/watch?v=YO2cbxD43tk&fbclid=IwAR1v_H4VgUNO0jD_te4cgSbp27wXExqfUl089YPtJGJkOvY_lsIsavnwkVw)
+If you would like to see a pitch video I made for the site, please click on this link: [pitch video](https://www.youtube.com/watch?v=YO2cbxD43tk&fbclid=IwAR1v_H4VgUNO0jD_te4cgSbp27wXExqfUl089YPtJGJkOvY_lsIsavnwkVw)
 
 ## Built With
 
