@@ -5,11 +5,11 @@ This is a website built with **express**, **node.js**, **handlebars**, and **boo
 The site pulls pins from my Pinterest account using the **Pinterest API** and creates a 'Pin' document in a **Mongodb** database.
 Users then cycle through the Pin documents by index (starting from 1 to however many pins are in the databse).
 
-There are two methods for labeling the Pin documents: a **desktop** and a **mobile** method.
+There are two methods for labeling my pins: a **desktop** and **mobile** method.
 The mobile version of the site has preset buttons that users can push that will apply between 0 and 3 labels to a pin.
 The desktop version allows users to enter their own labels on their keyboards.
 
-The site also has two different types of users: **admins** and **regular** users. The admins have access to an admin page that allows them to pull pins from Pinterest account as well as fast-navigate to any of the last 100 pins pulled.
+The site also has two different types of users: **admins** and **regular** users. The admins have access to an admin page that allows them to pull pins from my Pinterest account as well as fast-navigate to any of the last 100 pins pulled.
 
 Please check out the live site to help me label my pins and for further information regarding the project.
 If you have any questions or comments regarding the project, please contact me at jmccrory@vt.edu.
