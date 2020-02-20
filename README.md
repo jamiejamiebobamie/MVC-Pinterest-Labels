@@ -35,4 +35,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Note
 
-This site was built in the span of a couple of weeks for a school intensive and does not always adhere to coding best practices.
+This site was built in the span of a couple of weeks for a school hackathon and does not always adhere to coding best practices.
